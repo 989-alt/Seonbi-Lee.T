@@ -8,18 +8,14 @@ export default function VisitorStats() {
     return (
         <div className="bg-white/50 p-4 rounded-lg shadow-sm border border-gray-100 max-w-sm">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Visitor Statistics</h3>
-            <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="grid grid-cols-2 gap-2 text-center">
                 <div>
-                    <div className="text-lg font-bold text-gray-700">{stats.daily}</div>
+                    <div className="text-lg font-bold text-gray-700">{stats.today}</div>
                     <div className="text-[10px] text-gray-400">Today</div>
                 </div>
                 <div>
-                    <div className="text-lg font-bold text-gray-700">{stats.weekly}</div>
-                    <div className="text-[10px] text-gray-400">Week</div>
-                </div>
-                <div>
-                    <div className="text-lg font-bold text-gray-700">{stats.monthly}</div>
-                    <div className="text-[10px] text-gray-400">Month</div>
+                    <div className="text-lg font-bold text-gray-700">{stats.total}</div>
+                    <div className="text-[10px] text-gray-400">Total</div>
                 </div>
             </div>
         </div>
