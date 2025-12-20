@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-800 font-sans;
+  }
+}
+
+/* React Quill Custom Overrides */
+.ql-container {
+    font-family: inherit !important;
+}
+.ql-editor {
+    min-height: 200px;
+}
