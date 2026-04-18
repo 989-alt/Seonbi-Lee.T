@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+@theme {
+  /* DESIGN.md "Neon Laboratory" palette */
+  --color-background: #0e0e0f;
+  --color-surface: #0e0e0f;
+  --color-surface-dim: #0e0e0f;
+  --color-surface-bright: #2c2c2d;
+  --color-surface-container-lowest: #000000;
+  --color-surface-container-low: #131314;
+  --color-surface-container: #1a191b;
+  --color-surface-container-high: #201f21;
+  --color-surface-container-highest: #262627;
+
+  --color-primary: #8ff5ff;
+  --color-primary-dim: #00deec;
+  --color-primary-container: #00eefc;
+  --color-on-primary: #005d63;
+
+  --color-secondary: #ac89ff;
+  --color-secondary-dim: #874cff;
+  --color-secondary-container: #7000ff;
+  --color-on-secondary: #290067;
+
+  --color-tertiary: #ff7439;
+  --color-tertiary-dim: #ff7439;
+  --color-tertiary-container: #fc5b00;
+  --color-on-tertiary: #3f1100;
+
+  --color-error: #ff716c;
+  --color-error-dim: #d7383b;
+  --color-on-error: #490006;
+
+  --color-on-surface: #ffffff;
+  --color-on-surface-variant: #adaaab;
+  --color-outline: #767576;
+  --color-outline-variant: #484849;
+
+  /* Sharp corners — DESIGN.md rule */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
+  --radius-full: 9999px;
+
+  /* Typography — font variables injected by next/font in layout.tsx */
+  --font-headline: var(--font-space-grotesk), var(--font-noto-kr), sans-serif;
+  --font-body: var(--font-manrope), var(--font-noto-kr), sans-serif;
+  --font-label: var(--font-space-grotesk), var(--font-noto-kr), monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background-color: var(--color-background);
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  background-image:
+    linear-gradient(to right, rgba(72, 72, 73, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(72, 72, 73, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-headline, .font-label {
+  font-family: var(--font-headline);
+}
+
+/* ===== Animations ===== */
+@keyframes shutter-exit {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+@keyframes loading-bar {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0); }
+}
+@keyframes slide-up-fade {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; text-shadow: 0 0 10px var(--color-primary); }
+}
+
+.shutter-overlay {
+  animation: shutter-exit 0.5s cubic-bezier(0.8, 0, 0.2, 1) 0.1s forwards;
+}
+.loading-progress {
+  animation: loading-bar 0.5s ease-in-out forwards;
+}
+.pulse-text {
+  animation: pulse-glow 0.8s ease-in-out infinite alternate;
+}
+
+.stagger {
+  opacity: 0;
+  animation: slide-up-fade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.stagger-1 { animation-delay: 0s; }
+.stagger-2 { animation-delay: 0.05s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.25s; }
+.stagger-5 { animation-delay: 0.35s; }
+
+/* ===== Neon border bottom (for form inputs) ===== */
+.neon-border-bottom {
+  position: relative;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+  transition: border-color 0.2s;
+}
+.neon-border-bottom:focus-within {
+  border-bottom-width: 2px;
+  border-bottom-color: var(--color-primary);
+}
+
+/* ===== Accessibility — reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .stagger { opacity: 1; }
+  .shutter-overlay { display: none !important; }
+  #particle-canvas { display: none !important; }
+}
+
+/* ===== Focus ring ===== */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ===== Utilities ===== */
+.bg-grid-texture {
+  background-image:
+    linear-gradient(to right, rgba(72, 72, 73, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(72, 72, 73, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ===== Card hover micro-interaction ===== */
+.card-hover {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background-color 0.25s ease-out;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+}
+.card-hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(143, 245, 255, 0.08),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.card-hover:hover::before {
+  opacity: 1;
+}
+
+/* ===== Hero title keyword gradient shimmer ===== */
+@keyframes keyword-shimmer {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(143, 245, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(143, 245, 255, 0.8),
+      0 0 10px rgba(172, 137, 255, 0.4);
+  }
+}
+.hero-keyword {
+  background: linear-gradient(
+    100deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 50%,
+    var(--color-primary) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: keyword-slide 6s linear infinite, keyword-shimmer 3s ease-in-out infinite;
+}
+@keyframes keyword-slide {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* ===== Skill bar fill animation ===== */
+@keyframes skill-fill {
+  0% { width: 0%; }
+  100% { width: var(--skill-value); }
+}
+.skill-bar-fill {
+  width: 0%;
+  animation: skill-fill 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* ===== Scroll-reveal class used with IntersectionObserver ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== Section divider with animated scan line ===== */
+.section-scan {
+  position: relative;
+  overflow: hidden;
+}
+.section-scan::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(143, 245, 255, 0.04) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: scan-sweep 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes scan-sweep {
+  0% { transform: translateX(-100%); }
+  60%, 100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-keyword {
+    animation: none !important;
+  }
+  .section-scan::after {
+    animation: none !important;
+  }
+  .skill-bar-fill {
+    animation: none !important;
+    width: var(--skill-value) !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
