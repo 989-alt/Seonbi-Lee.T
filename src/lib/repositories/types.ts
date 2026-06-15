@@ -40,7 +40,7 @@ export interface PostRow {
 export type ResourceAccent = "primary" | "secondary" | "tertiary";
 export type ResourceStatus = "draft" | "published";
 export type ResourceLinkKind = "link" | "download";
-export type ResourceLevel = "entry" | "basic" | "applied" | "advanced";
+export type ResourceLevel = "entry" | "basic" | "applied" | "advanced" | "vibe";
 export type ResourceKind = "lesson" | "gallery";
 
 export interface ResourceLink {
@@ -94,13 +94,15 @@ export const LEVEL_LABEL: Record<ResourceLevel, string> = {
   basic: "기초",
   applied: "실무",
   advanced: "심화",
+  vibe: "바이브코딩",
 };
-export const LEVEL_ORDER: ResourceLevel[] = ["entry", "basic", "applied", "advanced"];
+export const LEVEL_ORDER: ResourceLevel[] = ["entry", "basic", "applied", "advanced", "vibe"];
 export const LEVEL_TAG: Record<ResourceLevel, string> = {
   entry: "01 / ENTRY",
   basic: "02 / BASIC",
   applied: "03 / APPLIED",
   advanced: "04 / ADVANCED",
+  vibe: "05 / VIBE",
 };
 
 export const CATEGORY_LABEL: Record<ProjectCategory, string> = {

@@ -84,6 +84,7 @@ export function ResourceForm({ initial, action, submitLabel, courses = [] }: Res
             { value: "basic", label: "기초" },
             { value: "applied", label: "실무" },
             { value: "advanced", label: "심화" },
+            { value: "vibe", label: "바이브코딩" },
           ]}
         />
       </div>
