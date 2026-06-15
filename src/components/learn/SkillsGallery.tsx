@@ -32,7 +32,6 @@ export function SkillsGallery({ gallery }: { gallery: ResourceRow[] }) {
   }, [gallery, selected]);
 
   const visible = expanded ? filtered : filtered.slice(0, INITIAL_VISIBLE);
-  const hiddenCount = filtered.length - INITIAL_VISIBLE;
 
   function toggleTag(tag: string) {
     setSelected((prev) => {
@@ -99,7 +98,7 @@ export function SkillsGallery({ gallery }: { gallery: ResourceRow[] }) {
       )}
 
       <div className="font-[family-name:var(--font-label)] text-[10px] text-outline tracking-widest uppercase mb-6">
-        표시 {visible.length} / 전체 {gallery.length}
+        표시 {visible.length} / 전체 {filtered.length}
         {selected.size > 0 ? ` · 필터 ${selected.size}개 (모두 포함)` : ""}
       </div>
 
@@ -147,7 +146,7 @@ export function SkillsGallery({ gallery }: { gallery: ResourceRow[] }) {
               className="mt-4 w-full flex items-center justify-center gap-2 font-[family-name:var(--font-label)] text-xs tracking-widest uppercase py-4 border border-dashed transition-opacity hover:opacity-80"
               style={{ color: ACCENT, borderColor: `color-mix(in srgb, ${ACCENT} 45%, var(--color-outline-variant))` }}
             >
-              {expanded ? "접기 ▲" : `펼치기 ▾ · ${hiddenCount}개 더 보기`}
+              {expanded ? "접기 ▲" : `펼치기 ▾ · ${filtered.length - INITIAL_VISIBLE}개 더 보기`}
             </button>
           )}
         </>
