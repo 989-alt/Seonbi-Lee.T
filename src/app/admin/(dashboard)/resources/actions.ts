@@ -27,7 +27,7 @@ const ResourceSchema = z.object({
   sort_order: z.coerce.number().int().default(0),
   status: z.enum(["draft", "published"]).default("draft"),
   kind: z.enum(["lesson", "gallery"]).default("lesson"),
-  level: z.preprocess((v) => (v === "" ? undefined : v), z.enum(["entry", "basic", "applied", "advanced"]).optional()),
+  level: z.preprocess((v) => (v === "" ? undefined : v), z.enum(["entry", "basic", "applied", "advanced", "vibe"]).optional()),
   body_md: z.string().max(20000).default(""),
   course_slug: z.preprocess((v) => (v === "" ? undefined : v), z.string().optional()),
 });

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { ResourceRow } from "@/lib/repositories/types";
+import { Markdown } from "@/components/ui/Markdown";
 
 const ACCENT_BORDER: Record<string, string> = {
   primary: "border-primary",
@@ -98,8 +99,8 @@ export function ResourceAccordion({ resources }: { resources: ResourceRow[] }) {
                 className="px-5 md:px-7 pb-7 pt-1 space-y-6"
               >
                 {r.body_md && (
-                  <div className="mt-4 mb-2 px-4 py-4 bg-surface-container-high border-l-2 border-outline text-on-surface text-sm md:text-base leading-relaxed whitespace-pre-wrap">
-                    {r.body_md}
+                  <div className="mt-4 mb-2 px-4 py-4 bg-surface-container-high border-l-2 border-outline">
+                    <Markdown>{r.body_md}</Markdown>
                   </div>
                 )}
                 {linkCount > 0 && (
