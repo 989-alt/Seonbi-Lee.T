@@ -5,6 +5,7 @@ import type {
   ResourceRow,
   ResourceLink,
   ResourcePrompt,
+  CourseRow,
 } from "@/lib/repositories/types";
 
 type State = { error: string | null };
@@ -14,9 +15,10 @@ interface ResourceFormProps {
   initial?: Partial<ResourceRow>;
   action: (prev: State | undefined, formData: FormData) => Promise<State>;
   submitLabel: string;
+  courses?: CourseRow[];
 }
 
-export function ResourceForm({ initial, action, submitLabel }: ResourceFormProps) {
+export function ResourceForm({ initial, action, submitLabel, courses = [] }: ResourceFormProps) {
   const [state, formAction, pending] = useActionState(action, initialState);
   const [links, setLinks] = useState<ResourceLink[]>(initial?.links ?? []);
   const [prompts, setPrompts] = useState<ResourcePrompt[]>(initial?.prompts ?? []);
@@ -213,6 +215,16 @@ export function ResourceForm({ initial, action, submitLabel }: ResourceFormProps
           ))}
         </div>
       </section>
+
+      <Select
+        label="코스"
+        name="course_slug"
+        defaultValue={initial?.course_slug ?? ""}
+        options={[
+          { value: "", label: "— 없음 —" },
+          ...courses.map((c) => ({ value: c.slug, label: c.title })),
+        ]}
+      />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Field

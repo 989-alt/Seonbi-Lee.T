@@ -2,14 +2,16 @@ import Link from "next/link";
 import { listAllProjects } from "@/lib/repositories/projects";
 import { listAllPosts } from "@/lib/repositories/posts";
 import { listAllResources } from "@/lib/repositories/resources";
+import { listAllCourses } from "@/lib/repositories/courses";
 
 export const metadata = { title: "대시보드 // ADMIN" };
 
 export default async function DashboardPage() {
-  const [projects, posts, resources] = await Promise.all([
+  const [projects, posts, resources, courses] = await Promise.all([
     listAllProjects(),
     listAllPosts(),
     listAllResources(),
+    listAllCourses(),
   ]);
 
   const publishedProjects = projects.filter((p) => p.status === "published");
@@ -18,6 +20,8 @@ export default async function DashboardPage() {
   const draftPosts = posts.filter((p) => p.status === "draft");
   const publishedResources = resources.filter((r) => r.status === "published");
   const draftResources = resources.filter((r) => r.status === "draft");
+  const publishedCourses = courses.filter((c) => c.status === "published");
+  const draftCourses = courses.filter((c) => c.status === "draft");
 
   return (
     <div className="space-y-10">
@@ -54,6 +58,14 @@ export default async function DashboardPage() {
           draft={draftResources.length}
           manageHref="/admin/resources"
           createHref="/admin/resources/new"
+        />
+        <StatCard
+          label="코스"
+          total={courses.length}
+          published={publishedCourses.length}
+          draft={draftCourses.length}
+          manageHref="/admin/courses"
+          createHref="/admin/courses/new"
         />
       </section>
     </div>
