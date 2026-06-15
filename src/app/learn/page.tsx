@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
-import { LearnBrowser } from "@/components/learn/LearnBrowser";
+import { LessonReader } from "@/components/learn/LessonReader";
+import { SkillsGallery } from "@/components/learn/SkillsGallery";
 import { listPublishedLessons, listPublishedGallery } from "@/lib/repositories/resources";
 import { listPublishedPosts } from "@/lib/repositories/posts";
 import { listPublishedCourses } from "@/lib/repositories/courses";
@@ -106,7 +107,7 @@ export default async function LearnPage() {
           )}
         </div>
         <Reveal>
-          <LearnBrowser lessons={lessons} />
+          <LessonReader lessons={lessons} />
         </Reveal>
       </section>
 
@@ -129,41 +130,7 @@ export default async function LearnPage() {
               </Link>
             )}
           </div>
-          {gallery.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {gallery.map((g) => {
-                const url = g.links?.[0]?.url ?? "#";
-                return (
-                  <a
-                    key={g.id}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block bg-surface-container-low border-t-2 border-secondary p-6 hover:bg-surface-container-high transition-colors"
-                  >
-                    <h3 className="font-[family-name:var(--font-headline)] text-lg font-bold text-on-surface mb-2">
-                      {g.title}
-                    </h3>
-                    <p className="text-on-surface-variant text-sm">{g.description}</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {g.tags?.map((t) => (
-                        <span
-                          key={t}
-                          className="font-[family-name:var(--font-label)] text-[10px] uppercase tracking-wider text-outline border border-outline-variant/30 px-2 py-0.5"
-                        >
-                          #{t}
-                        </span>
-                      ))}
-                    </div>
-                  </a>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-on-surface-variant font-[family-name:var(--font-body)] text-sm">
-              아직 등록된 스킬이 없습니다.
-            </p>
-          )}
+          <SkillsGallery gallery={gallery} />
         </section>
       )}
 
