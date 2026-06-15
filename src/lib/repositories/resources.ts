@@ -55,6 +55,7 @@ export async function listPublishedLessons(): Promise<ResourceRow[]> {
     .select("*")
     .eq("status", "published")
     .eq("kind", "lesson")
+    .is("course_slug", null)
     .order("sort_order", { ascending: true })
     .order("created_at", { ascending: false });
   if (error) {

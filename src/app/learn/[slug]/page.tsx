@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { getCourseBySlug } from "@/lib/repositories/courses";
 import { listPublishedResourcesByCourse } from "@/lib/repositories/resources";
 import { ResourceAccordion } from "@/components/resources/ResourceAccordion";
+import { getAdminUser } from "@/lib/auth";
 
 const ACCENT_BORDER: Record<string, string> = {
   primary: "border-primary",
@@ -31,7 +32,10 @@ export default async function CourseDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const course = await getCourseBySlug(slug);
+  const [course, isAdmin] = await Promise.all([
+    getCourseBySlug(slug),
+    getAdminUser().then(Boolean),
+  ]);
   if (!course || course.status !== "published") notFound();
 
   const resources = await listPublishedResourcesByCourse(slug);
@@ -57,9 +61,19 @@ export default async function CourseDetailPage({
         <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-[0.3em] uppercase mb-3">
           // COURSE
         </div>
-        <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-6xl font-bold uppercase tracking-tighter text-on-surface leading-[1.02] mb-4">
-          {course.title}
-        </h1>
+        <div className="flex items-start justify-between gap-6 flex-wrap mb-4">
+          <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-6xl font-bold uppercase tracking-tighter text-on-surface leading-[1.02]">
+            {course.title}
+          </h1>
+          {isAdmin && (
+            <Link
+              href="/admin/resources/new"
+              className="inline-block font-[family-name:var(--font-label)] text-xs text-primary border border-primary/40 px-4 py-2 tracking-widest uppercase hover:bg-primary/10 transition-colors shrink-0"
+            >
+              + 이 코스에 자료 추가
+            </Link>
+          )}
+        </div>
         {course.description && (
           <p className="font-[family-name:var(--font-body)] text-on-surface-variant text-base md:text-lg max-w-2xl leading-relaxed">
             {course.description}
