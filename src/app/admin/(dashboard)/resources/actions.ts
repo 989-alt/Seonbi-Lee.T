@@ -124,7 +124,7 @@ export async function createResourceAction(
   if (error) return { error: `저장 실패: ${error.message}` };
 
   revalidatePath("/admin/resources");
-  revalidatePath("/resources");
+  revalidatePath("/learn");
   revalidatePath("/");
   redirect("/admin/resources");
 }
@@ -164,7 +164,7 @@ export async function updateResourceAction(
 
   revalidatePath("/admin/resources");
   revalidatePath(`/admin/resources/${id}`);
-  revalidatePath("/resources");
+  revalidatePath("/learn");
   revalidatePath("/");
   redirect("/admin/resources");
 }
@@ -175,7 +175,7 @@ export async function deleteResourceAction(id: string) {
   const { error } = await supabase.from("resources").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/resources");
-  revalidatePath("/resources");
+  revalidatePath("/learn");
   revalidatePath("/");
   redirect("/admin/resources");
 }
