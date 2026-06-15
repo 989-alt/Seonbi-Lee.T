@@ -41,7 +41,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
   }
 
   const current = flat.find((l) => l.id === currentId) ?? flat[0];
-  const currentLevel = current.level as ResourceLevel;
+  const currentLevel = (current.level ?? levels[0]) as ResourceLevel;
   const chapterLessons = byLevel.get(currentLevel) ?? [];
   const idxInChapter = chapterLessons.findIndex((l) => l.id === current.id);
   const flatIdx = flat.findIndex((l) => l.id === current.id);
@@ -82,7 +82,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
           <div className="font-[family-name:var(--font-label)] text-[10px] tracking-[0.25em] uppercase text-outline px-4 pb-3">
             // 목차 · INDEX
           </div>
-          <nav>
+          <nav aria-label="목차">
             {levels.map((lv) => {
               const isOpen = expanded.has(lv);
               const isCurrentChapter = lv === currentLevel;
@@ -127,7 +127,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
                             <button
                               type="button"
                               onClick={() => goTo(l)}
-                              aria-current={isCur ? "true" : undefined}
+                              aria-current={isCur ? "step" : undefined}
                               className={`w-full text-left flex items-center gap-2.5 px-2.5 py-1.5 text-[12.5px] ${
                                 isCur ? "text-on-surface" : "text-on-surface-variant hover:text-on-surface"
                               }`}
