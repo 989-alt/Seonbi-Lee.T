@@ -30,6 +30,9 @@ const ResourceSchema = z.object({
   tags: z.string().optional(),
   sort_order: z.coerce.number().int().default(0),
   status: z.enum(["draft", "published"]).default("draft"),
+  kind: z.enum(["lesson", "gallery"]).default("lesson"),
+  level: z.preprocess((v) => (v === "" ? undefined : v), z.enum(["entry", "basic", "applied", "advanced"]).optional()),
+  body_md: z.string().max(20000).default(""),
 });
 
 type State = { error: string | null };
@@ -94,6 +97,9 @@ function buildPayload(formData: FormData):
       status: parsed.data.status,
       links: links.value,
       prompts: prompts.value,
+      kind: parsed.data.kind,
+      level: parsed.data.level ?? null,
+      body_md: parsed.data.body_md,
     },
   };
 }

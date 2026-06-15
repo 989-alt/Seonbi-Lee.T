@@ -62,6 +62,31 @@ export function ResourceForm({ initial, action, submitLabel }: ResourceFormProps
         />
       </div>
 
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Select
+          label="종류"
+          name="kind"
+          required
+          defaultValue={initial?.kind ?? "lesson"}
+          options={[
+            { value: "lesson", label: "레슨 (배우기 단계별)" },
+            { value: "gallery", label: "갤러리 (스킬·템플릿 카드)" },
+          ]}
+        />
+        <Select
+          label="레벨 (레슨일 때)"
+          name="level"
+          defaultValue={initial?.level ?? ""}
+          options={[
+            { value: "", label: "— 없음 —" },
+            { value: "entry", label: "입문" },
+            { value: "basic", label: "기초" },
+            { value: "applied", label: "실무" },
+            { value: "advanced", label: "심화" },
+          ]}
+        />
+      </div>
+
       <Field label="제목" name="title" required defaultValue={initial?.title ?? ""} />
       <TextArea
         label="설명"
@@ -69,6 +94,13 @@ export function ResourceForm({ initial, action, submitLabel }: ResourceFormProps
         rows={3}
         defaultValue={initial?.description ?? ""}
         maxLength={600}
+      />
+      <TextArea
+        label="길잡이 본문 (선택)"
+        name="body_md"
+        rows={6}
+        defaultValue={initial?.body_md ?? ""}
+        maxLength={20000}
       />
 
       {/* LINKS */}

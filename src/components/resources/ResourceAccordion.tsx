@@ -97,6 +97,11 @@ export function ResourceAccordion({ resources }: { resources: ResourceRow[] }) {
                 id={`res-panel-${r.id}`}
                 className="px-5 md:px-7 pb-7 pt-1 space-y-6"
               >
+                {r.body_md && (
+                  <div className="mt-4 mb-2 px-4 py-4 bg-surface-container-high border-l-2 border-outline text-on-surface text-sm md:text-base leading-relaxed whitespace-pre-wrap">
+                    {r.body_md}
+                  </div>
+                )}
                 {linkCount > 0 && (
                   <div className="space-y-3">
                     <div className="font-[family-name:var(--font-label)] text-[10px] text-outline tracking-[0.25em] uppercase">
@@ -144,7 +149,7 @@ export function ResourceAccordion({ resources }: { resources: ResourceRow[] }) {
                   </div>
                 )}
 
-                {linkCount === 0 && promptCount === 0 && (
+                {!r.body_md && linkCount === 0 && promptCount === 0 && (
                   <p className="font-[family-name:var(--font-body)] text-on-surface-variant text-sm">
                     등록된 링크·프롬프트가 없습니다.
                   </p>
