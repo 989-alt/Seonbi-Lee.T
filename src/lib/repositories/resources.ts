@@ -47,3 +47,35 @@ export async function getResourceById(id: string): Promise<ResourceRow | null> {
   }
   return (data as ResourceRow) ?? null;
 }
+
+export async function listPublishedLessons(): Promise<ResourceRow[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("resources")
+    .select("*")
+    .eq("status", "published")
+    .eq("kind", "lesson")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[resources] listPublishedLessons error:", error);
+    return [];
+  }
+  return (data ?? []) as ResourceRow[];
+}
+
+export async function listPublishedGallery(): Promise<ResourceRow[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("resources")
+    .select("*")
+    .eq("status", "published")
+    .eq("kind", "gallery")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[resources] listPublishedGallery error:", error);
+    return [];
+  }
+  return (data ?? []) as ResourceRow[];
+}
