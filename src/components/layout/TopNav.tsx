@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/", label: "홈" },
   { href: "/projects", label: "프로젝트" },
   { href: "/news", label: "AI 뉴스" },
+  { href: "/resources", label: "자료실" },
   { href: "/about", label: "소개" },
   { href: "/contact", label: "연락" },
 ];

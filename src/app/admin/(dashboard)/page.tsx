@@ -1,19 +1,23 @@
 import Link from "next/link";
 import { listAllProjects } from "@/lib/repositories/projects";
 import { listAllPosts } from "@/lib/repositories/posts";
+import { listAllResources } from "@/lib/repositories/resources";
 
 export const metadata = { title: "대시보드 // ADMIN" };
 
 export default async function DashboardPage() {
-  const [projects, posts] = await Promise.all([
+  const [projects, posts, resources] = await Promise.all([
     listAllProjects(),
     listAllPosts(),
+    listAllResources(),
   ]);
 
   const publishedProjects = projects.filter((p) => p.status === "published");
   const draftProjects = projects.filter((p) => p.status === "draft");
   const publishedPosts = posts.filter((p) => p.status === "published");
   const draftPosts = posts.filter((p) => p.status === "draft");
+  const publishedResources = resources.filter((r) => r.status === "published");
+  const draftResources = resources.filter((r) => r.status === "draft");
 
   return (
     <div className="space-y-10">
@@ -42,6 +46,14 @@ export default async function DashboardPage() {
           draft={draftPosts.length}
           manageHref="/admin/posts"
           createHref="/admin/posts/new"
+        />
+        <StatCard
+          label="자료실"
+          total={resources.length}
+          published={publishedResources.length}
+          draft={draftResources.length}
+          manageHref="/admin/resources"
+          createHref="/admin/resources/new"
         />
       </section>
     </div>
