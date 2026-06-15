@@ -5,14 +5,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
+import { uniqueSlug } from "@/lib/slug";
 
 const PostSchema = z.object({
-  slug: z
-    .string()
-    .trim()
-    .min(1, "slug는 필수입니다.")
-    .max(80)
-    .regex(/^[a-z0-9-]+$/, "영문 소문자, 숫자, 하이픈(-)만 사용 가능합니다."),
+  slug: z.string().trim().max(80).optional(),
   title: z.string().trim().min(1, "제목은 필수입니다.").max(160),
   excerpt: z.string().trim().min(1, "요약은 필수입니다.").max(400),
   content_md: z.string().default(""),
@@ -79,8 +75,17 @@ export async function createPostAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title,
+    async (c) => {
+      const { data } = await supabase.from("posts").select("id").eq("slug", c).maybeSingle();
+      return !!data;
+    },
+    "post",
+  );
+
   const { error } = await supabase.from("posts").insert({
-    slug: parsed.data.slug,
+    slug,
     title: parsed.data.title,
     excerpt: parsed.data.excerpt,
     content_md: parsed.data.content_md,
@@ -125,8 +130,17 @@ export async function updatePostAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title,
+    async (c) => {
+      const { data } = await supabase.from("posts").select("id").eq("slug", c).neq("id", id).maybeSingle();
+      return !!data;
+    },
+    "post",
+  );
+
   const updatePayload: Record<string, unknown> = {
-    slug: parsed.data.slug,
+    slug,
     title: parsed.data.title,
     excerpt: parsed.data.excerpt,
     content_md: parsed.data.content_md,

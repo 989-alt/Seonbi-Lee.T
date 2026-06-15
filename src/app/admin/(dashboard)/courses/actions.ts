@@ -5,14 +5,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
+import { uniqueSlug } from "@/lib/slug";
 
 const CourseSchema = z.object({
-  slug: z
-    .string()
-    .trim()
-    .min(1, "slug는 필수입니다.")
-    .max(80)
-    .regex(/^[a-z0-9-]+$/, "영문 소문자, 숫자, 하이픈(-)만 사용 가능합니다."),
+  slug: z.string().trim().max(80).optional(),
   title: z.string().trim().min(1, "제목은 필수입니다.").max(160),
   description: z.string().trim().max(600).default(""),
   accent: z.enum(["primary", "secondary", "tertiary"]),
@@ -42,8 +38,17 @@ export async function createCourseAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title,
+    async (c) => {
+      const { data } = await supabase.from("courses").select("id").eq("slug", c).maybeSingle();
+      return !!data;
+    },
+    "course",
+  );
+
   const { error } = await supabase.from("courses").insert({
-    slug: parsed.data.slug,
+    slug,
     title: parsed.data.title,
     description: parsed.data.description,
     accent: parsed.data.accent,
@@ -75,8 +80,17 @@ export async function updateCourseAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title,
+    async (c) => {
+      const { data } = await supabase.from("courses").select("id").eq("slug", c).neq("id", id).maybeSingle();
+      return !!data;
+    },
+    "course",
+  );
+
   const updatePayload: Record<string, unknown> = {
-    slug: parsed.data.slug,
+    slug,
     title: parsed.data.title,
     description: parsed.data.description,
     accent: parsed.data.accent,

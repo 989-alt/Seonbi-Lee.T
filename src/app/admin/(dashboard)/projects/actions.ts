@@ -5,14 +5,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
+import { uniqueSlug } from "@/lib/slug";
 
 const ProjectSchema = z.object({
-  slug: z
-    .string()
-    .trim()
-    .min(1, "slug는 필수입니다.")
-    .max(80)
-    .regex(/^[a-z0-9-]+$/, "영문 소문자, 숫자, 하이픈(-)만 사용 가능합니다."),
+  slug: z.string().trim().max(80).optional(),
   title_ko: z.string().trim().min(1, "한글 제목은 필수입니다.").max(120),
   title_en: z
     .string()
@@ -101,8 +97,17 @@ export async function createProjectAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title_ko,
+    async (c) => {
+      const { data } = await supabase.from("projects").select("id").eq("slug", c).maybeSingle();
+      return !!data;
+    },
+    "proj",
+  );
+
   const { error } = await supabase.from("projects").insert({
-    slug: parsed.data.slug,
+    slug,
     title_ko: parsed.data.title_ko,
     title_en: parsed.data.title_en ?? null,
     description: parsed.data.description,
@@ -150,8 +155,17 @@ export async function updateProjectAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    parsed.data.slug || parsed.data.title_ko,
+    async (c) => {
+      const { data } = await supabase.from("projects").select("id").eq("slug", c).neq("id", id).maybeSingle();
+      return !!data;
+    },
+    "proj",
+  );
+
   const updatePayload: Record<string, unknown> = {
-    slug: parsed.data.slug,
+    slug,
     title_ko: parsed.data.title_ko,
     title_en: parsed.data.title_en ?? null,
     description: parsed.data.description,
