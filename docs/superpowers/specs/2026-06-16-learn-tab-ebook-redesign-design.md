@@ -57,7 +57,10 @@
 ### 본문 (페이지)
 - 상단 eyebrow: `입문 · 책갈피 02 / 05` (현재 챕터명 + 챕터 내 위치).
 - 레슨 제목(거의 흰색).
-- 본문: `body_md`(Markdown), 링크, 프롬프트. **기존 `ResourceAccordion`이 펼쳤을 때 쓰는 렌더링(Markdown / // LINKS / // PROMPTS + 복사 가능한 PromptBlock)을 재사용**한다 — 중복 구현하지 말고 공용 조각으로 추출(예: `LessonBody`, `PromptBlock`)해서 `LessonReader`가 사용. `ResourceAccordion`의 화면/동작은 바뀌지 않아야 함(코스 페이지 보존).
+- 본문: `body_md`(Markdown), 링크, 프롬프트.
+  - **제약(절대 준수):** 기존 컴포넌트는 건드리지 않는다. `ResourceAccordion`에서 추출/수정 금지.
+  - `LessonReader`는 본문 렌더링을 **자체적으로 구현**한다. 단, 기존 공용 UI 컴포넌트 `@/components/ui/Markdown`은 **수정 없이 import해서 사용**(읽기 전용 재사용은 허용)한다.
+  - 링크 목록, 복사 가능한 프롬프트 블록은 `LessonReader` 내부(또는 같은 파일의 비공개 하위 컴포넌트)에 직접 작성한다. `ResourceAccordion`의 PromptBlock과 일부 중복이 생기지만, "기존 코드 미변경" 제약을 우선한다.
 - 하단 푸터: `◀ 이전(이전 레슨 제목) · 02 / 05 · 다음(다음 레슨 제목) ▶` + 얇은 진행바.
 
 ### 페이지 넘김 동작
@@ -104,20 +107,26 @@
 ## 7. 컴포넌트 구조 요약
 
 ```
-/learn/page.tsx
-  ├─ LEARNING PATH 섹션 → <LessonReader lessons={lessons} />   (신규)
-  └─ SKILLS GALLERY 섹션 → <SkillsGallery gallery={gallery} /> (신규)
+변경이 허용된 단 하나의 기존 파일 (통합 지점):
+  /learn/page.tsx
+    ├─ LEARNING PATH 섹션 → <LessonReader lessons={lessons} />   로 교체
+    └─ SKILLS GALLERY 섹션 → <SkillsGallery gallery={gallery} /> 로 교체
+       (사용하지 않게 된 import 정리: 본인 변경으로 생긴 orphan import만 제거)
 
-신규/공용:
-  - src/components/learn/LessonReader.tsx     (사이드바 + 본문 + 넘김)
+신규 파일 (이번 작업의 본체):
+  - src/components/learn/LessonReader.tsx     (사이드바 + 본문 + 넘김, 본문 렌더 자체 구현)
   - src/components/learn/SkillsGallery.tsx    (태그 필터 + 8개 + 펼치기)
-  - src/components/resources/LessonBody.tsx   (body_md + 링크 + 프롬프트 렌더 — 공용 추출)
-  - src/components/resources/PromptBlock.tsx  (복사 가능한 프롬프트 블록 — ResourceAccordion에서 추출)
 
-보존(변경 없음): ResourceAccordion(코스 페이지에서 계속 사용), /learn/[slug]
+읽기 전용으로만 재사용 (수정 금지):
+  - @/components/ui/Markdown, @/components/ui/Reveal, @/lib/repositories/types (LEVEL_* 상수)
+
+절대 건드리지 않음 (열어보지도 수정도 안 함):
+  - src/components/resources/ResourceAccordion.tsx (코스 페이지에서 계속 사용)
+  - src/components/learn/LearnBrowser.tsx (파일 삭제/수정하지 않음 — /learn/page.tsx에서 import만 안 하게 됨)
+  - src/app/learn/[slug]/page.tsx 및 그 외 모든 컴포넌트
 ```
 
-공용 추출(`LessonBody`/`PromptBlock`)은 중복 구현을 막기 위함이며, `ResourceAccordion`의 외형·동작은 동일하게 유지하는 선에서만 진행한다. (추출이 `ResourceAccordion`에 영향을 준다면, 영향 범위를 구현 계획에서 명시하고 동작 보존을 검증한다.)
+**제약 요약:** 신규 파일 2개 + `/learn/page.tsx` 통합 편집만 허용. 그 외 기존 컴포넌트는 절대 수정하지 않는다. 이로 인한 일부 코드 중복(예: 프롬프트 복사 블록)은 의도적으로 수용한다.
 
 ## 8. 빌드 / 기술 제약
 
