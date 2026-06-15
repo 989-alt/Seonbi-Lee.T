@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BackButton } from "../../BackButton";
 import { notFound } from "next/navigation";
 import { CourseForm } from "../CourseForm";
 import { updateCourseAction, deleteCourseAction } from "../actions";
@@ -31,12 +32,7 @@ export default async function EditCoursePage({
     <div className="max-w-4xl space-y-8">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <Link
-            href="/admin/courses"
-            className="font-[family-name:var(--font-label)] text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase"
-          >
-            ← 목록으로
-          </Link>
+          <BackButton />
           <h1 className="font-[family-name:var(--font-headline)] text-3xl font-bold text-on-surface uppercase mt-4">
             코스 편집
           </h1>

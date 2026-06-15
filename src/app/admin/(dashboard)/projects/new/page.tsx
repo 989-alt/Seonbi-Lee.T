@@ -1,6 +1,6 @@
 import { ProjectForm } from "../ProjectForm";
+import { BackButton } from "../../BackButton";
 import { createProjectAction } from "../actions";
-import Link from "next/link";
 
 export const metadata = { title: "새 프로젝트 // ADMIN" };
 
@@ -8,12 +8,7 @@ export default function NewProjectPage() {
   return (
     <div className="max-w-3xl space-y-8">
       <div>
-        <Link
-          href="/admin/projects"
-          className="font-[family-name:var(--font-label)] text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase"
-        >
-          ← 목록으로
-        </Link>
+        <BackButton />
         <h1 className="font-[family-name:var(--font-headline)] text-3xl font-bold text-on-surface uppercase mt-4">
           새 프로젝트
         </h1>
