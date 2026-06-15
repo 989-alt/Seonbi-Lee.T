@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { BackButton } from "../../BackButton";
 import { CourseForm } from "../CourseForm";
 import { createCourseAction } from "../actions";
 
@@ -8,12 +8,7 @@ export default function NewCoursePage() {
   return (
     <div className="max-w-3xl space-y-8">
       <div>
-        <Link
-          href="/admin/courses"
-          className="font-[family-name:var(--font-label)] text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase"
-        >
-          ← 목록으로
-        </Link>
+        <BackButton />
         <h1 className="font-[family-name:var(--font-headline)] text-3xl font-bold text-on-surface uppercase mt-4">
           새 코스
         </h1>
