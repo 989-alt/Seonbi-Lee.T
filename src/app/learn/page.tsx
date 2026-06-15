@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { LearnBrowser } from "@/components/learn/LearnBrowser";
 import { listPublishedLessons, listPublishedGallery } from "@/lib/repositories/resources";
 import { listPublishedPosts } from "@/lib/repositories/posts";
+import { listPublishedCourses } from "@/lib/repositories/courses";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,11 +11,18 @@ export const metadata: Metadata = {
   description: "Claude를 A→Z로 — 단계별 길잡이·스킬·프롬프트 학습 허브",
 };
 
+const COURSE_ACCENT_BORDER: Record<string, string> = {
+  primary: "border-primary",
+  secondary: "border-secondary",
+  tertiary: "border-tertiary",
+};
+
 export default async function LearnPage() {
-  const [lessons, gallery, posts] = await Promise.all([
+  const [lessons, gallery, posts, courses] = await Promise.all([
     listPublishedLessons(),
     listPublishedGallery(),
     listPublishedPosts(),
+    listPublishedCourses(),
   ]);
 
   return (
@@ -31,6 +39,35 @@ export default async function LearnPage() {
           터미널이 처음인 비개발자도, 공문서·발표자료·멀티 에이전트까지. 단계별 길잡이와 바로 쓰는 자료·프롬프트를 한곳에서.
         </p>
       </section>
+
+      {/* COURSES */}
+      {courses.length > 0 && (
+        <section className="border-t border-outline-variant/30 pt-12 mt-0">
+          <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-widest uppercase mb-2">
+            // COURSES
+          </div>
+          <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold uppercase text-on-surface mb-8">
+            연수 코스
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {courses.map((c) => {
+              const borderClass = COURSE_ACCENT_BORDER[c.accent] ?? COURSE_ACCENT_BORDER.primary;
+              return (
+                <Link
+                  key={c.id}
+                  href={`/learn/${c.slug}`}
+                  className={`block bg-surface-container-low border-t-2 ${borderClass} p-6 hover:bg-surface-container-high transition-colors`}
+                >
+                  <h3 className="font-[family-name:var(--font-headline)] text-lg font-bold text-on-surface mb-2">
+                    {c.title}
+                  </h3>
+                  <p className="text-on-surface-variant text-sm">{c.description}</p>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* LEARNING PATH */}
       <section className="border-t border-outline-variant/30 pt-12">

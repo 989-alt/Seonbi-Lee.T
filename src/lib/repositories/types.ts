@@ -71,6 +71,22 @@ export interface ResourceRow {
   level: ResourceLevel | null;
   body_md: string;
   kind: ResourceKind;
+  course_slug: string | null;
+}
+
+export type CourseStatus = "draft" | "published";
+
+export interface CourseRow {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  accent: "primary" | "secondary" | "tertiary";
+  sort_order: number;
+  status: CourseStatus;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export const LEVEL_LABEL: Record<ResourceLevel, string> = {

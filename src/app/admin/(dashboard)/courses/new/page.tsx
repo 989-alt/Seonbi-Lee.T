@@ -1,24 +1,21 @@
 import Link from "next/link";
-import { ResourceForm } from "../ResourceForm";
-import { createResourceAction } from "../actions";
-import { listAllCourses } from "@/lib/repositories/courses";
+import { CourseForm } from "../CourseForm";
+import { createCourseAction } from "../actions";
 
-export const metadata = { title: "새 자료 // ADMIN" };
+export const metadata = { title: "새 코스 // ADMIN" };
 
-export default async function NewResourcePage() {
-  const courses = await listAllCourses();
-
+export default function NewCoursePage() {
   return (
     <div className="max-w-3xl space-y-8">
       <div>
         <Link
-          href="/admin/resources"
+          href="/admin/courses"
           className="font-[family-name:var(--font-label)] text-xs text-on-surface-variant hover:text-primary tracking-widest uppercase"
         >
           ← 목록으로
         </Link>
         <h1 className="font-[family-name:var(--font-headline)] text-3xl font-bold text-on-surface uppercase mt-4">
-          새 자료
+          새 코스
         </h1>
       </div>
       <div className="bg-surface-container-low p-6 md:p-8 relative">
@@ -26,7 +23,7 @@ export default async function NewResourcePage() {
           aria-hidden="true"
           className="absolute top-0 left-0 w-[2px] h-full bg-primary"
         />
-        <ResourceForm action={createResourceAction} submitLabel="CREATE RESOURCE" courses={courses} />
+        <CourseForm action={createCourseAction} submitLabel="CREATE COURSE" />
       </div>
     </div>
   );

@@ -79,3 +79,19 @@ export async function listPublishedGallery(): Promise<ResourceRow[]> {
   }
   return (data ?? []) as ResourceRow[];
 }
+
+export async function listPublishedResourcesByCourse(slug: string): Promise<ResourceRow[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("resources")
+    .select("*")
+    .eq("status", "published")
+    .eq("course_slug", slug)
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.error("[resources] listPublishedResourcesByCourse error:", error);
+    return [];
+  }
+  return (data ?? []) as ResourceRow[];
+}

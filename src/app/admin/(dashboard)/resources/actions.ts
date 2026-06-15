@@ -33,6 +33,7 @@ const ResourceSchema = z.object({
   kind: z.enum(["lesson", "gallery"]).default("lesson"),
   level: z.preprocess((v) => (v === "" ? undefined : v), z.enum(["entry", "basic", "applied", "advanced"]).optional()),
   body_md: z.string().max(20000).default(""),
+  course_slug: z.preprocess((v) => (v === "" ? undefined : v), z.string().optional()),
 });
 
 type State = { error: string | null };
@@ -100,6 +101,7 @@ function buildPayload(formData: FormData):
       kind: parsed.data.kind,
       level: parsed.data.level ?? null,
       body_md: parsed.data.body_md,
+      course_slug: parsed.data.course_slug ?? null,
     },
   };
 }
@@ -125,6 +127,7 @@ export async function createResourceAction(
 
   revalidatePath("/admin/resources");
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   revalidatePath("/");
   redirect("/admin/resources");
 }
@@ -165,6 +168,7 @@ export async function updateResourceAction(
   revalidatePath("/admin/resources");
   revalidatePath(`/admin/resources/${id}`);
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   revalidatePath("/");
   redirect("/admin/resources");
 }
@@ -176,6 +180,7 @@ export async function deleteResourceAction(id: string) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/resources");
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   revalidatePath("/");
   redirect("/admin/resources");
 }

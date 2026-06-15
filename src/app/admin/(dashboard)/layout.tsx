@@ -36,10 +36,16 @@ export default async function DashboardLayout({
               뉴스
             </Link>
             <Link
+              href="/admin/courses"
+              className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center"
+            >
+              코스
+            </Link>
+            <Link
               href="/admin/resources"
               className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center"
             >
-              자료실
+              배우기/자료
             </Link>
           </nav>
         </div>
