@@ -35,6 +35,12 @@ export default async function DashboardLayout({
             >
               뉴스
             </Link>
+            <Link
+              href="/admin/resources"
+              className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center"
+            >
+              자료실
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4">

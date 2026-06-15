@@ -37,6 +37,37 @@ export interface PostRow {
   updated_at: string;
 }
 
+export type ResourceAccent = "primary" | "secondary" | "tertiary";
+export type ResourceStatus = "draft" | "published";
+export type ResourceLinkKind = "link" | "download";
+
+export interface ResourceLink {
+  label: string;
+  url: string;
+  kind: ResourceLinkKind;
+}
+
+export interface ResourcePrompt {
+  label: string;
+  text: string;
+}
+
+export interface ResourceRow {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  accent: ResourceAccent;
+  links: ResourceLink[];
+  prompts: ResourcePrompt[];
+  tags: string[];
+  status: ResourceStatus;
+  sort_order: number;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
 export const CATEGORY_LABEL: Record<ProjectCategory, string> = {
   edutech: "에듀테크",
   admin: "행정업무 경감",
