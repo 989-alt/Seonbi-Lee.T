@@ -47,9 +47,8 @@ export function ResourceForm({ initial, action, submitLabel, courses = [] }: Res
         <Field
           label="Slug"
           name="slug"
-          required
           defaultValue={initial?.slug ?? ""}
-          placeholder="예: claude-code-yeonsu"
+          placeholder="비우면 제목에서 자동 생성 (영문 소문자·숫자·하이픈)"
         />
         <Select
           label="악센트 색상"

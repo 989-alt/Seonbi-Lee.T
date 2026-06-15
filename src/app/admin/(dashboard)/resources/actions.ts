@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
+import { uniqueSlug } from "@/lib/slug";
 
 const LinkSchema = z.object({
   label: z.string().trim().min(1).max(120),
@@ -18,12 +19,7 @@ const PromptSchema = z.object({
 });
 
 const ResourceSchema = z.object({
-  slug: z
-    .string()
-    .trim()
-    .min(1, "slug는 필수입니다.")
-    .max(80)
-    .regex(/^[a-z0-9-]+$/, "영문 소문자, 숫자, 하이픈(-)만 사용 가능합니다."),
+  slug: z.string().trim().max(80).optional(),
   title: z.string().trim().min(1, "제목은 필수입니다.").max(160),
   description: z.string().trim().max(600).default(""),
   accent: z.enum(["primary", "secondary", "tertiary"]),
@@ -118,6 +114,16 @@ export async function createResourceAction(
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
 
+  const slug = await uniqueSlug(
+    (built.data.slug as string | undefined) || (built.data.title as string),
+    async (c) => {
+      const { data } = await supabase.from("resources").select("id").eq("slug", c).maybeSingle();
+      return !!data;
+    },
+    "res",
+  );
+  built.data.slug = slug;
+
   const { error } = await supabase.from("resources").insert({
     ...built.data,
     published_at: built.data.status === "published" ? now : null,
@@ -144,6 +150,16 @@ export async function updateResourceAction(
 
   const supabase = await createSupabaseServerClient();
   const now = new Date().toISOString();
+
+  const slug = await uniqueSlug(
+    (built.data.slug as string | undefined) || (built.data.title as string),
+    async (c) => {
+      const { data } = await supabase.from("resources").select("id").eq("slug", c).neq("id", id).maybeSingle();
+      return !!data;
+    },
+    "res",
+  );
+  built.data.slug = slug;
 
   const updatePayload: Record<string, unknown> = {
     ...built.data,

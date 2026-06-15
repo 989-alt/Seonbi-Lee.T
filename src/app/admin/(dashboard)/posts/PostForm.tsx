@@ -26,7 +26,7 @@ export function PostForm({
   return (
     <form action={formAction} className="space-y-6" encType="multipart/form-data">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Field label="Slug" name="slug" required defaultValue={initial?.slug ?? ""} placeholder="예: ai-news-2026" />
+        <Field label="Slug" name="slug" defaultValue={initial?.slug ?? ""} placeholder="비우면 제목에서 자동 생성 (영문 소문자·숫자·하이픈)" />
         <Select
           label="악센트 색상"
           name="accent"
