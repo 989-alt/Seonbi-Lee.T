@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { InteractiveCard } from "@/components/ui/InteractiveCard";
 import { listPublishedPosts, publicHeroUrl } from "@/lib/repositories/posts";
+import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -29,7 +30,10 @@ const ACCENT_BG_SOFT: Record<string, string> = {
 };
 
 export default async function NewsPage() {
-  const posts = await listPublishedPosts();
+  const [posts, isAdmin] = await Promise.all([
+    listPublishedPosts(),
+    getAdminUser().then(Boolean),
+  ]);
 
   const tagCount: Record<string, number> = {};
   posts.forEach((p) => {
@@ -41,9 +45,19 @@ export default async function NewsPage() {
   return (
     <main className="flex-grow pt-24 px-6 md:px-12 lg:px-24 pb-20 max-w-[1440px] mx-auto w-full">
       <div className="mb-16 mt-8 stagger stagger-2">
-        <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold uppercase tracking-tighter text-on-surface">
-          AI <span className="hero-keyword">뉴스</span>
-        </h1>
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold uppercase tracking-tighter text-on-surface">
+            AI <span className="hero-keyword">뉴스</span>
+          </h1>
+          {isAdmin && (
+            <Link
+              href="/admin/posts/new"
+              className="inline-block font-[family-name:var(--font-label)] text-xs text-primary border border-primary/40 px-4 py-2 tracking-widest uppercase hover:bg-primary/10 transition-colors"
+            >
+              + 새 글 작성
+            </Link>
+          )}
+        </div>
       </div>
 
       {posts.length === 0 ? (

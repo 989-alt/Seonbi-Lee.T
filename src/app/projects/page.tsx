@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { InteractiveCard } from "@/components/ui/InteractiveCard";
 import { listPublishedProjects, publicThumbnailUrl } from "@/lib/repositories/projects";
 import { CATEGORY_LABEL } from "@/lib/repositories/types";
+import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -26,14 +27,27 @@ const ACCENT_TEXT: Record<string, string> = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await listPublishedProjects();
+  const [projects, isAdmin] = await Promise.all([
+    listPublishedProjects(),
+    getAdminUser().then(Boolean),
+  ]);
 
   return (
     <main className="flex-grow flex flex-col w-full px-6 py-12 max-w-[1600px] mx-auto z-10 pt-24">
       <div className="mb-12 mt-8 stagger stagger-2">
-        <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold tracking-tighter uppercase text-on-surface mb-4">
-          프로젝트 <span className="hero-keyword">아카이브</span>
-        </h1>
+        <div className="flex items-end justify-between gap-6 flex-wrap mb-4">
+          <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold tracking-tighter uppercase text-on-surface">
+            프로젝트 <span className="hero-keyword">아카이브</span>
+          </h1>
+          {isAdmin && (
+            <Link
+              href="/admin/projects/new"
+              className="inline-block font-[family-name:var(--font-label)] text-xs text-primary border border-primary/40 px-4 py-2 tracking-widest uppercase hover:bg-primary/10 transition-colors"
+            >
+              + 새 프로젝트
+            </Link>
+          )}
+        </div>
         <p className="font-[family-name:var(--font-label)] text-sm text-on-surface-variant max-w-2xl tracking-widest uppercase">
           수업과 학급 운영을 돕는 다양한 프로그램 및 교육 자료 모음입니다.
         </p>
