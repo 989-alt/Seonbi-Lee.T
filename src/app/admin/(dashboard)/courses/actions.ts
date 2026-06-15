@@ -56,6 +56,7 @@ export async function createCourseAction(
 
   revalidatePath("/admin/courses");
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   redirect("/admin/courses");
 }
 
@@ -99,6 +100,7 @@ export async function updateCourseAction(
   revalidatePath("/admin/courses");
   revalidatePath(`/admin/courses/${id}`);
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   redirect("/admin/courses");
 }
 
@@ -109,5 +111,6 @@ export async function deleteCourseAction(id: string) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/courses");
   revalidatePath("/learn");
+  revalidatePath("/learn", "layout");
   redirect("/admin/courses");
 }
