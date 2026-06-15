@@ -2,11 +2,27 @@ import Link from "next/link";
 import { ResourceForm } from "../ResourceForm";
 import { createResourceAction } from "../actions";
 import { listAllCourses } from "@/lib/repositories/courses";
+import type { ResourceRow } from "@/lib/repositories/types";
 
 export const metadata = { title: "새 자료 // ADMIN" };
 
-export default async function NewResourcePage() {
+export default async function NewResourcePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ course?: string; kind?: string }>;
+}) {
+  const sp = await searchParams;
   const courses = await listAllCourses();
+
+  const initial: Partial<ResourceRow> = {
+    course_slug: sp.course ?? null,
+    kind:
+      sp.kind === "gallery"
+        ? "gallery"
+        : sp.kind === "lesson"
+          ? "lesson"
+          : undefined,
+  };
 
   return (
     <div className="max-w-3xl space-y-8">
@@ -26,7 +42,12 @@ export default async function NewResourcePage() {
           aria-hidden="true"
           className="absolute top-0 left-0 w-[2px] h-full bg-primary"
         />
-        <ResourceForm action={createResourceAction} submitLabel="CREATE RESOURCE" courses={courses} />
+        <ResourceForm
+          initial={initial}
+          action={createResourceAction}
+          submitLabel="CREATE RESOURCE"
+          courses={courses}
+        />
       </div>
     </div>
   );
