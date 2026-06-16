@@ -80,12 +80,28 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
         type="button"
         onClick={() => setReaderOpen((v) => !v)}
         aria-expanded={readerOpen}
-        className={`w-full flex items-center justify-center gap-2 font-[family-name:var(--font-label)] text-xs tracking-widest uppercase py-4 border border-dashed transition-opacity hover:opacity-80 ${
+        className={`block w-full text-left bg-surface-container-low border-t-2 p-6 hover:bg-surface-container-high transition-colors ${
           readerOpen ? "mb-6" : ""
         }`}
-        style={{ color: ACCENT, borderColor: `color-mix(in srgb, ${ACCENT} 45%, var(--color-outline-variant))` }}
+        style={{ borderTopColor: ACCENT }}
       >
-        {readerOpen ? "접기 ▲" : `펼치기 ▾ · 단계별 학습 ${flat.length}개`}
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h3 className="font-[family-name:var(--font-headline)] text-lg font-bold text-on-surface mb-2">
+              클로드 학습 로드맵
+            </h3>
+            <p className="text-on-surface-variant text-sm">
+              입문부터 심화까지 단계별 학습 자료 {flat.length}개 · 눌러서 {readerOpen ? "접기" : "펼쳐 보기"}
+            </p>
+          </div>
+          <span
+            aria-hidden="true"
+            className="shrink-0 text-xl transition-transform duration-200"
+            style={{ color: ACCENT, transform: readerOpen ? "rotate(180deg)" : "none" }}
+          >
+            ▾
+          </span>
+        </div>
       </button>
 
       {readerOpen && (
