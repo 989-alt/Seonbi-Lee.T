@@ -31,6 +31,8 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
     const first = flat[0]?.level;
     return new Set<ResourceLevel>(first ? [first] : []);
   });
+  // 기본 접힘: 사용자가 '펼치기'를 눌러 읽기를 선택할 때만 리더(본문) 노출
+  const [readerOpen, setReaderOpen] = useState(false);
 
   if (levels.length === 0 || !currentId) {
     return (
@@ -74,6 +76,20 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={() => setReaderOpen((v) => !v)}
+        aria-expanded={readerOpen}
+        className={`w-full flex items-center justify-center gap-2 font-[family-name:var(--font-label)] text-xs tracking-widest uppercase py-4 border border-dashed transition-opacity hover:opacity-80 ${
+          readerOpen ? "mb-6" : ""
+        }`}
+        style={{ color: ACCENT, borderColor: `color-mix(in srgb, ${ACCENT} 45%, var(--color-outline-variant))` }}
+      >
+        {readerOpen ? "접기 ▲" : `펼치기 ▾ · 단계별 학습 ${flat.length}개`}
+      </button>
+
+      {readerOpen && (
+        <>
       <style>{`@keyframes lr-page-in{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}`}</style>
 
       <div className="grid grid-cols-1 md:grid-cols-[248px_1fr] border border-outline-variant/30">
@@ -256,6 +272,8 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
           </div>
         </article>
       </div>
+        </>
+      )}
     </div>
   );
 }
