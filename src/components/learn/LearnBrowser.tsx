@@ -5,6 +5,8 @@ import { ResourceAccordion } from "@/components/resources/ResourceAccordion";
 import type { ResourceRow, ResourceLevel } from "@/lib/repositories/types";
 import { LEVEL_LABEL, LEVEL_ORDER, LEVEL_TAG } from "@/lib/repositories/types";
 
+const ACCENT = "#4f9aa1";
+
 export function LearnBrowser({ lessons }: { lessons: ResourceRow[] }) {
   // 데이터가 있는 레벨만 탭으로 노출
   const levels = useMemo(
@@ -13,6 +15,8 @@ export function LearnBrowser({ lessons }: { lessons: ResourceRow[] }) {
   );
   const [level, setLevel] = useState<ResourceLevel | null>(levels[0] ?? null);
   const [topic, setTopic] = useState<string>("all");
+  // 기본 접힘: 사용자가 펼칠 때만 학습 목록 노출 (스킬 갤러리까지 스크롤 단축)
+  const [open, setOpen] = useState(false);
 
   const topics = useMemo(() => {
     const set = new Set<string>();
@@ -36,6 +40,20 @@ export function LearnBrowser({ lessons }: { lessons: ResourceRow[] }) {
 
   return (
     <div>
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className={`w-full flex items-center justify-center gap-2 font-[family-name:var(--font-label)] text-xs tracking-widest uppercase py-4 border border-dashed transition-opacity hover:opacity-80 ${
+          open ? "mb-6" : ""
+        }`}
+        style={{ color: ACCENT, borderColor: `color-mix(in srgb, ${ACCENT} 45%, var(--color-outline-variant))` }}
+      >
+        {open ? "접기 ▲" : `펼치기 ▾ · 단계별 학습 ${lessons.length}개`}
+      </button>
+
+      {open && (
+        <>
       <div className="flex flex-wrap border border-outline-variant/30 mb-6">
         {levels.map((lv) => {
           const active = lv === level;
@@ -91,6 +109,8 @@ export function LearnBrowser({ lessons }: { lessons: ResourceRow[] }) {
         <p className="text-on-surface-variant font-[family-name:var(--font-body)] py-8">
           이 조건에 해당하는 자료가 없습니다.
         </p>
+      )}
+        </>
       )}
     </div>
   );
