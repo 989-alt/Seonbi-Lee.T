@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import type { ResourceRow } from "@/lib/repositories/types";
 
 const ACCENT = "#4f9aa1";
-const INITIAL_VISIBLE = 8;
+const INITIAL_VISIBLE = 6;
 
 export function SkillsGallery({ gallery }: { gallery: ResourceRow[] }) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
