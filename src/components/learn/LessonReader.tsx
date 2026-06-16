@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Markdown } from "@/components/ui/Markdown";
 import type { ResourceRow, ResourceLevel } from "@/lib/repositories/types";
 import { LEVEL_LABEL, LEVEL_ORDER, LEVEL_TAG } from "@/lib/repositories/types";
@@ -33,6 +33,15 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
   });
   // 기본 접힘: 사용자가 '펼치기'를 눌러 읽기를 선택할 때만 리더(본문) 노출
   const [readerOpen, setReaderOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // 페이지 이동 시 로드맵 헤더(리더 상단)로 스크롤 — 고정 헤더(~96px) 아래에 맞춤
+  function scrollToReaderTop() {
+    const el = rootRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 96;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
 
   if (levels.length === 0 || !currentId) {
     return (
@@ -75,7 +84,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
   }
 
   return (
-    <div>
+    <div ref={rootRef}>
       <button
         type="button"
         onClick={() => setReaderOpen((v) => !v)}
@@ -257,7 +266,12 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
             <button
               type="button"
               disabled={!prev}
-              onClick={() => prev && goTo(prev)}
+              onClick={() => {
+                if (prev) {
+                  goTo(prev);
+                  scrollToReaderTop();
+                }
+              }}
               className="flex flex-col items-start gap-0.5 disabled:opacity-30 text-left max-w-[40%]"
             >
               <span className="font-[family-name:var(--font-label)] text-[10px] tracking-widest uppercase" style={{ color: ACCENT }}>
@@ -271,7 +285,12 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
             <button
               type="button"
               disabled={!next}
-              onClick={() => next && goTo(next)}
+              onClick={() => {
+                if (next) {
+                  goTo(next);
+                  scrollToReaderTop();
+                }
+              }}
               className="flex flex-col items-end gap-0.5 disabled:opacity-30 text-right max-w-[40%]"
             >
               <span className="font-[family-name:var(--font-label)] text-[10px] tracking-widest uppercase" style={{ color: ACCENT }}>
