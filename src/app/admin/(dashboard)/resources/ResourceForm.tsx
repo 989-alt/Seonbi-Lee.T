@@ -7,6 +7,10 @@ import type {
   ResourcePrompt,
   CourseRow,
 } from "@/lib/repositories/types";
+import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { createResourceUploadUrl } from "./actions";
+
+const UPLOAD_BUCKET = "resource-files";
 
 type State = { error: string | null };
 const initialState: State = { error: null };
@@ -22,6 +26,38 @@ export function ResourceForm({ initial, action, submitLabel, courses = [] }: Res
   const [state, formAction, pending] = useActionState(action, initialState);
   const [links, setLinks] = useState<ResourceLink[]>(initial?.links ?? []);
   const [prompts, setPrompts] = useState<ResourcePrompt[]>(initial?.prompts ?? []);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // 브라우저에서 Supabase Storage로 직접 업로드 → 성공 시 다운로드 링크로 추가
+  async function handleFiles(fileList: FileList | null) {
+    if (!fileList || fileList.length === 0) return;
+    setUploadError(null);
+    setUploading(true);
+    const supabase = createSupabaseBrowserClient();
+    try {
+      for (const file of Array.from(fileList)) {
+        const signed = await createResourceUploadUrl(file.name, file.size);
+        if (!signed.ok) {
+          setUploadError(signed.error);
+          continue;
+        }
+        const { error } = await supabase.storage
+          .from(UPLOAD_BUCKET)
+          .uploadToSignedUrl(signed.path, signed.token, file);
+        if (error) {
+          setUploadError(`${file.name}: 업로드 실패 (${error.message})`);
+          continue;
+        }
+        setLinks((v) => [
+          ...v,
+          { label: signed.label, url: signed.publicUrl, kind: "download" },
+        ]);
+      }
+    } finally {
+      setUploading(false);
+    }
+  }
 
   const addLink = () =>
     setLinks((v) => [...v, { label: "", url: "", kind: "link" }]);
@@ -38,7 +74,7 @@ export function ResourceForm({ initial, action, submitLabel, courses = [] }: Res
     setPrompts((v) => v.filter((_, idx) => idx !== i));
 
   return (
-    <form action={formAction} className="space-y-6">
+    <form action={formAction} className="space-y-6" encType="multipart/form-data">
       {/* serialized dynamic arrays */}
       <input type="hidden" name="links_json" value={JSON.stringify(links)} />
       <input type="hidden" name="prompts_json" value={JSON.stringify(prompts)} />
@@ -104,6 +140,39 @@ export function ResourceForm({ initial, action, submitLabel, courses = [] }: Res
         defaultValue={initial?.body_md ?? ""}
         maxLength={20000}
       />
+
+      {/* FILE UPLOAD (교안) */}
+      <section className="space-y-3">
+        <span className="font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] uppercase">
+          교안 파일 업로드
+        </span>
+        <div className="bg-surface-container-high border border-dashed border-outline-variant/40 p-4 space-y-2">
+          <input
+            type="file"
+            multiple
+            disabled={uploading}
+            accept=".pdf,.pptx,.ppt,.key,.hwp,.hwpx,.doc,.docx,.xls,.xlsx,.csv,.zip,.txt,.md,.png,.jpg,.jpeg,.gif,.webp,.mp4"
+            onChange={(e) => {
+              void handleFiles(e.target.files);
+              e.target.value = "";
+            }}
+            className="block w-full text-sm text-on-surface-variant file:mr-3 file:border-0 file:bg-primary file:text-on-primary file:px-4 file:py-2 file:font-[family-name:var(--font-label)] file:text-xs file:uppercase file:tracking-widest file:cursor-pointer disabled:opacity-50"
+          />
+          <p className="text-on-surface-variant text-xs font-[family-name:var(--font-body)]">
+            PDF·PPTX·HWP/HWPX·DOCX·ZIP 등, 파일당 50MB 이하. 업로드하면 아래 <b>링크 / 다운로드</b> 목록에 자동 추가되고, 방문자에게 <b>다운로드 버튼</b>으로 제공됩니다.
+          </p>
+          {uploading && (
+            <p className="text-primary text-xs font-[family-name:var(--font-label)] tracking-widest uppercase">
+              업로드 중…
+            </p>
+          )}
+          {uploadError && (
+            <p className="text-error text-xs font-[family-name:var(--font-label)] tracking-widest">
+              ✕ {uploadError}
+            </p>
+          )}
+        </div>
+      </section>
 
       {/* LINKS */}
       <section className="space-y-3">

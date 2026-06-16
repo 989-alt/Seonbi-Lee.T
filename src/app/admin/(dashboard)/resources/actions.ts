@@ -3,9 +3,50 @@
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient, createSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
 import { uniqueSlug } from "@/lib/slug";
+
+const UPLOAD_BUCKET = "resource-files";
+const UPLOAD_MAX_BYTES = 50 * 1024 * 1024;
+const UPLOAD_ALLOWED_EXT = new Set([
+  "pdf", "pptx", "ppt", "key",
+  "hwp", "hwpx", "doc", "docx",
+  "xls", "xlsx", "csv",
+  "zip", "txt", "md",
+  "png", "jpg", "jpeg", "gif", "webp", "mp4",
+]);
+
+type UploadUrlResult =
+  | { ok: true; path: string; token: string; publicUrl: string; label: string }
+  | { ok: false; error: string };
+
+// 브라우저 직접 업로드용 서명 URL 발급 (파일 바이트는 Vercel 함수를 거치지 않음 — 4.5MB 한도 회피)
+export async function createResourceUploadUrl(
+  filename: string,
+  size: number
+): Promise<UploadUrlResult> {
+  await assertAdmin();
+  if (size > UPLOAD_MAX_BYTES) return { ok: false, error: `${filename}: 50MB를 초과합니다.` };
+  const ext = filename.split(".").pop()?.toLowerCase() ?? "bin";
+  if (!UPLOAD_ALLOWED_EXT.has(ext)) {
+    return { ok: false, error: `${filename}: 허용되지 않는 파일 형식(.${ext})입니다.` };
+  }
+  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  if (!base) return { ok: false, error: "스토리지 설정(NEXT_PUBLIC_SUPABASE_URL)이 없습니다." };
+
+  const admin = createSupabaseAdminClient();
+  const key = `${Date.now()}-${crypto.randomUUID()}.${ext}`;
+  const { data, error } = await admin.storage
+    .from(UPLOAD_BUCKET)
+    .createSignedUploadUrl(key);
+  if (error || !data) {
+    return { ok: false, error: `업로드 URL 생성 실패: ${error?.message ?? "unknown"}` };
+  }
+  // ?download=<원본파일명> → 원래 이름으로 강제 다운로드
+  const publicUrl = `${base}/storage/v1/object/public/${UPLOAD_BUCKET}/${key}?download=${encodeURIComponent(filename)}`;
+  return { ok: true, path: data.path, token: data.token, publicUrl, label: filename };
+}
 
 const LinkSchema = z.object({
   label: z.string().trim().min(1).max(120),
