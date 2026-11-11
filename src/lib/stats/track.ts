@@ -28,6 +28,8 @@ export const MAX_TRACK_BODY = 1024;
 
 export type TrackGateInput = {
   origin: string | null;
+  /** 이 배포 자신의 origin (같은 사이트 요청은 항상 허용) */
+  selfOrigin: string;
   ip: string;
   bodyLength: number;
   body: unknown;
@@ -37,7 +39,7 @@ export type TrackGateInput = {
 
 /** /api/track 요청 판정: 출처·크기·형식·IP별 빈도·등록 여부 */
 export function trackGate(i: TrackGateInput): { status: 204; payload: TrackPayload } | { status: 400 | 403 | 429 } {
-  if (i.origin && !i.origins.has(i.origin)) return { status: 403 };
+  if (i.origin && i.origin !== i.selfOrigin && !i.origins.has(i.origin)) return { status: 403 };
   if (i.bodyLength > MAX_TRACK_BODY) return { status: 400 };
   const payload = parseTrack(i.body);
   if (!payload) return { status: 400 };

@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
   try { body = JSON.parse(raw); } catch { /* trackGate가 400 처리 */ }
 
   // IP는 빈도 제한에만 메모리에서 쓰고 저장하지 않는다
-  const gate = trackGate({ origin, ip: clientIp(req), bodyLength: raw.length, body, slugs, origins });
+  const gate = trackGate({ origin, selfOrigin: req.nextUrl.origin, ip: clientIp(req), bodyLength: raw.length, body, slugs, origins });
   if (gate.status !== 204) return new NextResponse(null, { status: gate.status, headers });
 
   try {

@@ -38,10 +38,14 @@ describe("checkRateLimit", () => {
 import { trackGate } from "./track";
 import { pruneExpired } from "@/lib/rateLimit";
 describe("trackGate", () => {
-  const base = { origin: null as string | null, ip: "1.2.3.4", bodyLength: 80, body: { app: "portal", vid: VID },
+  const base = { origin: null as string | null, selfOrigin: "https://s-edu.ai.kr", ip: "1.2.3.4", bodyLength: 80, body: { app: "portal", vid: VID },
     slugs: new Set(["portal"]), origins: new Set(["https://s-edu.ai.kr"]) };
   it("rejects foreign origins with 403", () => {
     expect(trackGate({ ...base, origin: "https://evil.example" })).toEqual({ status: 403 });
+  });
+  it("always accepts requests from the deployment's own origin (preview, www, vercel.app)", () => {
+    const preview = "https://seonbi-lee-t-git-x.vercel.app";
+    expect(trackGate({ ...base, ip: "7.7.7.7", origin: preview, selfOrigin: preview }).status).toBe(204);
   });
   it("rejects oversized bodies and unregistered slugs with 400", () => {
     expect(trackGate({ ...base, bodyLength: 5000 }).status).toBe(400);
