@@ -1,20 +1,32 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
+import { PageHero } from "@/components/ui/PageHero";
 import { SkillBar } from "@/components/about/SkillBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "소개 // 방구석게이머",
-  description: "교사 이선학 (방구석게이머) 소개",
+  title: "플레이어 프로필 // 방구석게이머",
+  description: "AI로 수업과 학급 운영을 돕는 프로그램을 만드는 교사 이선학(방구석게이머) 소개",
 };
 
-const SKILLS: { name: string; value: number; accentClass: string; textClass: string }[] = [
+const STATS: { name: string; value: number; accentClass: string; textClass: string }[] = [
   { name: "CLAUDE", value: 95, accentClass: "bg-primary", textClass: "text-primary" },
   { name: "ANTIGRAVITY", value: 85, accentClass: "bg-secondary", textClass: "text-secondary" },
   { name: "GEMINI", value: 75, accentClass: "bg-tertiary", textClass: "text-tertiary" },
   { name: "N8N", value: 65, accentClass: "bg-on-surface", textClass: "text-on-surface" },
   { name: "ETC (MIDJOURNEY, STITCH...)", value: 55, accentClass: "bg-primary-dim", textClass: "text-primary-dim" },
+];
+
+/** 강의 — 최근 것이 위 */
+const LECTURES: { title: string; org: string; href?: string }[] = [
+  {
+    title: "수업을 채우는 동료, 업무를 줄이는 비서 — 바로 쓰는 Claude",
+    org: "비바샘 원격연수 강사",
+    href: "https://t.vivasam.com/courses/job/t26-016",
+  },
+  { title: "The Master Class · Claude Code 중급반", org: "몽당분필 강사" },
+  { title: "Claude A to Z", org: "에듀플러스위크 강사" },
+  { title: "지식샘터 · 찾아가는 학교컨설팅", org: "강사" },
 ];
 
 const HISTORY = [
@@ -29,69 +41,59 @@ const HISTORY = [
 
 export default function AboutPage() {
   return (
-    <main className="flex-grow pt-24 px-6 md:px-12 lg:px-20 pb-20 max-w-[1440px] mx-auto w-full">
-      <section className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <Reveal className="lg:col-span-7" direction="left">
-          <div className="bg-surface-container-low p-8 md:p-10 relative h-full">
-            <div
-              aria-hidden="true"
-              className="absolute top-0 left-0 w-[2px] h-full bg-primary"
-            />
-
-            <div className="flex flex-col md:flex-row gap-6 md:gap-10 h-full">
-              <div className="flex-1 flex flex-col">
-                <div>
-                  <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-5xl font-bold text-on-surface mb-2 tracking-tight">
-                    <span className="hero-keyword">방구석게이머</span>
-                  </h1>
-                  <p className="font-[family-name:var(--font-label)] text-xs md:text-sm text-on-surface-variant tracking-widest">
-                    이천송정초등학교 이선학
-                  </p>
-                  <Link
-                    href="/contact"
-                    className="inline-block mt-5 font-[family-name:var(--font-label)] text-sm text-primary tracking-widest hover:text-primary-dim transition-colors"
-                  >
-                    문의/요청 메일 보내기 →
-                  </Link>
-                </div>
-
-                <p className="font-[family-name:var(--font-body)] text-on-surface-variant leading-relaxed mt-auto pt-8 md:pt-12">
-                  AI를 활용해 수업과 학급 운영에 도움이 되는 여러 프로그램을
-                  만드는 교사 이선학입니다. 콘텐츠 제안은 언제나 환영, 피드백은
-                  최대한 빠르게 반영하겠습니다.
-                </p>
-              </div>
-
-              <div className="flex-shrink-0 flex items-center justify-center md:items-start md:pt-2">
-                <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/40 shadow-[0_0_40px_rgba(91,224,138,0.25)]">
-                  <Image
-                    src="/profile.png"
-                    alt="방구석게이머 프로필"
-                    fill
-                    sizes="(max-width: 768px) 144px, 176px"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
+    <main className="flex-grow pt-24 px-6 md:px-12 lg:px-20 pb-20 max-w-[1280px] mx-auto w-full">
+      <div className="mt-6 mb-10">
+        <PageHero
+          label="PLAYER 1 · PROFILE"
+          title="방구석게이머"
+          desc={<>이천송정초등학교 교사 이선학. 밤마다 방구석에서 AI로 수업과 학급 운영을 돕는 프로그램을 만들어요.<br />콘텐츠 제안은 언제나 환영, 피드백은 최대한 빠르게 반영할게요.</>}
+          image={{ src: "/launcher/char-pick.webp", alt: "손가락으로 가리키며 윙크하는 방구석게이머 캐릭터" }}
+          action={
+            <div className="flex flex-col gap-2">
+              <Link href="/" className="rounded-[8px] bg-mint px-4 py-3 text-center font-pixel text-sm font-bold text-night">▶ 라이브러리</Link>
+              <Link href="/contact" className="rounded-[8px] border-2 border-night-line px-4 py-3 text-center text-sm font-bold text-lilac hover:text-white">제보함 →</Link>
             </div>
+          }
+        />
+      </div>
+
+      <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <Reveal className="lg:col-span-7" direction="left">
+          <div className="h-full rounded-[14px] border border-outline-variant bg-white p-7 md:p-8">
+            <h2 className="m-0 mb-1 font-[family-name:var(--font-label)] text-[13px] tracking-[0.12em] text-primary">QUEST LOG</h2>
+            <p className="m-0 mb-6 text-[22px] font-black text-on-surface">강의 · 연수</p>
+            <ul className="m-0 flex list-none flex-col gap-3 p-0">
+              {LECTURES.map((l) => {
+                const body = (
+                  <>
+                    <span aria-hidden className="flex h-9 w-9 flex-none items-center justify-center rounded-[8px] bg-night font-pixel text-mint">★</span>
+                    <span className="flex min-w-0 flex-col gap-[2px]">
+                      <span className="text-[16px] font-bold leading-snug text-on-surface">{l.title}</span>
+                      <span className="text-[13px] text-on-surface-variant">{l.org}{l.href ? " · 연수 보러 가기 ↗" : ""}</span>
+                    </span>
+                  </>
+                );
+                return (
+                  <li key={l.title}>
+                    {l.href ? (
+                      <a href={l.href} target="_blank" rel="noopener" className="flex items-center gap-4 rounded-[10px] bg-surface-container p-3 hover:bg-secondary-container">{body}</a>
+                    ) : (
+                      <div className="flex items-center gap-4 rounded-[10px] bg-surface-container p-3">{body}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </Reveal>
 
         <Reveal className="lg:col-span-5" direction="right" delay={0.1}>
-          <div className="bg-surface-container-low p-8 relative h-full">
-            <h2 className="font-[family-name:var(--font-headline)] text-lg tracking-widest uppercase text-on-surface mb-6">
-              기술 스택
-            </h2>
+          <div className="h-full rounded-[14px] border border-outline-variant bg-white p-7 md:p-8">
+            <h2 className="m-0 mb-1 font-[family-name:var(--font-label)] text-[13px] tracking-[0.12em] text-primary">STATS</h2>
+            <p className="m-0 mb-6 text-[22px] font-black text-on-surface">능력치</p>
             <ul className="space-y-5">
-              {SKILLS.map((s) => (
-                <SkillBar
-                  key={s.name}
-                  name={s.name}
-                  value={s.value}
-                  accentClass={s.accentClass}
-                  textClass={s.textClass}
-                />
+              {STATS.map((s) => (
+                <SkillBar key={s.name} name={s.name} value={s.value} accentClass={s.accentClass} textClass={s.textClass} />
               ))}
             </ul>
           </div>
@@ -99,21 +101,14 @@ export default function AboutPage() {
       </section>
 
       <Reveal delay={0.15}>
-        <section className="mt-12 bg-surface-container-low p-8 md:p-12 section-scan">
-          <h2 className="font-[family-name:var(--font-headline)] text-lg tracking-widest uppercase text-on-surface mb-6 inline-flex items-center gap-3">
-            <span aria-hidden="true" className="w-6 h-[2px] bg-primary" />
-            경력 / 이력
-          </h2>
-          <ul className="space-y-3 font-[family-name:var(--font-body)] text-on-surface-variant">
-            {HISTORY.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 group">
-                <span
-                  aria-hidden="true"
-                  className="text-primary mt-1 font-[family-name:var(--font-label)] text-xs transition-transform group-hover:scale-125"
-                >
-                  ●
-                </span>
-                <span className="group-hover:text-on-surface transition-colors">{item}</span>
+        <section className="mt-6 rounded-[14px] border border-outline-variant bg-white p-7 md:p-8">
+          <h2 className="m-0 mb-1 font-[family-name:var(--font-label)] text-[13px] tracking-[0.12em] text-primary">ACHIEVEMENTS</h2>
+          <p className="m-0 mb-6 text-[22px] font-black text-on-surface">경력 · 이력</p>
+          <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 sm:grid-cols-2">
+            {HISTORY.map((item) => (
+              <li key={item} className="flex items-center gap-3 rounded-[10px] bg-surface-container px-4 py-3">
+                <span aria-hidden className="font-pixel text-[15px] text-tertiary">◆</span>
+                <span className="text-[15px] text-on-surface">{item}</span>
               </li>
             ))}
           </ul>

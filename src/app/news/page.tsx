@@ -8,7 +8,7 @@ import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI 뉴스 // 방구석게이머",
+  title: "AI 소식 // 방구석게이머",
   description: "AI·에듀테크 관련 소식과 작업 로그",
 };
 
@@ -47,9 +47,10 @@ export default async function NewsPage() {
     <main className="flex-grow pt-24 px-6 md:px-12 lg:px-24 pb-20 max-w-[1440px] mx-auto w-full">
       <div className="mb-14 mt-6 stagger stagger-2">
         <PageHero
-          label="NEWS ROOM"
-          title="AI 뉴스"
-          desc="교실에서 써먹을 AI·에듀테크 소식과 방구석 작업 일지를 모았어요."
+          label="PATCH NOTES · 소식"
+          title="AI 소식"
+          desc="교실에서 써먹을 AI·에듀테크 소식과 방구석 작업 일지를 업데이트 노트처럼 모았어요."
+          image={{ src: "/launcher/char-news.webp", alt: "신문과 태블릿을 보는 방구석게이머" }}
           action={isAdmin ? (
             <Link href="/admin/posts/new" className="rounded-[8px] bg-mint px-4 py-3 font-pixel text-sm font-bold text-night">+ 새 글 작성</Link>
           ) : undefined}
@@ -99,9 +100,7 @@ export default async function NewsPage() {
                           <time
                             className={`font-[family-name:var(--font-label)] text-sm ${ACCENT_TEXT[post.accent]} tracking-widest ${ACCENT_BG_SOFT[post.accent]} px-2 py-1 inline-block w-max`}
                           >
-                            {post.published_at
-                              ? new Date(post.published_at).toLocaleDateString("ko-KR")
-                              : new Date(post.created_at).toLocaleDateString("ko-KR")}
+                            {"v" + new Date(post.published_at ?? post.created_at).toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" }).replaceAll("-", ".")}
                           </time>
                           <div className="flex gap-3 flex-wrap">
                             {post.tags.map((tag) => (
@@ -115,7 +114,7 @@ export default async function NewsPage() {
                           </div>
                         </header>
                         <h2
-                          className={`font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-bold mb-4 ${ACCENT_TEXT[post.accent]}`}
+                          className={`font-[family-name:var(--font-body)] text-2xl md:text-3xl font-black leading-snug mb-4 ${ACCENT_TEXT[post.accent]}`}
                         >
                           {post.title}
                         </h2>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { TOPICS, withTopic } from "@/lib/contact/topic";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -15,7 +16,7 @@ export function ContactForm() {
 
     const formData = new FormData(e.currentTarget);
     const payload = {
-      subject: formData.get("subject"),
+      subject: withTopic(String(formData.get("topic") ?? ""), String(formData.get("subject") ?? "")),
       message: formData.get("message"),
       replyTo: formData.get("replyTo"),
       website: formData.get("website"), // honeypot
@@ -54,6 +55,21 @@ export function ContactForm() {
           autoComplete="off"
         />
       </div>
+
+      <fieldset className="space-y-2 border-0 p-0 m-0 pb-4">
+        <legend className="font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] mb-2">어떤 이야기인가요?</legend>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {TOPICS.map((t, i) => (
+            <label key={t.id} className="flex cursor-pointer flex-col gap-1 rounded-[10px] border-2 border-outline-variant bg-surface-container px-3 py-3 has-[:checked]:border-primary has-[:checked]:bg-secondary-container">
+              <span className="flex items-center gap-2 text-[15px] font-bold text-on-surface">
+                <input type="radio" name="topic" value={t.id} defaultChecked={i === 0} className="accent-[#4e43a0]" />
+                {t.label}
+              </span>
+              <span className="text-[12px] text-on-surface-variant">{t.hint}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
 
       <div className="space-y-1 group">
         <div className="flex justify-between items-end">

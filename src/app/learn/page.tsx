@@ -34,9 +34,10 @@ export default async function LearnPage() {
       {/* HERO */}
       <section className="mt-6 mb-14">
         <PageHero
-          label="TRAINING ROOM · CLAUDE A → Z"
+          label="TUTORIAL · CLAUDE A → Z"
           title={<>Claude, <span className="text-mint">A to Z</span></>}
-          desc="터미널이 처음인 선생님도 공문서·발표자료·멀티 에이전트까지. 단계별 길잡이와 바로 쓰는 자료·프롬프트를 한곳에서 만나요."
+          desc="터미널이 처음인 선생님도 공문서·발표자료·멀티 에이전트까지. 단계별 튜토리얼과 바로 쓰는 자료·프롬프트를 한곳에서 만나요."
+          image={{ src: "/launcher/char-learn.webp", alt: "칠판 앞에서 설명하는 방구석게이머" }}
         />
       </section>
 
@@ -61,7 +62,7 @@ export default async function LearnPage() {
           </div>
           {courses.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((c) => {
+              {courses.map((c, i) => {
                 const borderClass = COURSE_ACCENT_BORDER[c.accent] ?? COURSE_ACCENT_BORDER.primary;
                 return (
                   <Link
@@ -69,6 +70,7 @@ export default async function LearnPage() {
                     href={`/learn/${c.slug}`}
                     className={`block bg-surface-container-low border-t-2 ${borderClass} p-6 hover:bg-surface-container-high transition-colors`}
                   >
+                    <span className="mb-2 inline-block font-[family-name:var(--font-label)] text-[12px] text-primary tracking-[0.12em]">STAGE {i + 1}</span>
                     <h3 className="font-[family-name:var(--font-headline)] text-lg font-bold text-on-surface mb-2">
                       {c.title}
                     </h3>

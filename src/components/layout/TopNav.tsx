@@ -6,10 +6,10 @@ import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "라이브러리" },
-  { href: "/news", label: "AI 뉴스" },
+  { href: "/news", label: "AI 소식" },
   { href: "/learn", label: "배우기" },
   { href: "/about", label: "소개" },
-  { href: "/contact", label: "앱 제안·문의" },
+  { href: "/contact", label: "제보함" },
 ];
 
 export function TopNav() {

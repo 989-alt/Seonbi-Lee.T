@@ -3,7 +3,7 @@ import { PageHero } from "@/components/ui/PageHero";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "앱 제안·문의 // 방구석게이머",
+  title: "제보함 // 방구석게이머",
   description: "프로젝트 제안, 교육 협력 및 파트너십 문의",
 };
 
@@ -13,8 +13,9 @@ export default function ContactPage() {
       <div className="w-full max-w-5xl stagger stagger-2">
         <div className="mb-10">
           <PageHero
-            label="SEND MESSAGE · PLAYER 2 입장 대기 중"
-            title="앱 제안·문의"
+            label="MAILBOX · PLAYER 2 입장 대기 중"
+            title="제보함"
+            image={{ src: "/launcher/char-contact.webp", alt: "우체통에 편지를 넣는 방구석게이머" }}
             desc="“이런 게임 있으면 좋겠어요”, 버그 제보, 연수·협업 문의 모두 환영해요. 남겨 주시면 빠르게 답장드릴게요."
           />
         </div>
