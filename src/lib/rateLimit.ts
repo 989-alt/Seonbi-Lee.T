@@ -10,19 +10,22 @@ const buckets = new Map<string, Bucket>();
 const WINDOW_MS = 60 * 60 * 1000; // 1 hour
 const MAX_REQUESTS = 3;
 
-export function checkRateLimit(ip: string): {
+export function checkRateLimit(
+  key: string,
+  opts: { max: number; windowMs: number } = { max: MAX_REQUESTS, windowMs: WINDOW_MS },
+): {
   ok: boolean;
   retryAfterSec?: number;
 } {
   const now = Date.now();
-  const bucket = buckets.get(ip);
+  const bucket = buckets.get(key);
 
   if (!bucket || now > bucket.resetAt) {
-    buckets.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+    buckets.set(key, { count: 1, resetAt: now + opts.windowMs });
     return { ok: true };
   }
 
-  if (bucket.count >= MAX_REQUESTS) {
+  if (bucket.count >= opts.max) {
     return {
       ok: false,
       retryAfterSec: Math.ceil((bucket.resetAt - now) / 1000),
