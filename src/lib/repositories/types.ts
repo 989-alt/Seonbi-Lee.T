@@ -20,6 +20,14 @@ export interface ProjectRow {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  featured: boolean;
+  featured_order: number | null;
+  tag: string | null;
+  grade: string | null;
+  hero_image_path: string | null;
+  partner: "i-scream" | null;
+  partner_url: string | null;
+  track_slug: string | null;
 }
 
 export interface PostRow {
