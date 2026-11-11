@@ -3,7 +3,8 @@ import { Space_Grotesk, Manrope, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { TopNav } from "@/components/layout/TopNav";
 import { Footer } from "@/components/layout/Footer";
-import { ShutterLoader } from "@/components/layout/ShutterLoader";
+import { HideOnHome } from "@/components/layout/HideOnHome";
+import { galmuri } from "@/fonts/galmuri";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -40,13 +41,12 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${spaceGrotesk.variable} ${manrope.variable} ${notoSansKR.variable} antialiased`}
+      className={`${spaceGrotesk.variable} ${manrope.variable} ${notoSansKR.variable} ${galmuri.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col">
-        <ShutterLoader />
-        <TopNav />
+        <HideOnHome><TopNav /></HideOnHome>
         {children}
-        <Footer />
+        <HideOnHome><Footer /></HideOnHome>
       </body>
     </html>
   );

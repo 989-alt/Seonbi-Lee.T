@@ -71,6 +71,45 @@ with sync_playwright() as p:
         assert "누적" not in page.inner_text("header")
     check("no visitor counter in header", no_header_counter)
 
+    # --- 인트로 (첫 방문) ---
+    ictx = b.new_context(viewport={"width": 1440, "height": 900})
+    ip = ictx.new_page()
+
+    def intro_first_visit():
+        ip.goto(BASE + "/")
+        dlg = ip.get_by_role("dialog", name="서버 접속")
+        expect(dlg).to_be_visible()
+        dlg.get_by_role("button", name="건너뛰기 ▶▶").click()
+        expect(dlg).to_have_count(0)
+        ip.reload()
+        ip.wait_for_timeout(500)
+        expect(ip.get_by_role("dialog", name="서버 접속")).to_have_count(0)
+    check("intro shows once and skip remembers", intro_first_visit)
+
+    def intro_replay_and_connect():
+        ip.goto(BASE + "/")
+        ip.get_by_role("button", name="↺ 인트로").click()
+        dlg = ip.get_by_role("dialog", name="서버 접속")
+        expect(dlg).to_be_visible()
+        dlg.get_by_role("button", name="▶ 서버 접속하기").click()
+        expect(dlg).to_have_count(0, timeout=8000)
+        expect(ip.get_by_label("앱 찾기")).to_be_focused()
+    check("intro replays and connect enters launcher", intro_replay_and_connect)
+
+    def intro_storage_blocked():
+        bctx = b.new_context(viewport={"width": 1440, "height": 900})
+        bctx.add_init_script("Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked')}})")
+        bp = bctx.new_page()
+        errors = []
+        bp.on("pageerror", lambda e: errors.append(str(e)))
+        bp.goto(BASE + "/")
+        expect(bp.get_by_role("dialog", name="서버 접속")).to_be_visible()
+        bp.keyboard.press("Escape")
+        expect(bp.get_by_role("dialog", name="서버 접속")).to_have_count(0)
+        assert not errors, errors
+        bctx.close()
+    check("blocked storage: intro works, no page errors", intro_storage_blocked)
+
     b.close()
 
 print("RESULT", "FAIL " + ", ".join(fails) if fails else "ALL PASS")

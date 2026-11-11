@@ -68,7 +68,7 @@ export function Library({ groups, q, onQ, selected, onPick, stats }: Props) {
               <AppRow key={a.slug} app={a} sel={a.slug === selected} onPick={onPick} stats={stats} />
             ))}
             {Array.from({ length: g.emptySlots }, (_, i) => (
-              <div key={i} className="flex items-center gap-3 rounded-[8px] border-2 border-dashed border-paper-line p-2 text-[13px] text-ink-soft">
+              <div key={i} className="hidden items-center gap-3 rounded-[8px] border-2 min-[900px]:flex border-dashed border-paper-line p-2 text-[13px] text-ink-soft">
                 <span aria-hidden className="h-[31px] w-[48px] rounded-[4px] bg-paper" />
                 빈 슬롯 · 새 앱 준비 중
               </div>

@@ -38,14 +38,14 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
   const openIntro = useCallback(() => window.dispatchEvent(new Event("bg:intro")), []);
 
   return (
-    <div className="flex min-h-screen flex-col bg-paper font-[family-name:var(--font-noto-kr)] text-night">
+    <div id="bg-root" className="flex min-h-screen flex-col bg-paper font-[family-name:var(--font-noto-kr)] text-night">
       <LauncherTopBar onIntro={openIntro} />
       <div className="flex flex-1 flex-wrap items-stretch">
-        <aside aria-label="앱 라이브러리" className="flex max-w-full flex-[1_1_300px] flex-col border-r border-paper-line bg-white min-[900px]:max-w-[340px]">
+        <aside aria-label="앱 라이브러리" className="order-2 flex max-w-full min-[900px]:order-1 flex-[1_1_300px] flex-col border-r border-paper-line bg-white min-[900px]:max-w-[340px]">
           <Library groups={groups} q={q} onQ={setQ} selected={current?.slug ?? null} onPick={pick} stats={stats} />
           <ServerStatus stats={stats} />
         </aside>
-        <main id="bg-stage" className="flex min-w-0 flex-[999_1_560px] flex-col">
+        <main id="bg-stage" className="order-1 flex min-w-0 min-[900px]:order-2 flex-[999_1_560px] flex-col">
           {current ? (
             <AppStage app={current} stats={stats} />
           ) : (

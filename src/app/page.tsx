@@ -1,4 +1,5 @@
 import { Launcher } from "@/components/launcher/Launcher";
+import { IntroOverlay } from "@/components/launcher/IntroOverlay";
 import { toLauncherApp, type LauncherApp } from "@/lib/launcher/catalog";
 import { listLauncherRows, publicThumbnailUrl } from "@/lib/repositories/projects";
 import { getStats } from "@/lib/stats/server";
@@ -12,6 +13,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   return (
     <>
       <Launcher apps={apps} stats={stats} initialSlug={initial} />
+      <IntroOverlay />
     </>
   );
 }
