@@ -71,6 +71,16 @@ with sync_playwright() as p:
         assert "누적" not in page.inner_text("header")
     check("no visitor counter in header", no_header_counter)
 
+    def teacher_guide():
+        page.goto(BASE + "/")
+        g = page.get_by_role("region", name="교사용 안내")
+        expect(g).to_be_visible()
+        expect(g.get_by_text("실시간 숫자 추리 대결")).to_be_visible()
+        expect(g.get_by_role("listitem").first).to_contain_text("교사 모드로 방을 만들어요.")
+        page.get_by_role("button", name="원의 넓이 탐험대").click() if page.get_by_role("button", name="원의 넓이 탐험대").count() else page.goto(BASE + "/?app=circle")
+        expect(page.get_by_role("region", name="교사용 안내")).to_have_count(0)
+    check("teacher guide shows for apps that have one", teacher_guide)
+
     # --- 인트로 (첫 방문) ---
     ictx = b.new_context(viewport={"width": 1440, "height": 900})
     ip = ictx.new_page()

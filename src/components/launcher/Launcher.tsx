@@ -11,6 +11,7 @@ import { ServerStatus } from "./ServerStatus";
 import { AppStage } from "./AppStage";
 import { TopPlayed } from "./TopPlayed";
 import { PlayerCard } from "./PlayerCard";
+import { TeacherGuideCard } from "./TeacherGuideCard";
 
 type Props = { apps: LauncherApp[]; stats: StatsResponse; initialSlug: string | null };
 
@@ -53,9 +54,12 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
               라이브러리를 준비하고 있어요. 곧 게임이 들어와요!
             </section>
           )}
-          <div className="flex flex-wrap gap-6 px-6 pt-7 pb-10 sm:px-10">
-            <TopPlayed rows={top} onPick={pick} />
-            <PlayerCard />
+          <div className="flex flex-wrap items-start gap-6 px-6 pt-7 pb-10 sm:px-10">
+            {current?.guide && <TeacherGuideCard key={current.slug} guide={current.guide} appName={current.name} />}
+            <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-6">
+              <TopPlayed rows={top} onPick={pick} />
+              <PlayerCard />
+            </div>
           </div>
         </main>
       </div>

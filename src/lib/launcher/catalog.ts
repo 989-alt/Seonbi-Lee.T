@@ -1,4 +1,5 @@
 import type { ProjectCategory, ProjectRow } from "@/lib/repositories/types";
+import { parseGuide, type TeacherGuide } from "./guide";
 
 export type Stage = 1 | 2 | 3;
 
@@ -24,6 +25,7 @@ export type LauncherApp = {
   hero: string | null;
   action: LauncherAction;
   trackSlug: string | null;
+  guide: TeacherGuide | null;
 };
 
 export type LibraryGroup = {
@@ -65,6 +67,7 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
     hero: thumbUrl(row.hero_image_path ?? row.thumbnail_path),
     action,
     trackSlug: row.partner ? null : row.track_slug,
+    guide: parseGuide(row.guide),
   };
 }
 

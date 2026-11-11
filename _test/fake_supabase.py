@@ -14,8 +14,9 @@ def row(slug, title, cat, url=None, featured=False, order=None, partner=None, ta
             "external_url": url, "status": "published", "published_at": None, "created_at": "2026-01-01",
             "updated_at": "2026-01-01", "featured": featured, "featured_order": order, "tag": tag, "grade": grade,
             "hero_image_path": None, "partner": partner, "partner_url": ISCREAM if partner else None,
-            "track_slug": None if partner else slug}
+            "track_slug": None if partner else slug, "guide": None}
 
+GUIDE = {"genre": "실시간 숫자 추리 대결", "players": "최대 60명", "steps": ["교사 모드로 방을 만들어요.", "QR로 들어와요."], "tips": ["1:1로 먼저 익혀요."]}
 ROWS = [
     row("math-baseball", "숫자야구", "edutech", "https://math-baseball.example.dev", True, 1, tag="게임 · 실시간 대결"),
     row("plane-puzzle", "한 판! 돌리고 뒤집기", "edutech", "https://plane.example.io/", True, 2, tag="게임 · 수학", grade="3~4학년"),
@@ -24,6 +25,7 @@ ROWS = [
     row("seat-changer", "자리바꾸기 프로그램", "class", "https://seat.example.app", True, 1),
     row("evaluationapp", "AI 평어·행발 생성 도구", "admin", "https://eval.example.io/", True, 1),
 ]
+ROWS[0]["guide"] = GUIDE
 STATS = [{"slug": "portal", "today": 12, "total": 345}, {"slug": "math-baseball", "today": 3, "total": 40},
          {"slug": "plane-puzzle", "today": 1, "total": 9}]
 VISITS = []
