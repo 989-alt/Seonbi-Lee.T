@@ -28,9 +28,9 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "SEONBI'S LAB // 선비이선생",
+  title: "방구석게이머 // 교실 런처",
   description:
-    "AI를 활용해 수업과 학급 운영에 도움이 되는 프로그램을 만드는 교사 이선학의 작업 아카이브",
+    "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 바로 실행하는 런처",
 };
 
 export default function RootLayout({

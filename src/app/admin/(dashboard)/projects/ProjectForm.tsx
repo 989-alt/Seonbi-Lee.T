@@ -44,10 +44,10 @@ export function ProjectForm({
           required
           defaultValue={initial?.category ?? "edutech"}
           options={[
-            { value: "edutech", label: "에듀테크" },
-            { value: "admin", label: "행정업무 경감" },
-            { value: "class", label: "학급 경영" },
-            { value: "etc", label: "기타" },
+            { value: "edutech", label: "STAGE 1 게임 · 수업자료" },
+            { value: "class", label: "STAGE 2 학급운영" },
+            { value: "admin", label: "STAGE 3 학교행정" },
+            { value: "etc", label: "기타 (런처에 안 보임)" },
           ]}
         />
         <Select
@@ -66,6 +66,37 @@ export function ProjectForm({
 
       <Field label="기술 스택 (쉼표로 구분)" name="tech_stack" defaultValue={initial?.tech_stack?.join(", ") ?? ""} placeholder="예: Next.js, Supabase, TypeScript" />
       <Field label="외부 링크 (선택)" name="external_url" type="url" defaultValue={initial?.external_url ?? ""} placeholder="https://..." />
+
+      <fieldset className="space-y-4 border border-outline-variant/40 p-4">
+        <legend className="px-2 font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] uppercase">런처 설정</legend>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <label className="flex items-center gap-2 text-sm text-on-surface">
+            <input type="checkbox" name="featured" defaultChecked={initial?.featured ?? false} />
+            대표 슬롯에 표시 (게임 8 / 학급 3 / 행정 3)
+          </label>
+          <Field label="대표 순서 (1부터)" name="featured_order" type="number" defaultValue={initial?.featured_order?.toString() ?? ""} placeholder="예: 1" />
+          <Field label="집계 키 (t.js data-app)" name="track_slug" defaultValue={initial?.track_slug ?? ""} placeholder="비우면 집계 안 함" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Field label="태그" name="tag" defaultValue={initial?.tag ?? ""} placeholder="예: 게임 · 수학" />
+          <Field label="대상" name="grade" defaultValue={initial?.grade ?? ""} placeholder="예: 3~4학년" />
+        </div>
+        <Select
+          label="납품처"
+          name="partner"
+          defaultValue={initial?.partner ?? ""}
+          options={[
+            { value: "", label: "없음 — ▶ PLAY로 외부 링크 실행" },
+            { value: "i-scream", label: "아이스크림 납품작 — AI마트로만 안내 (외부 링크 저장 안 함)" },
+          ]}
+        />
+        <div className="space-y-2">
+          <label htmlFor="hero_image" className="font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] uppercase">
+            큰 일러스트 (런처 오른쪽 화면, 5MB 이하, 선택)
+          </label>
+          <input id="hero_image" type="file" name="hero_image" accept="image/webp,image/jpeg,image/png" className="block w-full text-sm text-on-surface-variant" />
+        </div>
+      </fieldset>
 
       <div className="space-y-2">
         <label className="font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] uppercase">

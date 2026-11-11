@@ -7,7 +7,7 @@ import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI 뉴스 // SEONBI'S LAB",
+  title: "AI 뉴스 // 방구석게이머",
   description: "AI·에듀테크 관련 소식과 작업 로그",
 };
 

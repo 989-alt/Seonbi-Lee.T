@@ -48,7 +48,7 @@ export async function sendContactMail(payload: ContactMailPayload) {
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 640px; margin: 0 auto; background: #0e0e0f; color: #ffffff; padding: 32px;">
       <div style="border-top: 2px solid #8ff5ff; padding-top: 24px;">
         <h1 style="color: #8ff5ff; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; margin: 0 0 8px 0;">
-          SEONBI'S LAB // CONTACT
+          방구석게이머 // CONTACT
         </h1>
         <p style="color: #adaaab; font-size: 12px; margin: 0 0 32px 0;">${escapeHtml(now)} KST</p>
 
@@ -66,7 +66,7 @@ export async function sendContactMail(payload: ContactMailPayload) {
   `;
 
   const textBody = [
-    `[SEONBI'S LAB // CONTACT] ${now} KST`,
+    `[방구석게이머 // CONTACT] ${now} KST`,
     "",
     `제목: ${payload.subject}`,
     "",

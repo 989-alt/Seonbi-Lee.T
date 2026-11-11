@@ -2,7 +2,7 @@ import { ContactForm } from "@/components/contact/ContactForm";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "연락 // SEONBI'S LAB",
+  title: "연락 // 방구석게이머",
   description: "프로젝트 제안, 교육 협력 및 파트너십 문의",
 };
 
@@ -28,7 +28,7 @@ export default function ContactPage() {
           <section className="lg:col-span-5 space-y-8 py-2">
             <div>
               <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-5xl font-bold text-on-surface mb-3 tracking-tight uppercase leading-none">
-                선비이선생
+                방구석게이머
               </h1>
               <div className="flex items-center gap-3">
                 <div
