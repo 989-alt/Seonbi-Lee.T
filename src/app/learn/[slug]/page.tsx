@@ -59,7 +59,7 @@ export default async function CourseDetailPage({
       {/* COURSE HEADER */}
       <section className={`border-l-4 ${accentBorder} pl-6 mb-14`}>
         <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-[0.3em] uppercase mb-3">
-          // COURSE
+          ▸ COURSE
         </div>
         <div className="flex items-start justify-between gap-6 flex-wrap mb-4">
           <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-6xl font-bold uppercase tracking-tighter text-on-surface leading-[1.02]">
@@ -93,7 +93,7 @@ export default async function CourseDetailPage({
       {lessons.length > 0 && (
         <section className="border-t border-outline-variant/30 pt-12 mb-14">
           <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-widest uppercase mb-2">
-            // LESSONS
+            ▸ LESSONS
           </div>
           <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold uppercase text-on-surface mb-8">
             레슨

@@ -63,7 +63,7 @@ export default function AboutPage() {
               </div>
 
               <div className="flex-shrink-0 flex items-center justify-center md:items-start md:pt-2">
-                <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/40 shadow-[0_0_40px_rgba(143,245,255,0.15)]">
+                <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/40 shadow-[0_0_40px_rgba(91,224,138,0.25)]">
                   <Image
                     src="/profile.png"
                     alt="방구석게이머 프로필"

@@ -31,7 +31,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
             required
             autoComplete="email"
             placeholder="admin@example.com"
-            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20"
+            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60"
           />
         </div>
       </div>
@@ -50,7 +50,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
             type="password"
             required
             autoComplete="current-password"
-            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20"
+            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60"
           />
         </div>
       </div>

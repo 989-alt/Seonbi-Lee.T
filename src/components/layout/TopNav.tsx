@@ -9,7 +9,7 @@ const NAV_ITEMS = [
   { href: "/news", label: "AI 뉴스" },
   { href: "/learn", label: "배우기" },
   { href: "/about", label: "소개" },
-  { href: "/contact", label: "연락" },
+  { href: "/contact", label: "앱 제안·문의" },
 ];
 
 export function TopNav() {
