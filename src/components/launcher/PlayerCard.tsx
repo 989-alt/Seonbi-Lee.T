@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function PlayerCard() {
   return (
-    <section aria-label="만든 사람" className="flex min-w-0 flex-[1_1_300px] items-center gap-4 rounded-[12px] bg-night px-[22px] py-5 text-[#edeaf7]">
+    <section aria-label="만든 사람" className="flex min-w-0 items-center gap-4 rounded-[12px] bg-night px-[22px] py-5 text-[#edeaf7]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/launcher/char-pick.webp" alt="손가락으로 가리키며 윙크하는 방구석게이머 캐릭터" width={110} height={110} className="h-[110px] w-[110px] flex-none object-contain" />
       <div className="flex flex-col gap-[6px]">

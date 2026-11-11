@@ -11,7 +11,7 @@ function row(over: Partial<ProjectRow> = {}): ProjectRow {
     external_url: "https://secret-original.example.com/app", status: "published", published_at: null,
     created_at: "2026-01-01", updated_at: "2026-01-01",
     featured: false, featured_order: null, tag: null, grade: null, hero_image_path: null,
-    partner: null, partner_url: null, track_slug: null, ...over,
+    partner: null, partner_url: null, track_slug: null, guide: null, ...over,
   };
 }
 const app = (over: Partial<ProjectRow>) => toLauncherApp(row(over), thumb) as LauncherApp;
@@ -28,6 +28,10 @@ describe("toLauncherApp", () => {
   it("uses only an explicit track_slug (blank = not tracked)", () => {
     expect(app({ slug: "s", track_slug: null }).trackSlug).toBeNull();
     expect(app({ slug: "s", track_slug: "s" }).trackSlug).toBe("s");
+  });
+  it("carries a parsed teacher guide and drops a broken one", () => {
+    expect(app({ guide: { genre: "퍼즐", steps: ["열어요"] } }).guide?.steps).toEqual(["열어요"]);
+    expect(app({ guide: { nope: 1 } }).guide).toBeNull();
   });
   it("drops etc category and unpublished rows", () => {
     expect(toLauncherApp(row({ category: "etc" }), thumb)).toBeNull();

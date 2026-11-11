@@ -28,6 +28,7 @@ export interface ProjectRow {
   partner: "i-scream" | null;
   partner_url: string | null;
   track_slug: string | null;
+  guide: unknown;
 }
 
 export interface PostRow {
