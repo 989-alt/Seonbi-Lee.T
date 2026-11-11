@@ -33,3 +33,9 @@ on conflict (slug) do update set
 -- 카탈로그에 없는 기존 공개 프로젝트는 숨김(archived) — 삭제하지 않음
 update public.projects set status = 'archived'
 where status = 'published' and slug not in ('math-baseball', 'plane-puzzle', 'grandma-album', 'traveling-world-game', 'sokdam-chain', 'space-puzzle', 'quiz-survivor', 'kiwora', 'circle', 'cosmic-edu', 'world-flags-drawing', 'quiz', 'art-class-workspace', 'movie-worksheet', 'democracy-journey', 'korean-history-map', 'woorimal-rpg', 'seat-changer', 'class-picker', 'classroom-board', 'evaluationapp', 'time-table');
+
+-- 픽셀아트 썸네일(사이트 정적 파일) 연결
+update public.projects p set
+  thumbnail_path = '/launcher/apps/' || p.slug || '.webp',
+  hero_image_path = '/launcher/apps/' || p.slug || '-lg.webp'
+where p.slug in ('plane-puzzle','math-baseball','circle','cosmic-edu','quiz','art-class-workspace','movie-worksheet','seat-changer','evaluationapp','time-table');

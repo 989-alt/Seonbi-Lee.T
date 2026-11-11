@@ -1,3 +1,4 @@
+import { assetUrl } from "@/lib/launcher/assets";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ProjectRow } from "./types";
 
@@ -47,10 +48,7 @@ export async function getProjectById(id: string): Promise<ProjectRow | null> {
 }
 
 export function publicThumbnailUrl(path: string | null): string | null {
-  if (!path) return null;
-  const base = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (!base) return null;
-  return `${base}/storage/v1/object/public/project-thumbs/${path}`;
+  return assetUrl(path, process.env.NEXT_PUBLIC_SUPABASE_URL);
 }
 
 /** 런처용: 공개된 STAGE 1~3 앱 (기타 분류 제외) */
