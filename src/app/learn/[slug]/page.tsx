@@ -21,7 +21,7 @@ export async function generateMetadata({
   const course = await getCourseBySlug(slug);
   if (!course || course.status !== "published") return {};
   return {
-    title: `${course.title} // SEONBI'S LAB`,
+    title: `${course.title} // 방구석게이머`,
     description: course.description,
   };
 }

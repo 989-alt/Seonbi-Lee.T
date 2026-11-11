@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
 import { uniqueSlug } from "@/lib/slug";
+import { parseLauncherFields } from "@/lib/launcher/adminFields";
 
 const ProjectSchema = z.object({
   slug: z.string().trim().max(80).optional(),
@@ -86,10 +87,15 @@ export async function createProjectAction(
     return { error: parsed.error.issues[0]?.message ?? "입력값 확인" };
   }
 
+  const launcher = parseLauncherFields(Object.fromEntries(formData.entries()));
+  if (!launcher.ok) return { error: launcher.error };
+
   let thumbnailPath: string | null = null;
+  let heroPath: string | null = null;
   try {
     const file = formData.get("thumbnail") as File | null;
     thumbnailPath = await uploadThumbnail(file);
+    heroPath = await uploadThumbnail(formData.get("hero_image") as File | null);
   } catch (err) {
     return { error: err instanceof Error ? err.message : "업로드 오류" };
   }
@@ -115,8 +121,10 @@ export async function createProjectAction(
     accent: parsed.data.accent,
     version: parsed.data.version ?? null,
     tech_stack: parseTech(parsed.data.tech_stack),
-    external_url: parsed.data.external_url ?? null,
+    external_url: launcher.clearExternalUrl ? null : (parsed.data.external_url ?? null),
     thumbnail_path: thumbnailPath,
+    hero_image_path: heroPath,
+    ...launcher.value,
     status: parsed.data.status,
     published_at: parsed.data.status === "published" ? now : null,
   });
@@ -126,7 +134,6 @@ export async function createProjectAction(
   }
 
   revalidatePath("/admin/projects");
-  revalidatePath("/projects");
   revalidatePath("/");
   redirect("/admin/projects");
 }
@@ -143,11 +150,16 @@ export async function updateProjectAction(
     return { error: parsed.error.issues[0]?.message ?? "입력값 확인" };
   }
 
+  const launcher = parseLauncherFields(Object.fromEntries(formData.entries()));
+  if (!launcher.ok) return { error: launcher.error };
+
   let thumbnailPath: string | null | undefined = undefined;
+  let heroPath: string | null = null;
   try {
     const file = formData.get("thumbnail") as File | null;
     const uploaded = await uploadThumbnail(file);
     if (uploaded) thumbnailPath = uploaded;
+    heroPath = await uploadThumbnail(formData.get("hero_image") as File | null);
   } catch (err) {
     return { error: err instanceof Error ? err.message : "업로드 오류" };
   }
@@ -173,12 +185,14 @@ export async function updateProjectAction(
     accent: parsed.data.accent,
     version: parsed.data.version ?? null,
     tech_stack: parseTech(parsed.data.tech_stack),
-    external_url: parsed.data.external_url ?? null,
+    external_url: launcher.clearExternalUrl ? null : (parsed.data.external_url ?? null),
+    ...launcher.value,
     status: parsed.data.status,
     updated_at: now,
   };
 
   if (thumbnailPath) updatePayload.thumbnail_path = thumbnailPath;
+  if (heroPath) updatePayload.hero_image_path = heroPath;
 
   // Transition to published → set published_at if not set
   if (parsed.data.status === "published") {
@@ -197,7 +211,6 @@ export async function updateProjectAction(
 
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${id}`);
-  revalidatePath("/projects");
   revalidatePath("/");
   redirect("/admin/projects");
 }
@@ -208,7 +221,6 @@ export async function deleteProjectAction(id: string) {
   const { error } = await supabase.from("projects").delete().eq("id", id);
   if (error) throw new Error(error.message);
   revalidatePath("/admin/projects");
-  revalidatePath("/projects");
   revalidatePath("/");
   redirect("/admin/projects");
 }

@@ -9,7 +9,7 @@ import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "배우기 // SEONBI'S LAB",
+  title: "배우기 // 방구석게이머",
   description: "Claude를 A→Z로 — 단계별 길잡이·스킬·프롬프트 학습 허브",
 };
 

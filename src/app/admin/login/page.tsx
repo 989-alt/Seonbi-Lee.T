@@ -1,6 +1,6 @@
 import { LoginForm } from "./LoginForm";
 
-export const metadata = { title: "관리자 로그인 // SEONBI'S LAB" };
+export const metadata = { title: "관리자 로그인 // 방구석게이머" };
 
 export default async function LoginPage({
   searchParams,

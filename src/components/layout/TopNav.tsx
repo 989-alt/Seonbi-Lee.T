@@ -5,8 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
-  { href: "/", label: "홈" },
-  { href: "/projects", label: "프로젝트" },
+  { href: "/", label: "라이브러리" },
   { href: "/news", label: "AI 뉴스" },
   { href: "/learn", label: "배우기" },
   { href: "/about", label: "소개" },
@@ -37,12 +36,13 @@ export function TopNav() {
 
   return (
     <>
-      <header className="stagger stagger-1 fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-[#0e0e0f]/80 backdrop-blur-2xl border-b border-white/5">
+      <header className="stagger stagger-1 fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-night/95 backdrop-blur-2xl border-b border-night-line">
         <Link
           href="/"
-          className="font-[family-name:var(--font-headline)] text-xl font-bold tracking-tighter text-primary drop-shadow-[0_0_10px_#8ff5ff] min-h-[44px] flex items-center"
+          className="font-pixel text-xl font-bold text-white min-h-[44px] flex items-center gap-2"
         >
-          SEONBI&apos;S LAB
+          <span aria-hidden className="flex h-[30px] w-[30px] items-center justify-center rounded-[4px] bg-mint text-base text-night">▣</span>
+          방구석게이머
         </Link>
 
         <nav className="hidden md:flex gap-8" aria-label="주요 탐색">
@@ -54,8 +54,8 @@ export function TopNav() {
                 href={item.href}
                 className={`font-[family-name:var(--font-label)] tracking-widest uppercase text-xs pb-1 min-h-[44px] flex items-center transition-colors ${
                   active
-                    ? "text-primary border-b-2 border-primary"
-                    : "text-on-surface-variant hover:text-primary"
+                    ? "text-white border-b-2 border-mint"
+                    : "text-lilac hover:text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
@@ -95,14 +95,14 @@ export function TopNav() {
 
         <div
           aria-hidden="true"
-          className="bg-gradient-to-r from-transparent via-cyan-900/20 to-transparent h-[1px] w-full absolute bottom-0 left-0"
+          className="bg-gradient-to-r from-transparent via-mint/20 to-transparent h-[1px] w-full absolute bottom-0 left-0"
         />
       </header>
 
       {/* Mobile menu — rendered as sibling of header to escape backdrop-filter containing block */}
       <div
         id="mobile-menu"
-        style={{ backgroundColor: "#0e0e0f" }}
+        style={{ backgroundColor: "#1b1530" }}
         className={`md:hidden fixed top-[72px] left-0 right-0 bottom-0 z-40 flex flex-col transition-opacity duration-200 ${
           open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}

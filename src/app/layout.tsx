@@ -3,7 +3,8 @@ import { Space_Grotesk, Manrope, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { TopNav } from "@/components/layout/TopNav";
 import { Footer } from "@/components/layout/Footer";
-import { ShutterLoader } from "@/components/layout/ShutterLoader";
+import { HideOnHome } from "@/components/layout/HideOnHome";
+import { galmuri } from "@/fonts/galmuri";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -27,9 +28,9 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "SEONBI'S LAB // 선비이선생",
+  title: "방구석게이머 // 교실 런처",
   description:
-    "AI를 활용해 수업과 학급 운영에 도움이 되는 프로그램을 만드는 교사 이선학의 작업 아카이브",
+    "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 바로 실행하는 런처",
 };
 
 export default function RootLayout({
@@ -40,13 +41,12 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${spaceGrotesk.variable} ${manrope.variable} ${notoSansKR.variable} antialiased`}
+      className={`${spaceGrotesk.variable} ${manrope.variable} ${notoSansKR.variable} ${galmuri.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col">
-        <ShutterLoader />
-        <TopNav />
+        <HideOnHome><TopNav /></HideOnHome>
         {children}
-        <Footer />
+        <HideOnHome><Footer /></HideOnHome>
       </body>
     </html>
   );

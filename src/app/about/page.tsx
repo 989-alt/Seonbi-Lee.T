@@ -5,8 +5,8 @@ import { SkillBar } from "@/components/about/SkillBar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "소개 // SEONBI'S LAB",
-  description: "교사 이선학 (선비이선생) 소개",
+  title: "소개 // 방구석게이머",
+  description: "교사 이선학 (방구석게이머) 소개",
 };
 
 const SKILLS: { name: string; value: number; accentClass: string; textClass: string }[] = [
@@ -42,7 +42,7 @@ export default function AboutPage() {
               <div className="flex-1 flex flex-col">
                 <div>
                   <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-5xl font-bold text-on-surface mb-2 tracking-tight">
-                    <span className="hero-keyword">선비이선생</span>
+                    <span className="hero-keyword">방구석게이머</span>
                   </h1>
                   <p className="font-[family-name:var(--font-label)] text-xs md:text-sm text-on-surface-variant tracking-widest">
                     이천송정초등학교 이선학
@@ -66,7 +66,7 @@ export default function AboutPage() {
                 <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full overflow-hidden bg-surface-container-high ring-2 ring-primary/40 shadow-[0_0_40px_rgba(143,245,255,0.15)]">
                   <Image
                     src="/profile.png"
-                    alt="선비이선생 프로필"
+                    alt="방구석게이머 프로필"
                     fill
                     sizes="(max-width: 768px) 144px, 176px"
                     className="object-cover"
