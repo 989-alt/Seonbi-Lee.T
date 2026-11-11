@@ -25,6 +25,10 @@ describe("toLauncherApp", () => {
   it("normal app plays its external url", () => {
     expect(app({}).action).toEqual({ kind: "play", href: "https://secret-original.example.com/app" });
   });
+  it("uses only an explicit track_slug (blank = not tracked)", () => {
+    expect(app({ slug: "s", track_slug: null }).trackSlug).toBeNull();
+    expect(app({ slug: "s", track_slug: "s" }).trackSlug).toBe("s");
+  });
   it("drops etc category and unpublished rows", () => {
     expect(toLauncherApp(row({ category: "etc" }), thumb)).toBeNull();
     expect(toLauncherApp(row({ status: "draft" }), thumb)).toBeNull();

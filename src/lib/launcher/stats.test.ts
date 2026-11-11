@@ -34,3 +34,14 @@ describe("topPlayed", () => {
     expect(topPlayed(apps, { ok: false })).toEqual([]);
   });
 });
+
+import { appCounts } from "./stats";
+describe("appCounts", () => {
+  const ok = { ok: true as const, portal: { today: 0, total: 0 }, apps: { a: { today: 1, total: 2 } } };
+  it("is null (집계 준비 중) when the app has no counter row yet", () => {
+    expect(appCounts(mk("b"), ok)).toBeNull();
+  });
+  it("returns the row when present", () => {
+    expect(appCounts(mk("a"), ok)).toEqual({ today: 1, total: 2 });
+  });
+});

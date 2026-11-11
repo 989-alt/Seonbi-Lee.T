@@ -64,7 +64,7 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
     thumb: thumbUrl(row.thumbnail_path),
     hero: thumbUrl(row.hero_image_path ?? row.thumbnail_path),
     action,
-    trackSlug: row.partner ? null : (row.track_slug ?? row.slug),
+    trackSlug: row.partner ? null : row.track_slug,
   };
 }
 

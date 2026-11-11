@@ -10,7 +10,7 @@ export function formatCount(n: number | undefined, ok: boolean): string {
 
 export function appCounts(app: LauncherApp, stats: StatsResponse): { today: number; total: number } | null {
   if (!stats.ok || !app.trackSlug) return null;
-  return stats.apps[app.trackSlug] ?? { today: 0, total: 0 };
+  return stats.apps[app.trackSlug] ?? null;
 }
 
 export function topPlayed(apps: LauncherApp[], stats: StatsResponse, n = 5): { app: LauncherApp; total: number }[] {

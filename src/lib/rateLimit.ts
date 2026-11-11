@@ -18,6 +18,7 @@ export function checkRateLimit(
   retryAfterSec?: number;
 } {
   const now = Date.now();
+  if (buckets.size > 10_000) pruneExpired(now);
   const bucket = buckets.get(key);
 
   if (!bucket || now > bucket.resetAt) {
@@ -34,4 +35,16 @@ export function checkRateLimit(
 
   bucket.count += 1;
   return { ok: true };
+}
+
+/** 만료된 버킷 정리. 지운 개수를 돌려준다. */
+export function pruneExpired(now: number = Date.now()): number {
+  let n = 0;
+  for (const [k, b] of buckets) {
+    if (now > b.resetAt) {
+      buckets.delete(k);
+      n++;
+    }
+  }
+  return n;
 }
