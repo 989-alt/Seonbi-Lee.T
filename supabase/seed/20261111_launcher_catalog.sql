@@ -17,7 +17,7 @@ insert into public.projects (slug, title_ko, description, category, accent, tech
   ('movie-worksheet', 'CineEdu 영화 학습지', '영화 제목과 대상 연령만 넣으면 캐릭터 분석, 토론 질문, 활동지를 만들어요.', 'edutech', 'primary', '{}', '수업 도구', '대상 연령 선택', 'https://movie-worksheet.vercel.app/', false, null, null, null, 'movie-worksheet', 'published', now()),
   ('democracy-journey', '민주주의의 여정', '한 사람의 일생으로 민주화와 산업화를 따라가는 6학년 사회 스토리텔링 게임.', 'edutech', 'primary', '{}', '게임 · 사회', '6학년', null, false, null, null, null, 'democracy-journey', 'draft', null),
   ('korean-history-map', '한국사 역사 지도', '고조선부터 대한제국까지 18개 장면의 영토 지도와 사건을 한 화면에서 봐요.', 'edutech', 'primary', '{}', '수업 도구 · 사회', '5~6학년', null, false, null, null, null, 'korean-history-map', 'draft', null),
-  ('woorimal-rpg', '말빛 한울', '고유어 50개를 이야기 속에서 모으고 퀴즈 전투로 익히는 웹 RPG.', 'edutech', 'primary', '{}', '게임 · 국어', '6학년', null, false, null, null, null, 'woorimal-rpg', 'draft', null),
+  ('woorimal-rpg', '말빛 한울', '고유어 50개를 이야기 속에서 모으고 퀴즈 전투로 익히는 웹 RPG.', 'edutech', 'primary', '{}', '게임 · 국어', '6학년', 'https://989-alt.github.io/woorimal-rpg/', false, null, null, null, 'woorimal-rpg', 'published', now()),
   ('seat-changer', '자리바꾸기 프로그램', '명단을 한 번 등록하면 시험·짝·U자·모둠 배치를 바로 만들고 미리 볼 수 있어요.', 'class', 'primary', '{}', '학급운영', '전 학년', 'https://seat-changer-two.vercel.app', true, 1, null, null, 'seat-changer', 'published', now()),
   ('class-picker', '발표자 뽑기', '학생 명단에서 아직 안 뽑힌 학생 중 발표자를 무작위로 뽑아요.', 'class', 'primary', '{}', '학급운영', '전 학년', null, true, 2, null, null, 'class-picker', 'draft', null),
   ('classroom-board', '학급 활동 기록판', '학급 코드와 번호로 들어와 활동을 기록하는 우리 반 활동판.', 'class', 'primary', '{}', '학급운영', '전 학년', 'https://classroom-board-nine.vercel.app', true, 3, null, null, 'classroom-board', 'published', now()),
