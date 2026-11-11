@@ -45,6 +45,19 @@
   --radius-3xl: 0;
   --radius-full: 9999px;
 
+  /* 방구석게이머 런처 */
+  --color-night: #1b1530;
+  --color-night-deep: #120e22;
+  --color-night-line: #3a3166;
+  --color-mint: #5be08a;
+  --color-mint-soft: #e3f8ea;
+  --color-paper: #f3f1f8;
+  --color-paper-line: #e1dcec;
+  --color-violet: #6b5fa0;
+  --color-ink-soft: #5c5578;
+  --color-lilac: #c8c1e2;
+  --font-pixel: var(--font-galmuri), var(--font-noto-kr), monospace;
+
   /* Typography — font variables injected by next/font in layout.tsx */
   --font-headline: var(--font-space-grotesk), var(--font-noto-kr), sans-serif;
   --font-body: var(--font-manrope), var(--font-noto-kr), sans-serif;
@@ -265,3 +278,8 @@ h1, h2, h3, h4, h5, h6,
     transform: none !important;
   }
 }
+
+/* 방구석게이머 런처 */
+@keyframes bg-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.bg-fade { animation: bg-fade-in 0.35s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .bg-fade { animation: none; } }
