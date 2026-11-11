@@ -149,7 +149,7 @@ function Field({
           required={required}
           defaultValue={defaultValue}
           placeholder={placeholder}
-          className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20"
+          className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60"
         />
       </div>
     </div>
@@ -185,7 +185,7 @@ function TextArea({
           rows={rows}
           defaultValue={defaultValue}
           maxLength={maxLength}
-          className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20 resize-y"
+          className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60 resize-y"
         />
       </div>
     </div>

@@ -9,7 +9,10 @@ export function PlayerCard() {
         <span className="font-pixel text-xs text-mint">PLAYER 1</span>
         <span className="font-pixel text-lg font-bold">방구석게이머</span>
         <span className="text-sm leading-[1.6] text-lilac">초등교사. 방구석에서 수업용 게임과 업무 도구를 만들어요.</span>
-        <Link href="/contact" className="mt-1 self-start text-sm font-bold text-mint">앱 제안하기 →</Link>
+        <div className="mt-1 flex flex-wrap gap-4">
+          <Link href="/about" className="text-sm font-bold text-mint">프로필 보기 →</Link>
+          <Link href="/contact" className="text-sm font-bold text-lilac hover:text-white">앱 제안하기 →</Link>
+        </div>
       </div>
     </section>
   );

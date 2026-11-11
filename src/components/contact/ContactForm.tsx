@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { TOPICS, withTopic } from "@/lib/contact/topic";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -15,7 +16,7 @@ export function ContactForm() {
 
     const formData = new FormData(e.currentTarget);
     const payload = {
-      subject: formData.get("subject"),
+      subject: withTopic(String(formData.get("topic") ?? ""), String(formData.get("subject") ?? "")),
       message: formData.get("message"),
       replyTo: formData.get("replyTo"),
       website: formData.get("website"), // honeypot
@@ -55,6 +56,21 @@ export function ContactForm() {
         />
       </div>
 
+      <fieldset className="space-y-2 border-0 p-0 m-0 pb-4">
+        <legend className="font-[family-name:var(--font-label)] text-[11px] text-primary tracking-[0.2em] mb-2">어떤 이야기인가요?</legend>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {TOPICS.map((t, i) => (
+            <label key={t.id} className="flex cursor-pointer flex-col gap-1 rounded-[10px] border-2 border-outline-variant bg-surface-container px-3 py-3 has-[:checked]:border-primary has-[:checked]:bg-secondary-container">
+              <span className="flex items-center gap-2 text-[15px] font-bold text-on-surface">
+                <input type="radio" name="topic" value={t.id} defaultChecked={i === 0} className="accent-[#4e43a0]" />
+                {t.label}
+              </span>
+              <span className="text-[12px] text-on-surface-variant">{t.hint}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       <div className="space-y-1 group">
         <div className="flex justify-between items-end">
           <label
@@ -63,8 +79,8 @@ export function ContactForm() {
           >
             제목
           </label>
-          <span aria-hidden="true" className="text-[9px] text-white/30 font-mono">
-            REQ_FIELD
+          <span aria-hidden="true" className="text-[9px] text-on-surface-variant font-mono">
+            필수
           </span>
         </div>
         <div className="neon-border-bottom">
@@ -77,7 +93,7 @@ export function ContactForm() {
             maxLength={100}
             placeholder="제목을 입력하세요"
             autoComplete="off"
-            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-lg placeholder:text-white/20"
+            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-lg placeholder:text-on-surface-variant/60"
           />
         </div>
       </div>
@@ -90,8 +106,8 @@ export function ContactForm() {
           >
             회신 받을 이메일 (선택)
           </label>
-          <span aria-hidden="true" className="text-[9px] text-white/30 font-mono">
-            OPT
+          <span aria-hidden="true" className="text-[9px] text-on-surface-variant font-mono">
+            선택
           </span>
         </div>
         <div className="neon-border-bottom">
@@ -101,7 +117,7 @@ export function ContactForm() {
             type="email"
             placeholder="you@example.com"
             autoComplete="email"
-            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20"
+            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60"
           />
         </div>
       </div>
@@ -114,8 +130,8 @@ export function ContactForm() {
           >
             문의 내용
           </label>
-          <span aria-hidden="true" className="text-[9px] text-white/30 font-mono">
-            DATA_STREAM
+          <span aria-hidden="true" className="text-[9px] text-on-surface-variant font-mono">
+            필수
           </span>
         </div>
         <div className="neon-border-bottom">
@@ -127,7 +143,7 @@ export function ContactForm() {
             maxLength={2000}
             rows={5}
             placeholder="10자 이상 입력해 주세요"
-            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-white/20 resize-none"
+            className="w-full bg-transparent border-0 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-body)] px-0 py-2 text-base placeholder:text-on-surface-variant/60 resize-none"
           />
         </div>
       </div>
@@ -141,10 +157,10 @@ export function ContactForm() {
         <div className="relative flex items-center justify-center gap-3 text-on-primary font-[family-name:var(--font-headline)] font-bold uppercase tracking-[0.3em] text-sm">
           <span>
             {status === "submitting"
-              ? "TRANSFERRING..."
+              ? "보내는 중..."
               : status === "success"
-              ? "TRANSFER COMPLETE"
-              : "INITIATE TRANSFER"}
+              ? "보냈어요!"
+              : "▶ 보내기"}
           </span>
           <span aria-hidden="true">›</span>
         </div>

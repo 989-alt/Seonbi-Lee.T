@@ -1,48 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  /* DESIGN.md "Neon Laboratory" palette */
-  --color-background: #0e0e0f;
-  --color-surface: #0e0e0f;
-  --color-surface-dim: #0e0e0f;
-  --color-surface-bright: #2c2c2d;
-  --color-surface-container-lowest: #000000;
-  --color-surface-container-low: #131314;
-  --color-surface-container: #1a191b;
-  --color-surface-container-high: #201f21;
-  --color-surface-container-highest: #262627;
+  /* 방구석게이머 팔레트 (밝은 바탕 + 남보라·초록) */
+  --color-background: #f3f1f8;
+  --color-surface: #f3f1f8;
+  --color-surface-dim: #ebe8f3;
+  --color-surface-bright: #ffffff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #ffffff;
+  --color-surface-container: #f8f7fc;
+  --color-surface-container-high: #eeeaf6;
+  --color-surface-container-highest: #e6e1f1;
 
-  --color-primary: #8ff5ff;
-  --color-primary-dim: #00deec;
-  --color-primary-container: #00eefc;
-  --color-on-primary: #005d63;
+  --color-primary: #4e43a0;
+  --color-primary-dim: #3d3484;
+  --color-primary-container: #5be08a;
+  --color-on-primary: #ffffff;
 
-  --color-secondary: #ac89ff;
-  --color-secondary-dim: #874cff;
-  --color-secondary-container: #7000ff;
-  --color-on-secondary: #290067;
+  --color-secondary: #6b5fa0;
+  --color-secondary-dim: #574b8c;
+  --color-secondary-container: #e3f8ea;
+  --color-on-secondary: #ffffff;
 
-  --color-tertiary: #ff7439;
-  --color-tertiary-dim: #ff7439;
-  --color-tertiary-container: #fc5b00;
-  --color-on-tertiary: #3f1100;
+  --color-tertiary: #b8402c;
+  --color-tertiary-dim: #9e3523;
+  --color-tertiary-container: #ff8a8d;
+  --color-on-tertiary: #ffffff;
 
-  --color-error: #ff716c;
-  --color-error-dim: #d7383b;
-  --color-on-error: #490006;
+  --color-error: #c0353a;
+  --color-error-dim: #a12b30;
+  --color-on-error: #ffffff;
 
-  --color-on-surface: #ffffff;
-  --color-on-surface-variant: #adaaab;
-  --color-outline: #767576;
-  --color-outline-variant: #484849;
+  --color-on-surface: #1b1530;
+  --color-on-surface-variant: #5c5578;
+  --color-outline: #8a83a8;
+  --color-outline-variant: #e1dcec;
 
-  /* Sharp corners — DESIGN.md rule */
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
-  --radius-2xl: 0;
-  --radius-3xl: 0;
+  /* 둥근 모서리 — 런처와 같은 값 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 18px;
+  --radius-3xl: 24px;
   --radius-full: 9999px;
 
   /* 방구석게이머 런처 */
@@ -59,13 +59,13 @@
   --font-pixel: var(--font-galmuri), var(--font-noto-kr), monospace;
 
   /* Typography — font variables injected by next/font in layout.tsx */
-  --font-headline: var(--font-space-grotesk), var(--font-noto-kr), sans-serif;
-  --font-body: var(--font-manrope), var(--font-noto-kr), sans-serif;
-  --font-label: var(--font-space-grotesk), var(--font-noto-kr), monospace;
+  --font-headline: var(--font-galmuri), var(--font-noto-kr), sans-serif;
+  --font-body: var(--font-noto-kr), sans-serif;
+  --font-label: var(--font-galmuri), var(--font-noto-kr), monospace;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
@@ -77,8 +77,8 @@ body {
   color: var(--color-on-surface);
   font-family: var(--font-body);
   background-image:
-    linear-gradient(to right, rgba(72, 72, 73, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(72, 72, 73, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(27, 21, 48, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 21, 48, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
   min-height: 100vh;
 }
@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6,
 }
 @keyframes pulse-glow {
   0% { opacity: 0.5; }
-  100% { opacity: 1; text-shadow: 0 0 10px var(--color-primary); }
+  100% { opacity: 1; }
 }
 
 .shutter-overlay {
@@ -158,8 +158,8 @@ h1, h2, h3, h4, h5, h6,
 /* ===== Utilities ===== */
 .bg-grid-texture {
   background-image:
-    linear-gradient(to right, rgba(72, 72, 73, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(72, 72, 73, 0.05) 1px, transparent 1px);
+    linear-gradient(to right, rgba(27, 21, 48, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 21, 48, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -177,7 +177,7 @@ h1, h2, h3, h4, h5, h6,
   inset: 0;
   background: radial-gradient(
     600px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(143, 245, 255, 0.08),
+    rgba(91, 224, 138, 0.12),
     transparent 40%
   );
   opacity: 0;
@@ -199,17 +199,9 @@ h1, h2, h3, h4, h5, h6,
   }
 }
 .hero-keyword {
-  background: linear-gradient(
-    100deg,
-    var(--color-primary) 0%,
-    var(--color-secondary) 50%,
-    var(--color-primary) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: keyword-slide 6s linear infinite, keyword-shimmer 3s ease-in-out infinite;
+  color: var(--color-primary);
+  background: linear-gradient(transparent 62%, #bff0d0 62%);
+  padding: 0 0.08em;
 }
 @keyframes keyword-slide {
   0% { background-position: 0% 0%; }
@@ -250,7 +242,7 @@ h1, h2, h3, h4, h5, h6,
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(143, 245, 255, 0.04) 50%,
+    rgba(91, 224, 138, 0.06) 50%,
     transparent 100%
   );
   transform: translateX(-100%);

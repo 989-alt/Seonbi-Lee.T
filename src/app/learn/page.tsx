@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PageHero } from "@/components/ui/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { LessonReader } from "@/components/learn/LessonReader";
 import { SkillsGallery } from "@/components/learn/SkillsGallery";
@@ -31,23 +32,20 @@ export default async function LearnPage() {
   return (
     <main className="flex-grow pt-24 px-6 md:px-12 lg:px-24 pb-20 max-w-[1180px] mx-auto w-full">
       {/* HERO */}
-      <section className="mt-8 mb-14">
-        <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-[0.3em] uppercase mb-4">
-          // MOTHER-DECK · LEARN CLAUDE A → Z
-        </div>
-        <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold uppercase tracking-tighter text-on-surface leading-[1.02]">
-          CLAUDE, <span className="hero-keyword">A to Z</span>
-        </h1>
-        <p className="mt-5 font-[family-name:var(--font-body)] text-on-surface-variant text-base md:text-lg max-w-2xl leading-relaxed">
-          터미널이 처음인 비개발자도, 공문서·발표자료·멀티 에이전트까지. 단계별 길잡이와 바로 쓰는 자료·프롬프트를 한곳에서.
-        </p>
+      <section className="mt-6 mb-14">
+        <PageHero
+          label="TUTORIAL · CLAUDE A → Z"
+          title={<>Claude, <span className="text-mint">A to Z</span></>}
+          desc="터미널이 처음인 선생님도 공문서·발표자료·멀티 에이전트까지. 단계별 튜토리얼과 바로 쓰는 자료·프롬프트를 한곳에서 만나요."
+          image={{ src: "/launcher/char-learn.webp", alt: "칠판 앞에서 설명하는 방구석게이머" }}
+        />
       </section>
 
       {/* COURSES */}
       {(courses.length > 0 || isAdmin) && (
         <section className="border-t border-outline-variant/30 pt-12 mt-0">
           <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-widest uppercase mb-2">
-            // COURSES
+            ▸ COURSES
           </div>
           <div className="flex items-end justify-between gap-6 flex-wrap mb-8">
             <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold uppercase text-on-surface">
@@ -64,7 +62,7 @@ export default async function LearnPage() {
           </div>
           {courses.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {courses.map((c) => {
+              {courses.map((c, i) => {
                 const borderClass = COURSE_ACCENT_BORDER[c.accent] ?? COURSE_ACCENT_BORDER.primary;
                 return (
                   <Link
@@ -72,6 +70,7 @@ export default async function LearnPage() {
                     href={`/learn/${c.slug}`}
                     className={`block bg-surface-container-low border-t-2 ${borderClass} p-6 hover:bg-surface-container-high transition-colors`}
                   >
+                    <span className="mb-2 inline-block font-[family-name:var(--font-label)] text-[12px] text-primary tracking-[0.12em]">STAGE {i + 1}</span>
                     <h3 className="font-[family-name:var(--font-headline)] text-lg font-bold text-on-surface mb-2">
                       {c.title}
                     </h3>
@@ -91,7 +90,7 @@ export default async function LearnPage() {
       {/* LEARNING PATH */}
       <section className="border-t border-outline-variant/30 pt-12">
         <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-widest uppercase mb-2">
-          // LEARNING PATH
+          ▸ LEARNING PATH
         </div>
         <div className="flex items-end justify-between gap-6 flex-wrap mb-8">
           <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold uppercase text-on-surface">
@@ -138,7 +137,7 @@ export default async function LearnPage() {
       {(posts.length > 0 || isAdmin) && (
         <section className="border-t border-outline-variant/30 pt-12 mt-14">
           <div className="font-[family-name:var(--font-label)] text-xs text-primary tracking-widest uppercase mb-2">
-            // GUIDES &amp; ARTICLES
+            ▸ GUIDES &amp; ARTICLES
           </div>
           <div className="flex items-end justify-between gap-6 flex-wrap mb-8">
             <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold uppercase text-on-surface">

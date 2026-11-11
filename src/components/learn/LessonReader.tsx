@@ -221,7 +221,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
             {linkCount > 0 && (
               <div className="space-y-3 mb-6">
                 <div className="font-[family-name:var(--font-label)] text-[10px] text-outline tracking-[0.25em] uppercase">
-                  // LINKS
+                  ▸ LINKS
                 </div>
                 <div className="flex flex-col gap-2">
                   {current.links.map((l, i) => (
@@ -250,7 +250,7 @@ export function LessonReader({ lessons }: { lessons: ResourceRow[] }) {
             {promptCount > 0 && (
               <div className="space-y-3 mb-6">
                 <div className="font-[family-name:var(--font-label)] text-[10px] text-outline tracking-[0.25em] uppercase">
-                  // PROMPTS
+                  ▸ PROMPTS
                 </div>
                 <div className="flex flex-col gap-4">
                   {current.prompts.map((p, i) => (

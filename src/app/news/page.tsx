@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
+import { PageHero } from "@/components/ui/PageHero";
 import { InteractiveCard } from "@/components/ui/InteractiveCard";
 import { listPublishedPosts, publicHeroUrl } from "@/lib/repositories/posts";
 import { getAdminUser } from "@/lib/auth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI 뉴스 // 방구석게이머",
+  title: "AI 소식 // 방구석게이머",
   description: "AI·에듀테크 관련 소식과 작업 로그",
 };
 
@@ -44,20 +45,16 @@ export default async function NewsPage() {
 
   return (
     <main className="flex-grow pt-24 px-6 md:px-12 lg:px-24 pb-20 max-w-[1440px] mx-auto w-full">
-      <div className="mb-16 mt-8 stagger stagger-2">
-        <div className="flex items-end justify-between gap-6 flex-wrap">
-          <h1 className="font-[family-name:var(--font-headline)] text-5xl md:text-7xl font-bold uppercase tracking-tighter text-on-surface">
-            AI <span className="hero-keyword">뉴스</span>
-          </h1>
-          {isAdmin && (
-            <Link
-              href="/admin/posts/new"
-              className="inline-block font-[family-name:var(--font-label)] text-xs text-primary border border-primary/40 px-4 py-2 tracking-widest uppercase hover:bg-primary/10 transition-colors"
-            >
-              + 새 글 작성
-            </Link>
-          )}
-        </div>
+      <div className="mb-14 mt-6 stagger stagger-2">
+        <PageHero
+          label="PATCH NOTES · 소식"
+          title="AI 소식"
+          desc="교실에서 써먹을 AI·에듀테크 소식과 방구석 작업 일지를 업데이트 노트처럼 모았어요."
+          image={{ src: "/launcher/char-news.webp", alt: "신문과 태블릿을 보는 방구석게이머" }}
+          action={isAdmin ? (
+            <Link href="/admin/posts/new" className="rounded-[8px] bg-mint px-4 py-3 font-pixel text-sm font-bold text-night">+ 새 글 작성</Link>
+          ) : undefined}
+        />
       </div>
 
       {posts.length === 0 ? (
@@ -103,9 +100,7 @@ export default async function NewsPage() {
                           <time
                             className={`font-[family-name:var(--font-label)] text-sm ${ACCENT_TEXT[post.accent]} tracking-widest ${ACCENT_BG_SOFT[post.accent]} px-2 py-1 inline-block w-max`}
                           >
-                            {post.published_at
-                              ? new Date(post.published_at).toLocaleDateString("ko-KR")
-                              : new Date(post.created_at).toLocaleDateString("ko-KR")}
+                            {"v" + new Date(post.published_at ?? post.created_at).toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" }).replaceAll("-", ".")}
                           </time>
                           <div className="flex gap-3 flex-wrap">
                             {post.tags.map((tag) => (
@@ -119,7 +114,7 @@ export default async function NewsPage() {
                           </div>
                         </header>
                         <h2
-                          className={`font-[family-name:var(--font-headline)] text-2xl md:text-3xl font-bold mb-4 ${ACCENT_TEXT[post.accent]}`}
+                          className={`font-[family-name:var(--font-body)] text-2xl md:text-3xl font-black leading-snug mb-4 ${ACCENT_TEXT[post.accent]}`}
                         >
                           {post.title}
                         </h2>
@@ -138,16 +133,16 @@ export default async function NewsPage() {
             <Reveal>
               <div className="bg-surface-container-highest p-6 relative">
                 <h3 className="font-[family-name:var(--font-headline)] text-sm text-outline tracking-widest uppercase mb-4">
-                  데이터베이스 쿼리
+                  글 찾기
                 </h3>
                 <form role="search" aria-label="뉴스 검색">
                   <label htmlFor="news-search" className="sr-only">
-                    로그 검색
+                    글 검색
                   </label>
                   <input
                     id="news-search"
                     type="search"
-                    placeholder="로그 검색..."
+                    placeholder="제목이나 태그로 찾기"
                     className="w-full bg-surface-container-low border-0 border-b border-primary/40 focus:border-primary focus:border-b-2 focus:ring-0 focus:outline-none text-on-surface font-[family-name:var(--font-label)] text-sm py-3 px-0 placeholder:text-outline-variant transition-all"
                   />
                 </form>
@@ -158,7 +153,7 @@ export default async function NewsPage() {
               <Reveal delay={0.15}>
                 <div className="bg-surface-container-highest p-6 relative">
                   <h3 className="font-[family-name:var(--font-headline)] text-sm text-outline tracking-widest uppercase mb-6">
-                    인덱싱된 태그
+                    태그
                   </h3>
                   <div className="flex flex-wrap gap-3">
                     {Object.entries(tagCount).map(([tag, count]) => (

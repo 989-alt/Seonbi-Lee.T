@@ -1,49 +1,45 @@
 import { ContactForm } from "@/components/contact/ContactForm";
+import { PageHero } from "@/components/ui/PageHero";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "연락 // 방구석게이머",
+  title: "제보함 // 방구석게이머",
   description: "프로젝트 제안, 교육 협력 및 파트너십 문의",
 };
 
 export default function ContactPage() {
   return (
-    <main className="flex-grow flex flex-col items-center justify-center p-6 lg:p-8 pt-28">
+    <main className="flex-grow flex flex-col items-center px-6 pb-12 lg:px-8 pt-28">
       <div className="w-full max-w-5xl stagger stagger-2">
-        <div className="mb-8 flex items-center gap-4">
-          <div
-            aria-hidden="true"
-            className="h-px flex-grow bg-gradient-to-r from-transparent via-outline/20 to-transparent"
-          />
-          <div className="font-[family-name:var(--font-label)] text-[10px] text-primary/80 tracking-[0.3em] bg-surface/50 px-4 py-1.5 uppercase">
-            STATUS: CONTACT LINE
-          </div>
-          <div
-            aria-hidden="true"
-            className="h-px flex-grow bg-gradient-to-r from-transparent via-outline/20 to-transparent"
+        <div className="mb-10">
+          <PageHero
+            label="MAILBOX · PLAYER 2 입장 대기 중"
+            title="제보함"
+            image={{ src: "/launcher/char-contact.webp", alt: "우체통에 편지를 넣는 방구석게이머" }}
+            desc="“이런 게임 있으면 좋겠어요”, 버그 제보, 연수·협업 문의 모두 환영해요. 남겨 주시면 빠르게 답장드릴게요."
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           <section className="lg:col-span-5 space-y-8 py-2">
             <div>
-              <h1 className="font-[family-name:var(--font-headline)] text-4xl md:text-5xl font-bold text-on-surface mb-3 tracking-tight uppercase leading-none">
+              <h2 className="font-[family-name:var(--font-headline)] text-3xl md:text-4xl font-bold text-on-surface mb-3 tracking-tight leading-none">
                 방구석게이머
-              </h1>
+              </h2>
               <div className="flex items-center gap-3">
                 <div
                   aria-hidden="true"
                   className="h-[1px] w-8 bg-primary"
                 />
-                <h2 className="font-[family-name:var(--font-label)] text-sm text-primary tracking-[0.3em] uppercase">
-                  Contact Protocol
-                </h2>
+                <p className="font-[family-name:var(--font-label)] text-sm text-primary tracking-[0.2em] uppercase m-0">
+                  PLAYER 1 · 초등교사
+                </p>
               </div>
             </div>
 
             <p className="font-[family-name:var(--font-body)] text-on-surface-variant text-sm leading-relaxed max-w-md">
-              프로젝트 제안, 교육 협력 및 파트너십 논의를 위한 연락망입니다.
-              문의 사항을 남겨주시면 신속히 회신해 드립니다.
+              수업에 쓰고 싶은 게임 아이디어, 써 보신 앱의 불편한 점,
+              연수·협업 제안을 남겨 주세요. 방구석에서 하나씩 만들어 갈게요.
             </p>
 
             <ul className="space-y-4">
@@ -70,10 +66,10 @@ export default function ContactPage() {
           </section>
 
           <section className="lg:col-span-7">
-            <div className="bg-surface-container-low p-6 md:p-8 relative overflow-hidden">
+            <div className="bg-white rounded-[14px] border border-outline-variant p-6 md:p-8 relative overflow-hidden">
               <div
                 aria-hidden="true"
-                className="absolute top-0 left-0 w-[2px] h-full bg-primary"
+                className="absolute top-0 left-0 w-full h-[4px] bg-mint"
               />
               <ContactForm />
             </div>
