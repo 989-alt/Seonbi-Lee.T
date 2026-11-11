@@ -1,3 +1,4 @@
+-- ⚠️ 한 번만 실행하세요. 다시 실행하면 관리자 화면에서 고친 내용을 덮어씁니다.
 -- 방구석게이머 런처 카탈로그 시드 (slug 기준 upsert). 납품작은 external_url을 비우고 아이스크림으로만 연결.
 insert into public.projects (slug, title_ko, description, category, accent, tech_stack, tag, grade, external_url, featured, featured_order, partner, partner_url, track_slug, status, published_at) values
   ('math-baseball', '숫자야구', '방 코드만으로 참여하는 실시간 숫자야구. 교실 TV에 QR을 띄우면 최대 60명이 함께 겨뤄요.', 'edutech', 'primary', '{}', '게임 · 실시간 대결', '전 학년', 'https://math-baseball.sunhak989.workers.dev', true, 1, null, null, 'math-baseball', 'published', now()),
@@ -38,4 +39,4 @@ where status = 'published' and slug not in ('math-baseball', 'plane-puzzle', 'gr
 update public.projects p set
   thumbnail_path = '/launcher/apps/' || p.slug || '.webp',
   hero_image_path = '/launcher/apps/' || p.slug || '-lg.webp'
-where p.slug in ('plane-puzzle','math-baseball','circle','cosmic-edu','quiz','art-class-workspace','movie-worksheet','seat-changer','evaluationapp','time-table');
+where p.slug in ('plane-puzzle','math-baseball','circle','cosmic-edu','quiz','art-class-workspace','movie-worksheet','seat-changer','evaluationapp','time-table','space-puzzle','world-flags-drawing','class-picker','kiwora','classroom-board','korean-history-map','grandma-album','traveling-world-game','sokdam-chain','democracy-journey','woorimal-rpg','quiz-survivor');
