@@ -46,6 +46,12 @@ export default function PrivacyPage() {
               <td>관리자 계정 보호와 사고 조사</td>
               <td>1년</td>
             </tr>
+            <tr>
+              <td>사이트 접속 로그</td>
+              <td>IP 주소, 접속 일시, 요청한 주소, 브라우저 정보(호스팅 업체가 자동 생성)</td>
+              <td>보안 사고 대응과 장애 확인</td>
+              <td>호스팅 업체(Vercel)의 보관 정책에 따라 자동 삭제</td>
+            </tr>
           </tbody>
         </table>
         <p>방문 집계용 무작위 식별값은 이름·이메일 같은 정보와 연결하지 않습니다. 과도한 요청을 막으려고 IP 주소를 서버 메모리에서 잠시 쓰지만 저장하지 않습니다.</p>
@@ -84,7 +90,7 @@ export default function PrivacyPage() {
       <LegalSection title="7. 이용자의 권리">
         <p>
           이용자는 자신의 개인정보를 열람, 정정, 삭제하거나 처리 정지를 요구할 수 있습니다.{" "}
-          <Link href="/contact" className="text-primary underline">제보함</Link>으로 요청하면 지체 없이 처리합니다. 만 14세 미만 아동은 보호자의 동의를 받아 제보함을 이용해 주세요.
+          <Link href="/contact" className="text-primary underline">제보함</Link>으로 요청하면 본인 확인 뒤 요청받은 날부터 10일 이내에 처리하고 결과를 알려 드립니다. 거절하거나 늦어지면 그 이유를 알려 드립니다. 만 14세 미만 아동은 보호자의 동의를 받아 제보함을 이용해 주세요.
         </p>
       </LegalSection>
 
