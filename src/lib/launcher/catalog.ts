@@ -14,6 +14,16 @@ export const SLOT_MAX: Record<Stage, number> = { 1: 8, 2: 3, 3: 3 };
  */
 export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
 
+/**
+ * 학생용 화면(/students)에 보여 줄 학생용 앱. 개인정보처리방침 제1조 표와 같게 유지한다.
+ * 학생 정보를 받지 않고 외부 AI로 보내지 않는 것이 확인된 앱만 넣는다.
+ */
+export const STUDENT_APPS = ["circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
+
+export function isStudentApp(app: LauncherApp): boolean {
+  return (STUDENT_APPS as readonly string[]).includes(app.slug) && app.action.kind === "play" && app.action.embed;
+}
+
 /** 놀이터 실행 화면이 띄울 수 있는 앱 주소(CSP frame-src와 같은 목록) */
 export const EMBED_HOSTS = ["https://989-alt.github.io", "https://*.vercel.app", "https://*.workers.dev"];
 

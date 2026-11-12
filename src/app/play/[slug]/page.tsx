@@ -23,8 +23,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 /** 교실 놀이터 안에서 수록 앱을 실행하는 화면 */
-export default async function PlayPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default async function PlayPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
+}) {
+  const [{ slug }, { from }] = await Promise.all([params, searchParams]);
+  const fromStudents = from === "students";
   const found = await findApp(slug);
   if (!found) notFound();
   const { app, src } = found;
@@ -32,7 +39,7 @@ export default async function PlayPage({ params }: { params: Promise<{ slug: str
   return (
     <div className="flex h-[100dvh] flex-col bg-night">
       <header className="flex flex-none flex-wrap items-center gap-x-4 gap-y-1 px-4 py-2 text-[13px] text-lilac">
-        <Link href={`/?app=${app.slug}`} className="font-pixel font-bold text-white hover:text-mint">
+        <Link href={fromStudents ? "/students" : `/?app=${app.slug}`} className="font-pixel font-bold text-white hover:text-mint">
           ← 교실 놀이터
         </Link>
         <h1 className="m-0 min-w-0 flex-1 truncate font-pixel text-base font-bold text-white">{app.name}</h1>

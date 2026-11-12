@@ -15,6 +15,7 @@ export function LauncherTopBar({ onIntro }: { onIntro?: () => void }) {
           <Link href="/learn" className="px-3 py-2 text-lilac hover:text-white">배우기</Link>
           <Link href="/about" className="px-3 py-2 text-lilac hover:text-white">소개</Link>
           <Link href="/contact" className="px-3 py-2 text-lilac hover:text-white">제보함</Link>
+          <Link href="/students" className="px-3 py-2 text-mint hover:text-white" title="학생에게 이 주소를 안내하세요">학생용 화면</Link>
           {onIntro && (
             <button type="button" onClick={onIntro} className="px-3 py-2 text-lilac hover:text-white">↺ 인트로</button>
           )}

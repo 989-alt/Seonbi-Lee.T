@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProjectRow } from "@/lib/repositories/types";
-import { canEmbed, groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
+import { canEmbed, isStudentApp, groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
 
 const thumb = (p: string | null) => (p ? `https://cdn.test/${p}` : null);
 
@@ -84,5 +84,14 @@ describe("canEmbed", () => {
     expect(canEmbed("https://evil.example.com")).toBe(false);
     expect(canEmbed("https://other.github.io/x")).toBe(false);
     expect(canEmbed("not a url")).toBe(false);
+  });
+});
+
+describe("isStudentApp", () => {
+  const base = { name: "x", desc: "", tag: null, grade: null, stage: 1 as const, featured: false, order: 0, thumb: null, hero: null, trackSlug: null, guide: null };
+  it("목록에 있고 놀이터 안에서 열리는 앱만 학생용", () => {
+    expect(isStudentApp({ ...base, slug: "circle", action: { kind: "play", href: "https://989-alt.github.io/circle/", embed: true } })).toBe(true);
+    expect(isStudentApp({ ...base, slug: "seat-changer", action: { kind: "play", href: "https://seat-changer-two.vercel.app", embed: true } })).toBe(false);
+    expect(isStudentApp({ ...base, slug: "circle", action: { kind: "partner", href: "x", note: "n" } })).toBe(false);
   });
 });
