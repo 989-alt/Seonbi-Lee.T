@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProjectRow } from "@/lib/repositories/types";
-import { canEmbed, groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
+import { canEmbed, isStudentApp, isStudentPartnerGame, groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
 
 const thumb = (p: string | null) => (p ? `https://cdn.test/${p}` : null);
 
@@ -84,5 +84,25 @@ describe("canEmbed", () => {
     expect(canEmbed("https://evil.example.com")).toBe(false);
     expect(canEmbed("https://other.github.io/x")).toBe(false);
     expect(canEmbed("not a url")).toBe(false);
+  });
+});
+
+describe("isStudentApp", () => {
+  const base = { name: "x", desc: "", tag: null, grade: null, stage: 1 as const, featured: false, order: 0, thumb: null, hero: null, trackSlug: null, guide: null };
+  it("목록에 있고 놀이터 안에서 열리는 앱만 학생용", () => {
+    expect(isStudentApp({ ...base, slug: "circle", action: { kind: "play", href: "https://989-alt.github.io/circle/", embed: true } })).toBe(true);
+    expect(isStudentApp({ ...base, slug: "seat-changer", action: { kind: "play", href: "https://seat-changer-two.vercel.app", embed: true } })).toBe(false);
+    expect(isStudentApp({ ...base, slug: "circle", action: { kind: "partner", href: "x", note: "n" } })).toBe(false);
+  });
+});
+
+describe("아이스크림 앱", () => {
+  it("partner_url이 https면 그 주소, 아니면 기본 AI마트 주소", () => {
+    expect(app({ partner: "i-scream", partner_url: "https://issamgpt.com/ai-mart/item/1", external_url: null }).action).toEqual({ kind: "partner", href: "https://issamgpt.com/ai-mart/item/1", note: expect.any(String) });
+    expect(app({ partner: "i-scream", partner_url: "javascript:alert(1)", external_url: null }).action).toMatchObject({ kind: "partner", href: ISCREAM_URL });
+  });
+  it("학생 화면용 아이스크림 게임은 게임·수업자료 칸만", () => {
+    expect(isStudentPartnerGame(app({ partner: "i-scream", external_url: null }))).toBe(true);
+    expect(isStudentPartnerGame(app({ partner: "i-scream", external_url: null, category: "class" }))).toBe(false);
   });
 });

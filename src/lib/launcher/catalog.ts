@@ -14,6 +14,21 @@ export const SLOT_MAX: Record<Stage, number> = { 1: 8, 2: 3, 3: 3 };
  */
 export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
 
+/**
+ * 학생용 화면(/students)에 보여 줄 학생용 앱. 개인정보처리방침 제1조 표와 같게 유지한다.
+ * 학생 정보를 받지 않고 외부 AI로 보내지 않는 것이 확인된 앱만 넣는다.
+ */
+export const STUDENT_APPS = ["circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
+
+/** 학생용 화면에 함께 보여 주는 아이스크림 제공 게임(게임·수업자료 칸, 아이스크림 사이트로 연결) */
+export function isStudentPartnerGame(app: LauncherApp): boolean {
+  return app.action.kind === "partner" && app.stage === 1;
+}
+
+export function isStudentApp(app: LauncherApp): boolean {
+  return (STUDENT_APPS as readonly string[]).includes(app.slug) && app.action.kind === "play" && app.action.embed;
+}
+
 /** 놀이터 실행 화면이 띄울 수 있는 앱 주소(CSP frame-src와 같은 목록) */
 export const EMBED_HOSTS = ["https://989-alt.github.io", "https://*.vercel.app", "https://*.workers.dev"];
 
@@ -67,7 +82,8 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
   if (!stage || row.status !== "published") return null;
   let action: LauncherAction;
   if (row.partner === "i-scream") {
-    action = { kind: "partner", href: ISCREAM_URL, note: ISCREAM_NOTE };
+    const url = row.partner_url && /^https:\/\//.test(row.partner_url) ? row.partner_url : ISCREAM_URL;
+    action = { kind: "partner", href: url, note: ISCREAM_NOTE };
   } else if (row.external_url) {
     action = { kind: "play", href: row.external_url, embed: canEmbed(row.external_url) && !OPEN_IN_NEW_TAB.has(row.slug) };
   } else {
