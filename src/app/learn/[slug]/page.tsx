@@ -23,6 +23,8 @@ export async function generateMetadata({
   return {
     title: `${course.title} // 방구석게이머`,
     description: course.description,
+    alternates: { canonical: `/learn/${slug}` },
+    openGraph: { title: `${course.title} // 방구석게이머`, description: course.description, url: `/learn/${slug}` },
   };
 }
 

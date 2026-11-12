@@ -1,5 +1,6 @@
 "use client";
 
+import { Footer } from "@/components/layout/Footer";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { groupForLibrary, pickSelected, type LauncherApp } from "@/lib/launcher/catalog";
 import { topPlayed } from "@/lib/launcher/stats";
@@ -63,6 +64,7 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
           </div>
         </main>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { logoutAction } from "../actions";
 import { getAdminUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { IdleLogout } from "./IdleLogout";
 
 export default async function DashboardLayout({
   children,
@@ -13,6 +14,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex-grow flex flex-col pt-24">
+      <IdleLogout />
       <div className="w-full bg-surface-container-high py-3 px-6 flex items-center justify-between text-[10px] font-[family-name:var(--font-label)] uppercase tracking-widest border-b border-surface-container-highest">
         <div className="flex items-center gap-6">
           <span className="text-primary">ADMIN_TERMINAL</span>
@@ -46,6 +48,12 @@ export default async function DashboardLayout({
               className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center"
             >
               배우기/자료
+            </Link>
+            <Link
+              href="/admin/security"
+              className="text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center"
+            >
+              보안
             </Link>
           </nav>
         </div>

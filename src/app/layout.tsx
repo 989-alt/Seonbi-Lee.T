@@ -5,6 +5,7 @@ import { TopNav } from "@/components/layout/TopNav";
 import { Footer } from "@/components/layout/Footer";
 import { HideOnHome } from "@/components/layout/HideOnHome";
 import { galmuri } from "@/fonts/galmuri";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -27,10 +28,28 @@ const notoSansKR = Noto_Sans_KR({
   display: "swap",
 });
 
+const DESCRIPTION = "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 바로 실행하는 런처";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "방구석게이머 // 교실 런처",
-  description:
-    "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 바로 실행하는 런처",
+  description: DESCRIPTION,
+  applicationName: SITE_NAME,
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: SITE_NAME,
+    url: "/",
+    title: "방구석게이머 // 교실 런처",
+    description: DESCRIPTION,
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "모니터 앞에 앉은 방구석게이머 캐릭터" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "방구석게이머 // 교실 런처",
+    description: DESCRIPTION,
+    images: ["/og.jpg"],
+  },
 };
 
 export default function RootLayout({
