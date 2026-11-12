@@ -37,6 +37,7 @@ export default function PrivacyPage() {
             </tr>
           </tbody>
         </table>
+        <p>놀이터에 함께 소개하는 아이스크림(i-scream) 제공 앱은 아이스크림 서비스로 연결되며, 그 앱의 개인정보 처리는 아이스크림의 개인정보처리방침을 따릅니다.</p>
       </LegalSection>
 
       <LegalSection title="2. 처리하는 개인정보와 목적, 보관 기간">
