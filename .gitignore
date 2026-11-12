@@ -47,3 +47,4 @@ next-env.d.ts
 # dorms-check 점검 결과
 .dorms-check/
 dorms-check.config.json
+.dorms-check/private/
