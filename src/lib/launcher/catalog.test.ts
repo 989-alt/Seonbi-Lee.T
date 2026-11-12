@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ProjectRow } from "@/lib/repositories/types";
-import { groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
+import { canEmbed, groupForLibrary, pickSelected, toLauncherApp, ISCREAM_URL, type LauncherApp } from "./catalog";
 
 const thumb = (p: string | null) => (p ? `https://cdn.test/${p}` : null);
 
@@ -23,7 +23,7 @@ describe("toLauncherApp", () => {
     expect(JSON.stringify(a)).not.toContain("secret-original");
   });
   it("normal app plays its external url", () => {
-    expect(app({}).action).toEqual({ kind: "play", href: "https://secret-original.example.com/app" });
+    expect(app({}).action).toEqual({ kind: "play", href: "https://secret-original.example.com/app", embed: false });
   });
   it("uses only an explicit track_slug (blank = not tracked)", () => {
     expect(app({ slug: "s", track_slug: null }).trackSlug).toBeNull();
@@ -72,5 +72,17 @@ describe("pickSelected", () => {
   });
   it("returns null for an empty catalog", () => {
     expect(pickSelected([], null)).toBeNull();
+  });
+});
+
+describe("canEmbed", () => {
+  it("수록 앱 호스트만 허용", () => {
+    expect(canEmbed("https://989-alt.github.io/circle/")).toBe(true);
+    expect(canEmbed("https://cosmic-edu.vercel.app")).toBe(true);
+    expect(canEmbed("https://math-baseball.sunhak989.workers.dev")).toBe(true);
+    expect(canEmbed("http://cosmic-edu.vercel.app")).toBe(false);
+    expect(canEmbed("https://evil.example.com")).toBe(false);
+    expect(canEmbed("https://other.github.io/x")).toBe(false);
+    expect(canEmbed("not a url")).toBe(false);
   });
 });

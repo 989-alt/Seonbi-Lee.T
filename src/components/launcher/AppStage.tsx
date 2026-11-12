@@ -22,10 +22,23 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
           <div className="mt-2 flex flex-wrap items-center gap-[14px]">
             {app.action.kind === "play" ? (
               <>
-                <a href={app.action.href} target="_blank" rel="noopener" className="rounded-[8px] bg-mint px-8 py-4 font-pixel text-xl font-bold text-night hover:brightness-105">
-                  ▶ PLAY
-                </a>
-                <span className="text-[13px] text-lilac">새 탭에서 바로 열려요</span>
+                {app.action.embed ? (
+                  <>
+                    <a href={`/play/${app.slug}`} className="rounded-[8px] bg-mint px-8 py-4 font-pixel text-xl font-bold text-night hover:brightness-105">
+                      ▶ PLAY
+                    </a>
+                    <a href={app.action.href} target="_blank" rel="noopener" className="text-[13px] text-lilac underline-offset-2 hover:underline">
+                      새 탭에서 열기 ↗
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <a href={app.action.href} target="_blank" rel="noopener" className="rounded-[8px] bg-mint px-8 py-4 font-pixel text-xl font-bold text-night hover:brightness-105">
+                      ▶ PLAY
+                    </a>
+                    <span className="text-[13px] text-lilac">새 탭에서 바로 열려요</span>
+                  </>
+                )}
               </>
             ) : (
               <>
