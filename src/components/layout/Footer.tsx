@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 bg-night border-t border-night-line relative z-10 mt-auto">
       <div className="font-[family-name:var(--font-label)] text-[11px] tracking-widest text-lilac">
-        © {year} 방구석게이머 · 교실 게임과 업무 도구
+        © {year} 이선학(방구석게이머) · All rights reserved
       </div>
       <div className="flex gap-6 font-[family-name:var(--font-label)] text-[11px] tracking-widest uppercase text-[#a99fc9]">
         <Link href="/privacy" className="font-bold hover:text-mint transition-colors">
