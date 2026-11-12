@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Space_Grotesk, Manrope, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { TopNav } from "@/components/layout/TopNav";
@@ -52,11 +53,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // CSP nonce는 요청마다 달라서 모든 페이지를 요청 시점에 렌더해야 한다
+  await connection();
   return (
     <html
       lang="ko"
