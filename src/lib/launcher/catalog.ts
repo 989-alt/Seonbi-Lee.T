@@ -20,6 +20,11 @@ export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
  */
 export const STUDENT_APPS = ["circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
 
+/** 학생용 화면에 함께 보여 주는 아이스크림 제공 게임(게임·수업자료 칸, 아이스크림 사이트로 연결) */
+export function isStudentPartnerGame(app: LauncherApp): boolean {
+  return app.action.kind === "partner" && app.stage === 1;
+}
+
 export function isStudentApp(app: LauncherApp): boolean {
   return (STUDENT_APPS as readonly string[]).includes(app.slug) && app.action.kind === "play" && app.action.embed;
 }
@@ -77,7 +82,8 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
   if (!stage || row.status !== "published") return null;
   let action: LauncherAction;
   if (row.partner === "i-scream") {
-    action = { kind: "partner", href: ISCREAM_URL, note: ISCREAM_NOTE };
+    const url = row.partner_url && /^https:\/\//.test(row.partner_url) ? row.partner_url : ISCREAM_URL;
+    action = { kind: "partner", href: url, note: ISCREAM_NOTE };
   } else if (row.external_url) {
     action = { kind: "play", href: row.external_url, embed: canEmbed(row.external_url) && !OPEN_IN_NEW_TAB.has(row.slug) };
   } else {

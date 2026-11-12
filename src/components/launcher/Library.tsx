@@ -17,13 +17,9 @@ type Props = {
 function AppRow({ app, sel, onPick, stats }: { app: LauncherApp; sel: boolean; onPick: (s: string) => void; stats: StatsResponse }) {
   const c = appCounts(app, stats);
   const sub = app.action.kind === "partner" ? "아이스크림 AI마트" : c ? `${formatCount(c.total, true)}명 플레이` : "집계 준비 중";
-  return (
-    <button
-      type="button"
-      onClick={() => onPick(app.slug)}
-      aria-pressed={sel}
-      className={`flex w-full items-center gap-3 rounded-[8px] p-2 text-left text-night transition-colors hover:bg-paper ${sel ? "bg-mint-soft" : ""}`}
-    >
+  const cls = `flex w-full items-center gap-3 rounded-[8px] p-2 text-left text-night transition-colors hover:bg-paper ${sel ? "bg-mint-soft" : ""}`;
+  const inner = (
+    <>
       {app.thumb ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={app.thumb} alt="" className="h-[35px] w-[52px] flex-none rounded-[4px] object-cover" />
@@ -34,6 +30,19 @@ function AppRow({ app, sel, onPick, stats }: { app: LauncherApp; sel: boolean; o
         <span className={`truncate text-sm ${sel ? "font-black" : "font-medium"}`}>{app.name}</span>
         <span className="font-pixel text-[11px] text-ink-soft">{sub}</span>
       </span>
+    </>
+  );
+  if (app.action.kind === "partner") {
+    return (
+      <a href={app.action.href} target="_blank" rel="noopener" onClick={() => onPick(app.slug)} className={cls} aria-label={`${app.name} — 아이스크림 AI마트로 이동(새 탭)`}>
+        {inner}
+        <span aria-hidden className="flex-none text-xs text-ink-soft">↗</span>
+      </a>
+    );
+  }
+  return (
+    <button type="button" onClick={() => onPick(app.slug)} aria-pressed={sel} className={cls}>
+      {inner}
     </button>
   );
 }

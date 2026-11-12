@@ -8,11 +8,16 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
   return (
     <>
       <section aria-labelledby="bg-title" className="relative flex min-h-[460px] items-end overflow-hidden bg-night">
-        {app.hero && (
+        {app.hero && (partner ? (
+          <a href={app.action.href} target="_blank" rel="noopener" aria-label={`${app.name} — 아이스크림 AI마트로 이동(새 탭)`} className="absolute inset-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img key={app.slug} src={app.hero} alt={`${app.name} 일러스트`} className="bg-fade h-full w-full object-cover" />
+          </a>
+        ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img key={app.slug} src={app.hero} alt={`${app.name} 일러스트`} className="bg-fade absolute inset-0 h-full w-full object-cover" />
-        )}
-        <div aria-hidden className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,14,34,0.92)_0%,rgba(18,14,34,0.6)_42%,rgba(18,14,34,0)_75%)]" />
+        ))}
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(18,14,34,0.92)_0%,rgba(18,14,34,0.6)_42%,rgba(18,14,34,0)_75%)]" />
         <div key={`t-${app.slug}`} className="bg-fade relative flex max-w-[560px] flex-col gap-3 px-6 pt-10 pb-11 text-white sm:px-10">
           <span className="font-pixel text-[13px] tracking-[0.08em] text-mint">
             STAGE {app.stage}{app.tag ? ` · ${app.tag}` : ""}
