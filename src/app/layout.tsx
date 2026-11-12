@@ -29,11 +29,11 @@ const notoSansKR = Noto_Sans_KR({
   display: "swap",
 });
 
-const DESCRIPTION = "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 바로 실행하는 런처";
+const DESCRIPTION = "초등교사 방구석게이머가 만든 교실 게임과 업무 도구를 한곳에서 바로 여는 교실 놀이터";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "방구석게이머 // 교실 런처",
+  title: "방구석게이머 // 교실 놀이터",
   description: DESCRIPTION,
   applicationName: SITE_NAME,
   openGraph: {
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     siteName: SITE_NAME,
     url: "/",
-    title: "방구석게이머 // 교실 런처",
+    title: "방구석게이머 // 교실 놀이터",
     description: DESCRIPTION,
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "모니터 앞에 앉은 방구석게이머 캐릭터" }],
   },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   other: { "tdm-reservation": "1", "tdm-policy": `${SITE_URL}/terms` },
   twitter: {
     card: "summary_large_image",
-    title: "방구석게이머 // 교실 런처",
+    title: "방구석게이머 // 교실 놀이터",
     description: DESCRIPTION,
     images: ["/og.jpg"],
   },
