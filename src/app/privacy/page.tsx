@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage, LegalSection } from "@/components/legal/LegalPage";
-import { OPERATOR } from "@/lib/site";
+import { OPERATOR, PRIVACY_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "개인정보처리방침 // 방구석게이머",
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
 
       <LegalSection title="9. 개인정보 보호책임자">
         <p>
-          책임자: {OPERATOR} · 연락: <Link href="/contact" className="text-primary underline">제보함</Link>
+          책임자: {OPERATOR} · 이메일: <a href={`mailto:${PRIVACY_EMAIL}`} className="text-primary underline">{PRIVACY_EMAIL}</a> · 또는 <Link href="/contact" className="text-primary underline">제보함</Link>
         </p>
         <p>개인정보 침해 신고·상담: 개인정보침해신고센터(privacy.kisa.or.kr, 국번 없이 118), 개인정보분쟁조정위원회(kopico.go.kr, 1833-6972)</p>
       </LegalSection>
