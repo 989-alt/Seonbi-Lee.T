@@ -1,0 +1,15 @@
+Copyright (c) 2026 이선학(방구석게이머). All rights reserved.
+
+이 저장소의 소스 코드, 글, 그림, 캐릭터, 교안, 프롬프트(이하 "자료")의 모든 권리는
+저작권자에게 있습니다. 저장소가 공개되어 있다는 사실이 이용 허락을 뜻하지 않습니다.
+
+허용: 자료를 읽고 참고하는 것, s-edu.ai.kr 서비스를 이용약관(https://s-edu.ai.kr/terms)에
+따라 수업·연수에 이용하는 것.
+
+금지(사전 서면 허락 필요): 복제, 수정, 재배포, 판매, 다른 서비스로 옮겨 쓰는 것,
+AI 학습 데이터로 수집·이용하는 것(텍스트·데이터 마이닝 권리 유보).
+
+일부 구성 요소는 각자의 라이선스를 따릅니다: 글꼴(Noto Sans KR, Space Grotesk, Manrope,
+Galmuri — SIL Open Font License 1.1), npm 의존성(각 패키지의 라이선스).
+
+허락 문의: https://s-edu.ai.kr/contact

@@ -6,8 +6,10 @@ import { NextResponse, type NextRequest } from "next/server";
  * the proxy matcher. Without this, expired access tokens won't be
  * refreshed in Server Components.
  */
-export async function updateSession(request: NextRequest) {
-  let response = NextResponse.next({ request });
+export async function updateSession(request: NextRequest, requestHeaders?: Headers) {
+  const next = () =>
+    requestHeaders ? NextResponse.next({ request: { headers: requestHeaders } }) : NextResponse.next({ request });
+  let response = next();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -21,7 +23,7 @@ export async function updateSession(request: NextRequest) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           );
-          response = NextResponse.next({ request });
+          response = next();
           cookiesToSet.forEach(({ name, value, options }) =>
             response.cookies.set(name, value, options)
           );

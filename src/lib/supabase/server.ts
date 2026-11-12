@@ -53,3 +53,13 @@ export function createSupabaseAdminClient() {
     }
   );
 }
+
+/**
+ * 쿠키를 쓰지 않는 anon 클라이언트. RLS가 그대로 적용되므로 공개 자료만 읽힌다.
+ * 요청과 무관해 캐시 함수 안에서도 쓸 수 있다.
+ */
+export function createSupabasePublicClient() {
+  return createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}

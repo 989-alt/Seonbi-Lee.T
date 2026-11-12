@@ -1,7 +1,8 @@
 "use server";
 
 import { z } from "zod";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { PROJECTS_TAG } from "@/lib/repositories/projects";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient, createSupabaseAdminClient } from "@/lib/supabase/server";
 import { getAdminUser } from "@/lib/auth";
@@ -135,6 +136,7 @@ export async function createProjectAction(
 
   revalidatePath("/admin/projects");
   revalidatePath("/");
+  updateTag(PROJECTS_TAG);
   redirect("/admin/projects");
 }
 
@@ -212,6 +214,7 @@ export async function updateProjectAction(
   revalidatePath("/admin/projects");
   revalidatePath(`/admin/projects/${id}`);
   revalidatePath("/");
+  updateTag(PROJECTS_TAG);
   redirect("/admin/projects");
 }
 
@@ -222,5 +225,6 @@ export async function deleteProjectAction(id: string) {
   if (error) throw new Error(error.message);
   revalidatePath("/admin/projects");
   revalidatePath("/");
+  updateTag(PROJECTS_TAG);
   redirect("/admin/projects");
 }

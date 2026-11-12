@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { Space_Grotesk, Manrope, Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import { TopNav } from "@/components/layout/TopNav";
@@ -44,6 +45,8 @@ export const metadata: Metadata = {
     description: DESCRIPTION,
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "모니터 앞에 앉은 방구석게이머 캐릭터" }],
   },
+  // 텍스트·데이터 마이닝(AI 학습) 권리 유보 표시 (TDMRep)
+  other: { "tdm-reservation": "1", "tdm-policy": `${SITE_URL}/terms` },
   twitter: {
     card: "summary_large_image",
     title: "방구석게이머 // 교실 런처",
@@ -52,11 +55,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // CSP nonce는 요청마다 달라서 모든 페이지를 요청 시점에 렌더해야 한다
+  await connection();
   return (
     <html
       lang="ko"
