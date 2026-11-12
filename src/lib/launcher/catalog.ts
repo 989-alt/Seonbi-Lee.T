@@ -8,8 +8,27 @@ export const ISCREAM_NOTE = "아이스크림에 납품한 작품이에요";
 export const STAGE_TITLES: Record<Stage, string> = { 1: "게임 · 수업자료", 2: "학급운영", 3: "학교행정" };
 export const SLOT_MAX: Record<Stage, number> = { 1: 8, 2: 3, 3: 3 };
 
+/**
+ * 놀이터 안(/play/[slug])에서 띄우지 않고 새 탭으로 여는 앱.
+ * evaluationapp: 나이스 입력 확장이 앱 주소의 브라우저 저장소를 읽어야 해서 다른 사이트 안에서는 동작하지 않는다.
+ */
+export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
+
+/** 놀이터 실행 화면이 띄울 수 있는 앱 주소(CSP frame-src와 같은 목록) */
+export const EMBED_HOSTS = ["https://989-alt.github.io", "https://*.vercel.app", "https://*.workers.dev"];
+
+export function canEmbed(url: string): boolean {
+  try {
+    const { protocol, hostname } = new URL(url);
+    if (protocol !== "https:") return false;
+    return hostname === "989-alt.github.io" || hostname.endsWith(".vercel.app") || hostname.endsWith(".workers.dev");
+  } catch {
+    return false;
+  }
+}
+
 export type LauncherAction =
-  | { kind: "play"; href: string }
+  | { kind: "play"; href: string; embed: boolean }
   | { kind: "partner"; href: string; note: string };
 
 export type LauncherApp = {
@@ -50,7 +69,7 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
   if (row.partner === "i-scream") {
     action = { kind: "partner", href: ISCREAM_URL, note: ISCREAM_NOTE };
   } else if (row.external_url) {
-    action = { kind: "play", href: row.external_url };
+    action = { kind: "play", href: row.external_url, embed: canEmbed(row.external_url) && !OPEN_IN_NEW_TAB.has(row.slug) };
   } else {
     return null;
   }

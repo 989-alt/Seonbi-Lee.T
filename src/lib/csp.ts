@@ -12,7 +12,8 @@ export function buildCsp(nonce: string, isDev = process.env.NODE_ENV === "develo
     "font-src 'self' data:",
     "connect-src 'self' https://*.supabase.co wss://*.supabase.co",
     "media-src 'self' https:",
-    "frame-src 'none'",
+    // 놀이터 실행 화면(/play/[slug])이 띄우는 수록 앱 주소 — catalog.ts의 EMBED_HOSTS와 같게 유지
+    "frame-src 'self' https://989-alt.github.io https://*.vercel.app https://*.workers.dev",
     "frame-ancestors 'none'",
     "object-src 'none'",
     "base-uri 'self'",

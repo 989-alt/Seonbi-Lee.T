@@ -5,7 +5,7 @@ import type { LauncherApp } from "./catalog";
 const mk = (slug: string, partner = false): LauncherApp => ({
   slug, name: slug, desc: "", tag: null, grade: null, stage: 1, featured: false, order: 0,
   thumb: null, hero: null,
-  action: partner ? { kind: "partner", href: "x", note: "n" } : { kind: "play", href: "x" },
+  action: partner ? { kind: "partner", href: "x", note: "n" } : { kind: "play", href: "x", embed: false },
   trackSlug: partner ? null : slug, guide: null,
 });
 
