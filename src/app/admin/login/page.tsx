@@ -1,13 +1,14 @@
 import { LoginForm } from "./LoginForm";
+import { safeAdminRedirect } from "@/lib/safeRedirect";
 
 export const metadata = { title: "관리자 로그인 // 방구석게이머" };
 
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<{ redirect?: string; reason?: string }>;
 }) {
-  const { redirect = "/admin" } = await searchParams;
+  const { redirect = "/admin", reason } = await searchParams;
 
   return (
     <main className="flex-grow flex items-center justify-center px-6 py-24">
@@ -28,7 +29,12 @@ export default async function LoginPage({
           </p>
         </div>
 
-        <LoginForm redirectTo={redirect} />
+        {reason === "idle" && (
+          <p role="status" className="mb-6 text-sm text-primary">
+            30분 동안 사용하지 않아 자동으로 로그아웃했습니다.
+          </p>
+        )}
+        <LoginForm redirectTo={safeAdminRedirect(redirect)} />
       </div>
     </main>
   );

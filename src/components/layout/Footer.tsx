@@ -7,7 +7,13 @@ export function Footer() {
       <div className="font-[family-name:var(--font-label)] text-[11px] tracking-widest text-lilac">
         © {year} 방구석게이머 · 교실 게임과 업무 도구
       </div>
-      <div className="flex gap-6 font-[family-name:var(--font-label)] text-[10px] tracking-widest uppercase text-[#8a83a8]">
+      <div className="flex gap-6 font-[family-name:var(--font-label)] text-[11px] tracking-widest uppercase text-[#a99fc9]">
+        <Link href="/privacy" className="font-bold hover:text-mint transition-colors">
+          개인정보처리방침
+        </Link>
+        <Link href="/terms" className="hover:text-mint transition-colors">
+          이용약관
+        </Link>
         <Link
           href="/admin"
           className="hover:text-mint transition-colors"

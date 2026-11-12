@@ -12,6 +12,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "배우기 // 방구석게이머",
   description: "Claude를 A→Z로 — 단계별 길잡이·스킬·프롬프트 학습 허브",
+  alternates: { canonical: "/learn" },
+  openGraph: { title: "배우기 // 방구석게이머", description: "Claude를 A→Z로 — 단계별 길잡이·스킬·프롬프트 학습 허브", url: "/learn" },
 };
 
 const COURSE_ACCENT_BORDER: Record<string, string> = {

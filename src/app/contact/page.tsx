@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "제보함 // 방구석게이머",
   description: "프로젝트 제안, 교육 협력 및 파트너십 문의",
+  alternates: { canonical: "/contact" },
+  openGraph: { title: "제보함 // 방구석게이머", description: "프로젝트 제안, 교육 협력 및 파트너십 문의", url: "/contact" },
 };
 
 export default function ContactPage() {

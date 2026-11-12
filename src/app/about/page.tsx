@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "플레이어 프로필 // 방구석게이머",
   description: "AI로 수업과 학급 운영을 돕는 프로그램을 만드는 교사 이선학(방구석게이머) 소개",
+  alternates: { canonical: "/about" },
+  openGraph: { title: "플레이어 프로필 // 방구석게이머", description: "AI로 수업과 학급 운영을 돕는 프로그램을 만드는 교사 이선학(방구석게이머) 소개", url: "/about" },
 };
 
 const STATS: { name: string; value: number; accentClass: string; textClass: string }[] = [
