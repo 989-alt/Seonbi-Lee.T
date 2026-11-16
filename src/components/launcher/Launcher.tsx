@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { groupForLibrary, pickSelected, type LauncherApp } from "@/lib/launcher/catalog";
 import { topPlayed } from "@/lib/launcher/stats";
 import { sendVisitOnce } from "@/lib/stats/client";
+import { clearStudentMode, sessionStore } from "@/lib/launcher/studentMode";
 import { PORTAL_SLUG, type StatsResponse } from "@/lib/stats/track";
 import { LauncherTopBar } from "./LauncherTopBar";
 import { Library } from "./Library";
@@ -24,6 +25,8 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
   const top = useMemo(() => topPlayed(apps, stats), [apps, stats]);
 
   useEffect(() => { sendVisitOnce(PORTAL_SLUG); }, []);
+  // 교사용 런처를 열면 이 탭의 학생 모드를 끈다
+  useEffect(() => { clearStudentMode(sessionStore()); }, []);
 
   const pick = useCallback((s: string) => {
     setSlug(s);
