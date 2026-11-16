@@ -21,7 +21,7 @@ ROWS = [
     row("math-baseball", "숫자야구", "edutech", "https://math-baseball.example.dev", True, 1, tag="게임 · 실시간 대결"),
     row("plane-puzzle", "한 판! 돌리고 뒤집기", "edutech", "https://plane.example.io/", True, 2, tag="게임 · 수학", grade="3~4학년"),
     row("grandma-album", "할머니의 사진첩", "edutech", None, True, 3, partner="i-scream", tag="게임 · 사회"),
-    row("circle", "원의 넓이 탐험대", "edutech", "https://circle.example.io/", False, None, tag="게임 · 수학"),
+    row("circle", "원의 넓이 탐험대", "edutech", "https://989-alt.github.io/circle-area/", False, None, tag="게임 · 수학"),
     row("seat-changer", "자리바꾸기 프로그램", "class", "https://seat.example.app", True, 1),
     row("evaluationapp", "AI 평어·행발 생성 도구", "admin", "https://eval.example.io/", True, 1),
 ]

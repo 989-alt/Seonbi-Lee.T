@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { isStudentApp, isStudentPartnerGame, toLauncherApp, type LauncherApp } from "@/lib/launcher/catalog";
 import { listLauncherRows, publicThumbnailUrl } from "@/lib/repositories/projects";
+import { StudentModeMark } from "@/components/students/StudentModeMark";
 
 export const metadata: Metadata = {
   title: "학생용 놀이터 // 방구석게이머 교실 놀이터",
@@ -76,8 +77,9 @@ export default async function StudentsPage() {
           </div>
         </section>
       )}
+      <StudentModeMark />
       <footer className="px-6 py-5 text-[12px] text-[#a99fc9] sm:px-10">
-        <Link href="/privacy" className="hover:text-white">개인정보처리방침</Link>
+        <Link href="/students/privacy" className="hover:text-white">개인정보처리방침</Link>
       </footer>
     </div>
   );
