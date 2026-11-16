@@ -26,8 +26,8 @@ with sync_playwright() as p:
         assert '<meta name="dorms-library" content="ReZLNB1Rs5fxP1suyjBAxQ0ew_Q9kmE5"' in html, "meta missing in server HTML"
     check("home <head> has dorms-library meta (server HTML)", meta_on_home)
 
-    def profile_card():
-        page.goto(BASE + "/dorms")
+    def profile_card(path="/dorms"):
+        page.goto(BASE + path)
         card = page.locator("[data-dorms-profile] a").first
         expect(card).to_have_attribute("href", feed["profile"]["url"])
         expect(card).to_have_attribute("target", "_blank")
@@ -37,8 +37,8 @@ with sync_playwright() as p:
         assert img.get_attribute("src") == want, img.get_attribute("src")
     check("profile card shows and links to dorms profile", profile_card)
 
-    def all_items():
-        page.goto(BASE + "/dorms")
+    def all_items(path="/dorms"):
+        page.goto(BASE + path)
         cards = page.locator("[data-dorms-item]")
         expect(cards).to_have_count(len(items))
         for i, it in enumerate(items):
@@ -53,6 +53,16 @@ with sync_playwright() as p:
             else:
                 assert c.locator("[data-default-image]").count() == 1, it["title"]
     check(f"all {len(items)} apps/posts shown with their dorms links and pictures", all_items)
+
+    check("HOME: profile card shows and links to dorms profile", lambda: profile_card("/"))
+    check(f"HOME: all {len(items)} apps/posts shown", lambda: all_items("/"))
+
+    def home_server_html_has_feed():
+        html = urllib.request.urlopen(urllib.request.Request(BASE + "/", headers={"User-Agent": "Mozilla/5.0"}), timeout=30).read().decode()
+        assert feed["profile"]["url"] in html, "profile url not in server HTML"
+        for it in items:
+            assert it["url"] in html, it["url"]
+    check("HOME server HTML already contains profile and item links", home_server_html_has_feed)
 
     def click_goes_to_dorms():
         page.goto(BASE + "/dorms")
