@@ -4,10 +4,20 @@ import { IntroOverlay } from "@/components/launcher/IntroOverlay";
 import { toLauncherApp, type LauncherApp } from "@/lib/launcher/catalog";
 import { listLauncherRows, publicThumbnailUrl } from "@/lib/repositories/projects";
 import { getStats } from "@/lib/stats/server";
+import { appShareMeta } from "@/lib/launcher/og";
 import { DormsLibrary } from "@/components/dorms/DormsLibrary";
 import { getDormsFeed } from "@/lib/dorms/feed";
 
-export const metadata: Metadata = { alternates: { canonical: "/" } };
+/** ?app=슬러그 로 공유하면 그 앱의 제목·썸네일이 미리보기로 뜬다 */
+export async function generateMetadata({ searchParams }: { searchParams: Promise<{ app?: string | string[] }> }): Promise<Metadata> {
+  const sp = await searchParams;
+  const slug = typeof sp.app === "string" ? sp.app : null;
+  const base: Metadata = { alternates: { canonical: "/" } };
+  if (!slug) return base;
+  const row = (await listLauncherRows()).find((r) => r.slug === slug);
+  const app = row ? toLauncherApp(row, publicThumbnailUrl) : null;
+  return app ? { ...appShareMeta(app, `/?app=${encodeURIComponent(slug)}`), ...base } : base;
+}
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ app?: string | string[] }> }) {
   const [rows, stats, sp, dorms] = await Promise.all([listLauncherRows(), getStats(), searchParams, getDormsFeed()]);
