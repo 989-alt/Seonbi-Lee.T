@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { StudentAwareLink } from "@/components/play/StudentAwareLink";
+import { appShareMeta } from "@/lib/launcher/og";
 import { toLauncherApp } from "@/lib/launcher/catalog";
 import { listLauncherRows, publicThumbnailUrl } from "@/lib/repositories/projects";
 
@@ -15,11 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const found = await findApp(slug);
   if (!found) return {};
-  return {
-    title: `${found.app.name} // 방구석게이머 교실 놀이터`,
-    description: found.app.desc,
-    alternates: { canonical: `/play/${slug}` },
-  };
+  return { ...appShareMeta(found.app, `/play/${slug}`), alternates: { canonical: `/play/${slug}` } };
 }
 
 /** 교실 놀이터 안에서 수록 앱을 실행하는 화면 */
