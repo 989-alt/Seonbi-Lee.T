@@ -113,13 +113,28 @@ export function parseDormsFeed(raw: unknown): DormsFeed | null {
   };
 }
 
-/** 페이지를 열 때 읽어 온다(5분마다 새로 읽음). 실패하면 null. */
-export async function getDormsFeed(): Promise<DormsFeed | null> {
+async function readFeed(): Promise<DormsFeed | null> {
   try {
     const res = await fetch(DORMS_FEED, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return parseDormsFeed(await res.json());
   } catch {
     return null;
+  }
+}
+
+/** 첫 화면이 도름스 응답을 기다리느라 멈추지 않도록 하는 최대 대기 시간 */
+const FEED_TIMEOUT_MS = 4000;
+
+/** 페이지를 열 때 읽어 온다(5분마다 새로 읽음). 실패하거나 늦으면 null. */
+export async function getDormsFeed(): Promise<DormsFeed | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => {
+    timer = setTimeout(() => resolve(null), FEED_TIMEOUT_MS);
+  });
+  try {
+    return await Promise.race([readFeed(), timeout]);
+  } finally {
+    clearTimeout(timer);
   }
 }
