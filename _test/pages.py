@@ -12,14 +12,14 @@ def check(name, fn):
     except Exception as e:  # noqa
         fails.append(name); print("FAIL", name, "-", str(e).splitlines()[0][:200])
 
-NAV = ["라이브러리", "AI 소식", "배우기", "소개", "제보함"]
+NAV = ["라이브러리", "AI 소식", "배우기", "도름스 서재", "소개", "제보함"]
 with sync_playwright() as p:
     b = p.chromium.launch(); ctx = b.new_context(viewport={"width": 1280, "height": 900})
     ctx.add_init_script("try{localStorage.setItem('bg_intro_seen_v1','1')}catch(e){}")
     page = ctx.new_page()
 
     def same_menu_everywhere():
-        for path in ["/", "/news", "/learn", "/about", "/contact"]:
+        for path in ["/", "/news", "/learn", "/dorms", "/about", "/contact"]:
             page.goto(BASE + path)
             for label in NAV:
                 expect(page.get_by_role("link", name=label, exact=True).first).to_be_attached()
