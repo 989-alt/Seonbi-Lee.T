@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "모니터 앞에 앉은 방구석게이머 캐릭터" }],
   },
   // 텍스트·데이터 마이닝(AI 학습) 권리 유보 표시 (TDMRep)
-  other: { "tdm-reservation": "1", "tdm-policy": `${SITE_URL}/terms` },
+  other: { "tdm-reservation": "1", "tdm-policy": `${SITE_URL}/terms`, "dorms-library": "ReZLNB1Rs5fxP1suyjBAxQ0ew_Q9kmE5" },
   twitter: {
     card: "summary_large_image",
     title: "방구석게이머 // 교실 놀이터",

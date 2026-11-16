@@ -13,6 +13,7 @@ export function LauncherTopBar({ onIntro }: { onIntro?: () => void }) {
           <Link href="/" className="border-b-2 border-mint px-3 py-2 font-bold text-white">라이브러리</Link>
           <Link href="/news" className="px-3 py-2 text-lilac hover:text-white">AI 소식</Link>
           <Link href="/learn" className="px-3 py-2 text-lilac hover:text-white">배우기</Link>
+          <Link href="/dorms" className="px-3 py-2 text-lilac hover:text-white">도름스 서재</Link>
           <Link href="/about" className="px-3 py-2 text-lilac hover:text-white">소개</Link>
           <Link href="/contact" className="px-3 py-2 text-lilac hover:text-white">제보함</Link>
           <Link href="/students" className="px-3 py-2 text-mint hover:text-white" title="학생에게 이 주소를 안내하세요">학생용 화면</Link>
