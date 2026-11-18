@@ -97,9 +97,18 @@ describe("isStudentApp", () => {
 });
 
 describe("아이스크림 앱", () => {
-  it("partner_url이 https면 그 주소, 아니면 기본 AI마트 주소", () => {
+  it("partner_url이 https면 그 주소로 연결", () => {
     expect(app({ partner: "i-scream", partner_url: "https://issamgpt.com/ai-mart/item/1", external_url: null }).action).toEqual({ kind: "partner", href: "https://issamgpt.com/ai-mart/item/1", note: expect.any(String) });
-    expect(app({ partner: "i-scream", partner_url: "javascript:alert(1)", external_url: null }).action).toMatchObject({ kind: "partner", href: ISCREAM_URL });
+  });
+  it("partner_url이 비었거나 https가 아니면 '업로드 준비 중' — 어디로도 연결하지 않음", () => {
+    for (const partner_url of [null, "", "javascript:alert(1)"]) {
+      const a = app({ partner: "i-scream", partner_url, external_url: "https://secret-original.example.com/app" });
+      expect(a.action).toEqual({ kind: "preparing", note: "아이스크림 AI마트 업로드 준비 중" });
+      expect(JSON.stringify(a)).not.toContain("secret-original");
+    }
+  });
+  it("준비 중인 아이스크림 게임도 학생 화면 목록에는 남는다", () => {
+    expect(isStudentPartnerGame(app({ partner: "i-scream", partner_url: null, external_url: null }))).toBe(true);
   });
   it("학생 화면용 아이스크림 게임은 게임·수업자료 칸만", () => {
     expect(isStudentPartnerGame(app({ partner: "i-scream", external_url: null }))).toBe(true);

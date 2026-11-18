@@ -8,6 +8,7 @@ import { sendVisitOnce } from "@/lib/stats/client";
 import { clearStudentMode, sessionStore } from "@/lib/launcher/studentMode";
 import { PORTAL_SLUG, type StatsResponse } from "@/lib/stats/track";
 import { LauncherTopBar } from "./LauncherTopBar";
+import { LecturePromoBar } from "@/components/promo/LecturePromoBar";
 import { Library } from "./Library";
 import { ServerStatus } from "./ServerStatus";
 import { AppStage } from "./AppStage";
@@ -44,6 +45,7 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
 
   return (
     <div id="bg-root" className="flex min-h-screen flex-col bg-paper font-[family-name:var(--font-noto-kr)] text-night">
+      <LecturePromoBar />
       <LauncherTopBar onIntro={openIntro} />
       <div className="flex flex-1 flex-wrap items-stretch">
         <aside aria-label="앱 라이브러리" className="order-2 flex max-w-full min-[900px]:order-1 flex-[1_1_300px] flex-col border-r border-paper-line bg-white min-[900px]:max-w-[340px]">

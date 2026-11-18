@@ -29,13 +29,21 @@ with sync_playwright() as p:
     check("home shows first featured app with PLAY", home_loads)
 
     def partner_hides_original():
-        page.goto(BASE + "/")
-        page.get_by_role("button", name="할머니의 사진첩").click()
+        page.goto(BASE + "/?app=quiz-survivor")
         link = page.get_by_role("link", name="🍦 아이스크림 AI마트에서 이용하기")
         expect(link).to_have_attribute("href", ISCREAM)
         expect(page.get_by_text("아이스크림에 납품한 작품이에요")).to_be_visible()
         assert "▶ PLAY" not in page.inner_text("#bg-stage")
     check("partner app links only to i-scream", partner_hides_original)
+
+    def partner_preparing():
+        page.goto(BASE + "/?app=grandma-album")
+        stage = page.locator("#bg-stage")
+        expect(stage.get_by_role("button", name="⏳ 곧 만나요")).to_be_disabled()
+        expect(stage.get_by_text("⏳ 업로드 준비 중")).to_be_visible()
+        assert stage.locator("a[href*='issamgpt']").count() == 0, "preparing game must not link anywhere"
+        assert "▶ PLAY" not in page.inner_text("#bg-stage")
+    check("preparing i-scream game shows 'upload pending' and links nowhere", partner_preparing)
 
     def unknown_slug():
         page.goto(BASE + "/?app=nope")

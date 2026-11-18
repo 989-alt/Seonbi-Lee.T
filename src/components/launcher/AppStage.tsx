@@ -5,18 +5,25 @@ import { appCounts, formatCount } from "@/lib/launcher/stats";
 export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsResponse }) {
   const c = appCounts(app, stats);
   const partner = app.action.kind === "partner";
+  const preparing = app.action.kind === "preparing";
+  const external = partner || preparing;
   return (
     <>
       <section aria-labelledby="bg-title" className="relative flex min-h-[460px] items-end overflow-hidden bg-night">
-        {app.hero && (partner ? (
+        {app.hero && (app.action.kind === "partner" ? (
           <a href={app.action.href} target="_blank" rel="noopener" aria-label={`${app.name} — 아이스크림 AI마트로 이동(새 탭)`} className="absolute inset-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img key={app.slug} src={app.hero} alt={`${app.name} 일러스트`} className="bg-fade h-full w-full object-cover" />
           </a>
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
-          <img key={app.slug} src={app.hero} alt={`${app.name} 일러스트`} className="bg-fade absolute inset-0 h-full w-full object-cover" />
+          <img key={app.slug} src={app.hero} alt={`${app.name} 일러스트`} className={`bg-fade absolute inset-0 h-full w-full object-cover ${preparing ? "opacity-60 grayscale-[60%]" : ""}`} />
         ))}
+        {preparing && (
+          <span className="absolute top-5 right-5 rounded-[6px] bg-night/85 px-3 py-[6px] font-pixel text-[13px] font-bold text-mint ring-1 ring-mint/60">
+            ⏳ 업로드 준비 중
+          </span>
+        )}
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(18,14,34,0.92)_0%,rgba(18,14,34,0.6)_42%,rgba(18,14,34,0)_75%)]" />
         <div key={`t-${app.slug}`} className="bg-fade relative flex max-w-[560px] flex-col gap-3 px-6 pt-10 pb-11 text-white sm:px-10">
           <span className="font-pixel text-[13px] tracking-[0.08em] text-mint">
@@ -45,20 +52,27 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
                   </>
                 )}
               </>
-            ) : (
+            ) : app.action.kind === "partner" ? (
               <>
                 <a href={app.action.href} target="_blank" rel="noopener" className="rounded-[8px] bg-mint px-6 py-4 font-pixel text-base font-bold text-night hover:brightness-105 sm:text-lg">
                   🍦 아이스크림 AI마트에서 이용하기
                 </a>
                 <span className="text-[13px] text-lilac">{app.action.note}</span>
               </>
+            ) : (
+              <>
+                <button type="button" disabled className="cursor-not-allowed rounded-[8px] bg-night-line px-6 py-4 font-pixel text-base font-bold text-lilac sm:text-lg">
+                  ⏳ 곧 만나요
+                </button>
+                <span className="text-[13px] text-lilac">{app.action.note} · 아이스크림에 납품한 작품이에요</span>
+              </>
             )}
           </div>
         </div>
       </section>
       <div className="flex flex-wrap items-center gap-x-9 gap-y-3 border-b border-paper-line bg-white px-6 py-4 sm:px-10">
-        {partner ? (
-          <Stat label="이용 방법" value="아이스크림 AI마트 제공" />
+        {external ? (
+          <Stat label="이용 방법" value={preparing ? "아이스크림 AI마트 업로드 준비 중" : "아이스크림 AI마트 제공"} />
         ) : (
           <>
             <Stat label="누적 플레이어" value={c ? `${formatCount(c.total, true)}명` : formatCount(0, false)} pixel />
