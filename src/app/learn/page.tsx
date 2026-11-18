@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHero } from "@/components/ui/PageHero";
+import { LectureCard } from "@/components/promo/LectureCard";
 import { Reveal } from "@/components/ui/Reveal";
 import { LessonReader } from "@/components/learn/LessonReader";
 import { SkillsGallery } from "@/components/learn/SkillsGallery";
@@ -42,6 +43,9 @@ export default async function LearnPage() {
           image={{ src: "/launcher/char-learn.webp", alt: "칠판 앞에서 설명하는 방구석게이머" }}
         />
       </section>
+
+      {/* 비바샘 연수 홍보 */}
+      <LectureCard />
 
       {/* COURSES */}
       {(courses.length > 0 || isAdmin) && (

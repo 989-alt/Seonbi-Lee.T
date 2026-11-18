@@ -16,13 +16,13 @@ type Props = {
 
 function AppRow({ app, sel, onPick, stats }: { app: LauncherApp; sel: boolean; onPick: (s: string) => void; stats: StatsResponse }) {
   const c = appCounts(app, stats);
-  const sub = app.action.kind === "partner" ? "아이스크림 AI마트" : c ? `${formatCount(c.total, true)}명 플레이` : "집계 준비 중";
+  const sub = app.action.kind === "partner" ? "아이스크림 AI마트" : app.action.kind === "preparing" ? "업로드 준비 중" : c ? `${formatCount(c.total, true)}명 플레이` : "집계 준비 중";
   const cls = `flex w-full items-center gap-3 rounded-[8px] p-2 text-left text-night transition-colors hover:bg-paper ${sel ? "bg-mint-soft" : ""}`;
   const inner = (
     <>
       {app.thumb ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={app.thumb} alt="" className="h-[35px] w-[52px] flex-none rounded-[4px] object-cover" />
+        <img src={app.thumb} alt="" className={`h-[35px] w-[52px] flex-none rounded-[4px] object-cover ${app.action.kind === "preparing" ? "opacity-50 grayscale" : ""}`} />
       ) : (
         <span aria-hidden className="h-[35px] w-[52px] flex-none rounded-[4px] bg-night" />
       )}

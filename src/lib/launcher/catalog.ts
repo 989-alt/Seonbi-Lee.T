@@ -5,6 +5,7 @@ export type Stage = 1 | 2 | 3;
 
 export const ISCREAM_URL = "https://issamgpt.com/ai-mart?type=ALL";
 export const ISCREAM_NOTE = "아이스크림에 납품한 작품이에요";
+export const PREPARING_NOTE = "아이스크림 AI마트 업로드 준비 중";
 export const STAGE_TITLES: Record<Stage, string> = { 1: "게임 · 수업자료", 2: "학급운영", 3: "학교행정" };
 export const SLOT_MAX: Record<Stage, number> = { 1: 8, 2: 3, 3: 3 };
 
@@ -22,7 +23,7 @@ export const STUDENT_APPS = ["circle", "woorimal-rpg", "cosmic-edu", "plane-puzz
 
 /** 학생용 화면에 함께 보여 주는 아이스크림 제공 게임(게임·수업자료 칸, 아이스크림 사이트로 연결) */
 export function isStudentPartnerGame(app: LauncherApp): boolean {
-  return app.action.kind === "partner" && app.stage === 1;
+  return (app.action.kind === "partner" || app.action.kind === "preparing") && app.stage === 1;
 }
 
 export function isStudentApp(app: LauncherApp): boolean {
@@ -44,7 +45,9 @@ export function canEmbed(url: string): boolean {
 
 export type LauncherAction =
   | { kind: "play"; href: string; embed: boolean }
-  | { kind: "partner"; href: string; note: string };
+  | { kind: "partner"; href: string; note: string }
+  /** 아이스크림 게임인데 아직 AI마트 주소가 없을 때: 어디로도 연결하지 않음 */
+  | { kind: "preparing"; note: string };
 
 export type LauncherApp = {
   slug: string;
@@ -82,8 +85,10 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
   if (!stage || row.status !== "published") return null;
   let action: LauncherAction;
   if (row.partner === "i-scream") {
-    const url = row.partner_url && /^https:\/\//.test(row.partner_url) ? row.partner_url : ISCREAM_URL;
-    action = { kind: "partner", href: url, note: ISCREAM_NOTE };
+    // AI마트 주소(partner_url)가 들어 있으면 연결, 비어 있으면 '업로드 준비 중'
+    action = row.partner_url && /^https:\/\//.test(row.partner_url)
+      ? { kind: "partner", href: row.partner_url, note: ISCREAM_NOTE }
+      : { kind: "preparing", note: PREPARING_NOTE };
   } else if (row.external_url) {
     action = { kind: "play", href: row.external_url, embed: canEmbed(row.external_url) && !OPEN_IN_NEW_TAB.has(row.slug) };
   } else {
