@@ -50,7 +50,7 @@ export function AiReading({ body, dark = false }: { body: object; dark?: boolean
             {state.text!.split("\n").filter((l) => l.trim()).map((l, i) =>
               HEADS.has(l.trim())
                 ? <h4 key={i} className="fx-h3 mt-4 text-[16px]!">{l.trim()}</h4>
-                : <p key={i} className={`m-0 mt-2 max-w-[70ch] text-[15.5px] leading-[1.8] break-keep ${dark ? "text-[#e4dff4]" : "text-[#1b1530]"}`}>{l}</p>,
+                : <p key={i} className={`m-0 mt-2 text-[15.5px] leading-[1.8] break-keep ${dark ? "text-[#e4dff4]" : "text-[#1b1530]"}`}>{l}</p>,
             )}
             <p className={`m-0 mt-4 text-[12.5px] ${sub}`}>AI가 계산 결과를 바탕으로 쓴 글이에요. 재미로만 참고해 주세요.</p>
           </div>

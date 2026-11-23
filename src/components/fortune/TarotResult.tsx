@@ -25,7 +25,7 @@ export function TarotResult({ reading, topic, question, current, onAgain, onNewQ
       <div className="fx-paper fx-reading mt-6" data-verdict>
         <h3 className="fx-h3">결론부터 말하면</h3>
         <p className="m-0 mt-2 text-[19px] font-bold leading-[1.6]">{reading.verdict}</p>
-        {reading.flow.map((s) => <p key={s} className="m-0 mt-2 max-w-[72ch] text-[15.5px] leading-[1.75]">{s}</p>)}
+        {reading.flow.map((s) => <p key={s} className="m-0 mt-2 text-[15.5px] leading-[1.75]">{s}</p>)}
         <h3 className="fx-h3 mt-6">그래서 이렇게 해 보세요</h3>
         <ol className="m-0 mt-3 flex list-none flex-col gap-2 p-0">
           {reading.actions.map((a) => (
