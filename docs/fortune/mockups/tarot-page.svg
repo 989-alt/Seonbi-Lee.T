@@ -1,0 +1,272 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="2940" viewBox="0 0 1440 2940" font-family="Galmuri11, 'Noto Sans KR', sans-serif">
+  <defs>
+    <pattern id="gridNight" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#ffffff" stroke-opacity="0.035"/>
+    </pattern>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#1b1530" stroke-opacity="0.05"/>
+    </pattern>
+    <pattern id="backDots" width="16" height="16" patternUnits="userSpaceOnUse">
+      <rect width="16" height="16" fill="#3a3166"/>
+      <rect x="6" y="6" width="4" height="4" fill="#6b5fa0" shape-rendering="crispEdges"/>
+    </pattern>
+    <radialGradient id="glow" cx="50%" cy="40%" r="60%">
+      <stop offset="0" stop-color="#6b5fa0" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#120e22" stop-opacity="0"/>
+    </radialGradient>
+    <!-- 카드 뒷면 (A2) -->
+    <g id="cardBack">
+      <rect width="104" height="168" rx="10" fill="#1b1530"/>
+      <rect x="8" y="8" width="88" height="152" rx="6" fill="url(#backDots)"/>
+      <g shape-rendering="crispEdges" fill="#5be08a">
+        <rect x="48" y="60" width="8" height="48"/><rect x="28" y="80" width="48" height="8"/>
+        <rect x="40" y="72" width="24" height="24" fill="#c8c1e2"/><rect x="48" y="80" width="8" height="8" fill="#5be08a"/>
+      </g>
+    </g>
+    <style>
+      .lab{font-size:14px;letter-spacing:2px;fill:#8a83a8}
+      .h2{font-size:30px;font-weight:700;fill:#fff}
+      .h2d{font-size:30px;font-weight:700;fill:#1b1530}
+      .bodyN{font-size:17px;fill:#c8c1e2}
+      .small{font-size:13px;fill:#8a83a8}
+    </style>
+  </defs>
+
+  <rect width="1440" height="2940" fill="#120e22"/>
+  <rect width="1440" height="2940" fill="url(#gridNight)"/>
+  <rect x="0" y="2600" width="1440" height="340" fill="#f3f1f8"/>
+  <rect x="0" y="2600" width="1440" height="340" fill="url(#grid)"/>
+
+  <!-- 헤더 -->
+  <rect width="1440" height="72" fill="#1b1530"/>
+  <rect y="71" width="1440" height="1" fill="#3a3166"/>
+  <g shape-rendering="crispEdges"><rect x="80" y="24" width="24" height="24" fill="#5be08a"/><rect x="86" y="30" width="12" height="12" fill="#4e43a0"/></g>
+  <text x="116" y="44" font-size="20" font-weight="700" fill="#fff">SEONBI'S LAB</text>
+  <g font-size="16" fill="#c8c1e2"><text x="980" y="42">소개</text><text x="1050" y="42">배움터</text><text x="1136" y="42">놀이터</text></g>
+  <rect x="1214" y="22" width="146" height="30" rx="15" fill="#5be08a"/>
+  <text x="1287" y="42" font-size="15" fill="#1b1530" text-anchor="middle">✦ 오늘의 운세</text>
+
+  <!-- 별 -->
+  <g fill="#c8c1e2" shape-rendering="crispEdges">
+    <rect x="140" y="140" width="4" height="4"/><rect x="380" y="118" width="4" height="4"/><rect x="1240" y="150" width="4" height="4"/>
+    <rect x="1060" y="120" width="4" height="4" fill="#5be08a"/><rect x="230" y="420" width="4" height="4"/><rect x="1300" y="380" width="4" height="4" fill="#ffe7a3"/>
+    <rect x="96" y="860" width="4" height="4"/><rect x="1340" y="900" width="4" height="4"/><rect x="200" y="1200" width="4" height="4" fill="#5be08a"/>
+    <rect x="1250" y="1180" width="4" height="4"/>
+  </g>
+
+  <!-- ============ 1. 히어로 ============ -->
+  <text x="720" y="150" class="lab" text-anchor="middle" style="fill:#5be08a">FORTUNE · TAROT</text>
+  <text x="720" y="222" font-size="60" font-weight="700" fill="#fff" text-anchor="middle">선비의 타로방</text>
+  <text x="720" y="268" class="bodyN" text-anchor="middle">질문을 떠올리고, 카드를 골라보세요. 78장이 선생님을 기다리고 있어요.</text>
+
+  <!-- 주제 탭 -->
+  <g font-size="16" text-anchor="middle">
+    <rect x="246" y="308" width="112" height="44" rx="22" fill="#5be08a"/><text x="302" y="336" fill="#1b1530" font-weight="700">☀ 오늘</text>
+    <rect x="370" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="426" y="336" fill="#c8c1e2">💞 연애</text>
+    <rect x="494" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="550" y="336" fill="#c8c1e2">💰 금전</text>
+    <rect x="618" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="674" y="336" fill="#c8c1e2">🏫 일·진로</text>
+    <rect x="742" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="798" y="336" fill="#c8c1e2">📚 학업</text>
+    <rect x="866" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="922" y="336" fill="#c8c1e2">🤝 관계</text>
+    <rect x="990" y="308" width="112" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="1046" y="336" fill="#c8c1e2">⚖ 선택</text>
+    <rect x="1114" y="308" width="80" height="44" rx="22" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="1154" y="336" fill="#c8c1e2">더보기</text>
+  </g>
+
+  <!-- 스프레드 선택 -->
+  <text x="160" y="418" font-size="15" font-weight="700" fill="#fff">배열법 고르기</text>
+  <g>
+    <g transform="translate(160 434)">
+      <rect width="262" height="132" rx="16" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+      <rect x="24" y="28" width="40" height="64" rx="6" fill="#3a3166"/>
+      <text x="88" y="52" font-size="17" font-weight="700" fill="#fff">원카드</text><text x="88" y="78" font-size="13" fill="#8a83a8">오늘의 메시지 1장</text><text x="88" y="104" font-size="12" fill="#5be08a">· 30초</text>
+    </g>
+    <g transform="translate(438 434)">
+      <rect width="262" height="132" rx="16" fill="#2a2150" stroke="#5be08a" stroke-width="3"/>
+      <rect x="18" y="32" width="30" height="50" rx="5" fill="#6b5fa0"/><rect x="52" y="32" width="30" height="50" rx="5" fill="#6b5fa0"/><rect x="86" y="32" width="30" height="50" rx="5" fill="#6b5fa0"/>
+      <text x="130" y="52" font-size="17" font-weight="700" fill="#fff">쓰리카드</text><text x="130" y="78" font-size="13" fill="#c8c1e2">과거·현재·미래</text><text x="130" y="104" font-size="12" fill="#5be08a">✓ 선택됨</text>
+    </g>
+    <g transform="translate(716 434)">
+      <rect width="262" height="132" rx="16" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+      <rect x="20" y="30" width="26" height="40" rx="4" fill="#3a3166"/><rect x="50" y="30" width="26" height="40" rx="4" fill="#3a3166"/><rect x="35" y="74" width="26" height="40" rx="4" fill="#3a3166"/>
+      <text x="96" y="52" font-size="17" font-weight="700" fill="#fff">A냐 B냐</text><text x="96" y="78" font-size="13" fill="#8a83a8">선택 스프레드</text><text x="96" y="104" font-size="12" fill="#5be08a">· 3장</text>
+    </g>
+    <g transform="translate(994 434)">
+      <rect width="262" height="132" rx="16" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+      <g fill="#3a3166"><rect x="30" y="44" width="20" height="32" rx="3"/><rect x="26" y="54" width="32" height="14" rx="3" fill="#4a3f80"/><rect x="62" y="24" width="20" height="24" rx="3"/><rect x="62" y="56" width="20" height="24" rx="3"/><rect x="62" y="88" width="20" height="24" rx="3"/></g>
+      <text x="104" y="52" font-size="17" font-weight="700" fill="#fff">켈틱 크로스</text><text x="104" y="78" font-size="13" fill="#8a83a8">심층 상담 10장</text><text x="104" y="104" font-size="12" fill="#ffb347">· 하루 1회</text>
+    </g>
+  </g>
+
+  <!-- 질문 입력 -->
+  <rect x="160" y="594" width="1096" height="64" rx="16" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+  <text x="188" y="633" font-size="17" fill="#8a83a8">✎  마음속 질문을 적어보세요 (선택) · 예) 이번 주 우리 반 분위기는 어떨까?</text>
+  <text x="1232" y="633" font-size="13" fill="#5c5578" text-anchor="end">0/100</text>
+  <g font-size="13">
+    <rect x="160" y="672" width="22" height="22" rx="4" fill="#5be08a"/><text x="166" y="688" fill="#1b1530" font-weight="700">✓</text>
+    <text x="192" y="688" fill="#c8c1e2">역방향 카드 포함</text>
+    <text x="1256" y="688" fill="#8a83a8" text-anchor="end">질문은 저장되지 않아요 · 이름·학생 정보는 적지 마세요</text>
+  </g>
+
+  <!-- ============ 2. 카드 고르기 ============ -->
+  <rect x="80" y="740" width="1280" height="640" rx="28" fill="url(#glow)"/>
+  <text x="720" y="800" font-size="24" font-weight="700" fill="#fff" text-anchor="middle">끌리는 카드를 3장 골라주세요</text>
+  <g transform="translate(600 820)">
+    <rect width="240" height="10" rx="5" fill="#3a3166"/><rect width="160" height="10" rx="5" fill="#5be08a"/>
+  </g>
+  <text x="720" y="858" class="small" text-anchor="middle" style="fill:#c8c1e2">2 / 3 · 클릭하거나 위로 끌어올리기</text>
+  <!-- 덱 섞기 버튼 -->
+  <rect x="1160" y="770" width="140" height="44" rx="12" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+  <text x="1230" y="798" font-size="15" fill="#c8c1e2" text-anchor="middle">⟳ 다시 섞기</text>
+
+  <!-- 부채꼴 덱 -->
+  <g>
+    <g transform="rotate(-36 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(-30 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(-24 720 1620) translate(0 -46)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#5be08a" stroke-width="4"/><circle cx="720" cy="1000" r="15" fill="#5be08a"/><text x="720" y="1005" font-size="14" font-weight="700" fill="#1b1530" text-anchor="middle">1</text></g>
+    <g transform="rotate(-18 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(-12 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(-6 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(0 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(6 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(12 720 1620) translate(0 -46)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#5be08a" stroke-width="4"/><circle cx="720" cy="1000" r="15" fill="#5be08a"/><text x="720" y="1005" font-size="14" font-weight="700" fill="#1b1530" text-anchor="middle">2</text></g>
+    <g transform="rotate(18 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(24 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(30 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+    <g transform="rotate(36 720 1620) translate(0 0)"><use href="#cardBack" x="668" y="1010"/><rect x="668" y="1010" width="104" height="168" rx="10" fill="none" stroke="#c8c1e2" stroke-width="2"/></g>
+  </g>
+  <!-- 바닥 그림자 -->
+  <ellipse cx="720" cy="1330" rx="380" ry="18" fill="#000" opacity="0.35"/>
+
+  <!-- ============ 3. 결과 3장 ============ -->
+  <text x="80" y="1470" class="lab">RESULT</text>
+  <text x="80" y="1510" class="h2">이번 주 우리 반 분위기는?</text>
+  <text x="1360" y="1510" class="small" text-anchor="end">쓰리카드 · 과거 / 현재 / 미래</text>
+
+  <!-- 카드 1: XVII 별 (정) -->
+  <g transform="translate(80 1544)">
+    <rect width="404" height="560" rx="20" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+    <text x="202" y="40" font-size="14" fill="#8a83a8" text-anchor="middle">과거 · 지나온 흐름</text>
+    <g transform="translate(112 60)">
+      <rect width="180" height="290" rx="14" fill="#fdf6e3" stroke="#c9a85a" stroke-width="4"/>
+      <rect x="10" y="10" width="160" height="270" rx="8" fill="none" stroke="#c9a85a" stroke-width="1.5"/>
+      <text x="90" y="40" font-size="16" font-weight="700" fill="#7a5c1e" text-anchor="middle">XVII</text>
+      <rect x="22" y="54" width="136" height="170" rx="6" fill="#2c3e8a"/>
+      <g shape-rendering="crispEdges" fill="#ffe7a3">
+        <rect x="84" y="80" width="12" height="60"/><rect x="60" y="104" width="60" height="12"/>
+        <rect x="72" y="92" width="36" height="36"/><rect x="78" y="98" width="24" height="24" fill="#fff"/>
+        <rect x="40" y="70" width="6" height="6"/><rect x="132" y="84" width="6" height="6"/><rect x="48" y="150" width="6" height="6"/><rect x="128" y="140" width="6" height="6"/>
+      </g>
+      <g shape-rendering="crispEdges"><rect x="22" y="180" width="136" height="44" fill="#4a6fd6"/><rect x="40" y="190" width="30" height="6" fill="#9db4f5"/><rect x="100" y="204" width="40" height="6" fill="#9db4f5"/></g>
+      <text x="90" y="252" font-size="17" font-weight="700" fill="#3a2a0c" text-anchor="middle">별</text>
+      <text x="90" y="270" font-size="11" fill="#7a5c1e" text-anchor="middle">THE STAR</text>
+    </g>
+    <rect x="132" y="372" width="140" height="28" rx="14" fill="#3a3166"/><text x="202" y="391" font-size="13" fill="#5be08a" text-anchor="middle">메이저 · 정방향</text>
+    <text x="40" y="436" font-size="20" font-weight="700" fill="#fff">희망이 다시 켜졌어요</text>
+    <text x="40" y="468" font-size="15" fill="#c8c1e2">지난주의 지친 분위기 속에서도</text>
+    <text x="40" y="492" font-size="15" fill="#c8c1e2">아이들이 작은 목표를 찾기 시작했어요.</text>
+    <text x="40" y="528" font-size="13" fill="#8a83a8">#희망 #회복 #영감</text>
+  </g>
+  <!-- 카드 2: XIX 태양 (역) -->
+  <g transform="translate(518 1544)">
+    <rect width="404" height="560" rx="20" fill="#1b1530" stroke="#5be08a" stroke-width="3"/>
+    <text x="202" y="40" font-size="14" fill="#5be08a" text-anchor="middle">현재 · 지금의 핵심</text>
+    <g transform="rotate(180 202 205) translate(112 60)">
+      <rect width="180" height="290" rx="14" fill="#fdf6e3" stroke="#c9a85a" stroke-width="4"/>
+      <rect x="10" y="10" width="160" height="270" rx="8" fill="none" stroke="#c9a85a" stroke-width="1.5"/>
+      <text x="90" y="40" font-size="16" font-weight="700" fill="#7a5c1e" text-anchor="middle">XIX</text>
+      <rect x="22" y="54" width="136" height="170" rx="6" fill="#ffd36b"/>
+      <g shape-rendering="crispEdges">
+        <rect x="66" y="96" width="48" height="48" fill="#ff8a3d"/><rect x="58" y="104" width="64" height="32" fill="#ff8a3d"/><rect x="74" y="88" width="32" height="64" fill="#ff8a3d"/>
+        <rect x="78" y="110" width="6" height="6" fill="#3a2a0c"/><rect x="96" y="110" width="6" height="6" fill="#3a2a0c"/><rect x="82" y="126" width="16" height="4" fill="#3a2a0c"/>
+        <g fill="#ff8a3d"><rect x="86" y="64" width="8" height="14"/><rect x="86" y="162" width="8" height="14"/><rect x="34" y="116" width="14" height="8"/><rect x="132" y="116" width="14" height="8"/></g>
+        <rect x="22" y="196" width="136" height="28" fill="#7cc46d"/>
+      </g>
+      <text x="90" y="252" font-size="17" font-weight="700" fill="#3a2a0c" text-anchor="middle">태양</text>
+      <text x="90" y="270" font-size="11" fill="#7a5c1e" text-anchor="middle">THE SUN</text>
+    </g>
+    <rect x="132" y="372" width="140" height="28" rx="14" fill="#3a3166"/><text x="202" y="391" font-size="13" fill="#ffb347" text-anchor="middle">메이저 · 역방향</text>
+    <text x="40" y="436" font-size="20" font-weight="700" fill="#fff">잠깐 구름 낀 햇살</text>
+    <text x="40" y="468" font-size="15" fill="#c8c1e2">즐거움은 그대로지만 에너지가 떨어져</text>
+    <text x="40" y="492" font-size="15" fill="#c8c1e2">있어요. 칭찬 한마디가 해를 다시 띄워요.</text>
+    <text x="40" y="528" font-size="13" fill="#8a83a8">#휴식필요 #칭찬 #활력</text>
+  </g>
+  <!-- 카드 3: 컵 3 (정) -->
+  <g transform="translate(956 1544)">
+    <rect width="404" height="560" rx="20" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+    <text x="202" y="40" font-size="14" fill="#8a83a8" text-anchor="middle">미래 · 다가올 흐름</text>
+    <g transform="translate(112 60)">
+      <rect width="180" height="290" rx="14" fill="#fdf6e3" stroke="#c9a85a" stroke-width="4"/>
+      <rect x="10" y="10" width="160" height="270" rx="8" fill="none" stroke="#c9a85a" stroke-width="1.5"/>
+      <text x="90" y="40" font-size="16" font-weight="700" fill="#7a5c1e" text-anchor="middle">III</text>
+      <rect x="22" y="54" width="136" height="170" rx="6" fill="#d9ecff"/>
+      <g shape-rendering="crispEdges" fill="#4a6fd6">
+        <rect x="36" y="100" width="28" height="24"/><rect x="44" y="124" width="12" height="24"/><rect x="38" y="148" width="24" height="8"/>
+        <rect x="76" y="84" width="28" height="24"/><rect x="84" y="108" width="12" height="24"/><rect x="78" y="132" width="24" height="8"/>
+        <rect x="116" y="100" width="28" height="24"/><rect x="124" y="124" width="12" height="24"/><rect x="118" y="148" width="24" height="8"/>
+        <rect x="40" y="96" width="20" height="6" fill="#9db4f5"/><rect x="80" y="80" width="20" height="6" fill="#9db4f5"/><rect x="120" y="96" width="20" height="6" fill="#9db4f5"/>
+        <rect x="22" y="196" width="136" height="28" fill="#9fd88f"/>
+      </g>
+      <text x="90" y="252" font-size="17" font-weight="700" fill="#3a2a0c" text-anchor="middle">컵 3</text>
+      <text x="90" y="270" font-size="11" fill="#7a5c1e" text-anchor="middle">THREE OF CUPS</text>
+    </g>
+    <rect x="132" y="372" width="140" height="28" rx="14" fill="#3a3166"/><text x="202" y="391" font-size="13" fill="#5be08a" text-anchor="middle">컵 · 정방향</text>
+    <text x="40" y="436" font-size="20" font-weight="700" fill="#fff">함께 축하할 일이 와요</text>
+    <text x="40" y="468" font-size="15" fill="#c8c1e2">모둠 활동이나 학급 행사에서 다 같이</text>
+    <text x="40" y="492" font-size="15" fill="#c8c1e2">웃게 될 장면이 보여요. 미리 판을 깔아두세요.</text>
+    <text x="40" y="528" font-size="13" fill="#8a83a8">#협력 #축하 #우정</text>
+  </g>
+
+  <!-- ============ 4. 총평 ============ -->
+  <rect x="80" y="2136" width="1280" height="300" rx="24" fill="#1b1530" stroke="#3a3166" stroke-width="2"/>
+  <text x="120" y="2186" class="lab" style="fill:#5be08a">SUMMARY · 총평</text>
+  <text x="120" y="2230" font-size="26" font-weight="700" fill="#fff">"쉬어 가며 웃음을 모으는 한 주"</text>
+  <text x="120" y="2270" class="bodyN">메이저 카드가 2장 — 단순한 기분이 아니라 학급의 흐름이 바뀌는 시기예요.</text>
+  <text x="120" y="2296" class="bodyN">가운데 태양이 역방향이니, 무리한 진도보다 쉬는 리듬을 먼저 챙기세요.</text>
+  <!-- 통계 칩 -->
+  <g font-size="14">
+    <rect x="120" y="2326" width="170" height="78" rx="14" fill="#120e22"/><text x="138" y="2354" fill="#8a83a8">메이저 비율</text><text x="138" y="2388" font-size="24" font-weight="700" fill="#fff">2 / 3</text>
+    <rect x="302" y="2326" width="250" height="78" rx="14" fill="#120e22"/><text x="320" y="2354" fill="#8a83a8">원소 분포</text>
+    <text x="320" y="2390" font-size="18" fill="#fff">🔥0  💧1  🌬0  🌱0</text>
+    <rect x="564" y="2326" width="170" height="78" rx="14" fill="#120e22"/><text x="582" y="2354" fill="#8a83a8">역방향</text><text x="582" y="2388" font-size="24" font-weight="700" fill="#ffb347">1장</text>
+  </g>
+  <rect x="980" y="2172" width="344" height="232" rx="18" fill="#2a2150"/>
+  <text x="1004" y="2208" font-size="14" fill="#5be08a">이번 주 한 줄 처방</text>
+  <text x="1004" y="2246" font-size="18" font-weight="700" fill="#fff">금요일 마지막 10분,</text>
+  <text x="1004" y="2274" font-size="18" font-weight="700" fill="#fff">'칭찬 릴레이' 해보기</text>
+  <rect x="1004" y="2306" width="296" height="44" rx="12" fill="#5be08a"/>
+  <text x="1152" y="2334" font-size="15" font-weight="700" fill="#1b1530" text-anchor="middle">✦ 선비에게 더 깊이 묻기</text>
+  <text x="1152" y="2380" font-size="12" fill="#8a83a8" text-anchor="middle">AI 해석 · 오늘 3회 남음  |  결과 이미지 저장 ↓</text>
+
+  <!-- ============ 5. 다른 배열법 ============ -->
+  <text x="80" y="2500" font-size="22" font-weight="700" fill="#fff">다른 방법으로도 점쳐보기</text>
+  <g font-size="15" text-anchor="middle">
+    <rect x="80" y="2520" width="196" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="178" y="2552" fill="#c8c1e2">🗓 주간 7장</text>
+    <rect x="290" y="2520" width="196" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="388" y="2552" fill="#c8c1e2">🎆 연간 12+1장</text>
+    <rect x="500" y="2520" width="196" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="598" y="2552" fill="#c8c1e2">💞 관계 스프레드</text>
+    <rect x="710" y="2520" width="196" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="808" y="2552" fill="#c8c1e2">🎂 나의 버스 카드</text>
+    <rect x="920" y="2520" width="196" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="1018" y="2552" fill="#c8c1e2">🏫 우리 반 3장</text>
+    <rect x="1130" y="2520" width="230" height="52" rx="14" fill="#1b1530" stroke="#3a3166" stroke-width="2"/><text x="1245" y="2552" fill="#c8c1e2">☯ 사주로 고른 카드</text>
+  </g>
+
+  <!-- ============ 6. 추천 콘텐츠 (밝은 영역) ============ -->
+  <text x="80" y="2680" class="h2d" font-size="24">이번 주 카드에 어울리는 자료 <tspan font-size="15" fill="#8a83a8" font-weight="400">· 컵(관계) 추천</tspan></text>
+  <g>
+    <rect x="80" y="2704" width="414" height="112" rx="16" fill="#fff"/><rect x="96" y="2720" width="80" height="80" rx="12" fill="#eeeaf6"/>
+    <text x="196" y="2746" font-size="12" fill="#4e43a0">학급 경영</text><text x="196" y="2772" font-size="17" font-weight="700" fill="#1b1530">칭찬 릴레이 활동지</text><text x="196" y="2796" font-size="13" fill="#8a83a8">바로 쓰는 수업 자료 →</text>
+    <rect x="513" y="2704" width="414" height="112" rx="16" fill="#fff"/><rect x="529" y="2720" width="80" height="80" rx="12" fill="#e3f8ea"/>
+    <text x="629" y="2746" font-size="12" fill="#4e43a0">놀이터</text><text x="629" y="2772" font-size="17" font-weight="700" fill="#1b1530">우리 반 협동 게임</text><text x="629" y="2796" font-size="13" fill="#8a83a8">다 같이 웃는 10분 →</text>
+    <rect x="946" y="2704" width="414" height="112" rx="16" fill="#fff"/><rect x="962" y="2720" width="80" height="80" rx="12" fill="#ffe3e0"/>
+    <text x="1062" y="2746" font-size="12" fill="#4e43a0">운세</text><text x="1062" y="2772" font-size="17" font-weight="700" fill="#1b1530">사주방에서 오늘 기운 보기</text><text x="1062" y="2796" font-size="13" fill="#8a83a8">생년월일만 있으면 →</text>
+  </g>
+  <text x="720" y="2880" font-size="13" fill="#8a83a8" text-anchor="middle">재미로 보는 타로입니다 · 질문과 결과는 저장되지 않아요 · 카드 그림은 자체 제작 일러스트</text>
+
+  <!-- 에셋·모션 주석 (시안 전용) -->
+  <g font-size="12" font-weight="700">
+    <g transform="translate(1210 400)"><circle r="14" fill="#2b8cff"/><text y="4" fill="#fff" text-anchor="middle">A1</text></g>
+    <g transform="translate(1150 792)"><circle r="14" fill="#ff5ca8"/><text y="4" fill="#fff" text-anchor="middle">M1</text></g>
+    <g transform="translate(330 1060)"><circle r="14" fill="#ff5ca8"/><text y="4" fill="#fff" text-anchor="middle">M2</text></g>
+    <g transform="translate(1110 1060)"><circle r="14" fill="#2b8cff"/><text y="4" fill="#fff" text-anchor="middle">A2</text></g>
+    <g transform="translate(560 1600)"><circle r="14" fill="#ff5ca8"/><text y="4" fill="#fff" text-anchor="middle">M3</text></g>
+    <g transform="translate(206 1600)"><circle r="14" fill="#2b8cff"/><text y="4" fill="#fff" text-anchor="middle">A3</text></g>
+    <g transform="translate(1346 2150)"><circle r="14" fill="#ff5ca8"/><text y="4" fill="#fff" text-anchor="middle">M4</text></g>
+  </g>
+</svg>
