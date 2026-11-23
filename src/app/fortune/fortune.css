@@ -1,0 +1,180 @@
+/* 사주방·타로방 전용. 사이트 팔레트(night/mint/lilac)에 별빛 금색만 더한다 */
+/* Tailwind 유틸리티가 이길 수 있게 components 층에 둔다 */
+@layer components {
+  .fx {
+    --fx-gold: #e8c77a;
+    --fx-panel: #1e1739;
+    --fx-panel-2: #271e4a;
+    --fx-line: #4a3f80;
+    --fx-text: #f3f1f8;
+    --fx-sub: #c8c1e2;
+    --fx-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --fx-wood: #5be08a;
+    --fx-fire: #ff8a8d;
+    --fx-earth: #e8c77a;
+    --fx-metal: #dcd6f2;
+    --fx-water: #6fb7ff;
+    background: #120e22;
+    color: var(--fx-text);
+    font-family: var(--font-body);
+    overflow-x: clip;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .fx ::selection { background: #5be08a; color: #120e22; }
+  .fx h2, .fx h3 { text-wrap: balance; word-break: keep-all; }
+
+  /* 히어로 */
+  .fx-hero { position: relative; isolation: isolate; overflow: hidden; background: #170f33; }
+  .fx-hero picture { position: absolute; inset: 0; z-index: -2; }
+  .fx-hero picture img { position: absolute; right: max(0px, calc((100% - 1520px) / 2)); top: 0; height: 100%; width: min(100%, 1120px); object-fit: cover; object-position: 78% 34%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 26%); mask-image: linear-gradient(90deg, transparent, #000 26%); }
+  .fx-hero::after { content: ""; position: absolute; inset: auto 0 0; height: 34%; z-index: -1; background: linear-gradient(transparent, #120e22); }
+  .fx-hero-inner { max-width: 1240px; margin: 0 auto; padding: 120px 24px 72px; min-height: 480px; display: flex; flex-direction: column; justify-content: center; }
+  .fx-hero h1 { margin: 0; font-family: var(--font-pixel); font-weight: 700; font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.16; letter-spacing: -0.01em; color: #fff; text-shadow: 0 3px 24px rgba(18, 14, 34, 0.85); word-break: keep-all; }
+  .fx-hero p { margin: 18px 0 0; max-width: 25em; font-size: 17px; line-height: 1.75; color: #e4dff4; text-shadow: 0 1px 10px rgba(18, 14, 34, 0.9); word-break: keep-all; }
+  @media (min-width: 1521px) { .fx-hero picture img { -webkit-mask-image: linear-gradient(90deg, transparent, #000 26%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 26%, #000 86%, transparent); } }
+  @media (min-width: 768px) and (max-width: 1199px) { .fx-hero picture img { width: 74%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 38%); mask-image: linear-gradient(90deg, transparent, #000 38%); } .fx-hero p { max-width: 19em; } }
+  @media (max-width: 767px) {
+    .fx-hero picture img { width: 100%; right: 0; height: 62%; object-position: 50% 30%; -webkit-mask-image: linear-gradient(#000 62%, transparent); mask-image: linear-gradient(#000 62%, transparent); }
+    .fx-hero-inner { min-height: 620px; justify-content: flex-end; padding: 340px 20px 40px; }
+    .fx-hero::after { height: 64%; }
+  }
+
+  /* 버튼 */
+  .fx-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 24px; border-radius: 10px; border: 1px solid transparent; font-family: var(--font-pixel); font-weight: 700; font-size: 16px; cursor: pointer; text-decoration: none; transition: background-color 0.18s, border-color 0.18s, color 0.18s, transform 0.12s; touch-action: manipulation; }
+  .fx-btn:active:not(:disabled) { transform: translateY(2px); }
+  .fx-btn-main { background: #5be08a; color: #120e22; box-shadow: 0 8px 22px -10px rgba(91, 224, 138, 0.75); }
+  .fx-btn-main:hover:not(:disabled) { background: #7cf0a5; }
+  .fx-btn-line { background: rgba(30, 23, 57, 0.82); color: var(--fx-text); border-color: #8b7dcc; }
+  .fx-btn-line:hover:not(:disabled) { border-color: #5be08a; color: #5be08a; }
+  .fx-btn:disabled, .fx-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+  /* 패널 */
+  .fx-wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+  .fx-panel { background: var(--fx-panel); border: 1px solid var(--fx-line); border-radius: 18px; padding: 24px; box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.9); }
+  .fx-paper { background: #f3f1f8; color: #1b1530; border-radius: 18px; padding: 24px; }
+  .fx-paper p { color: #463e66; }
+  .fx-h2 { margin: 0; font-family: var(--font-pixel); font-weight: 700; font-size: clamp(1.4rem, 2.4vw, 1.8rem); line-height: 1.35; }
+  .fx-h3 { margin: 0; font-family: var(--font-pixel); font-weight: 700; font-size: 18px; line-height: 1.4; }
+  .fx-body { margin: 0; font-size: 15.5px; line-height: 1.8; color: var(--fx-sub); word-break: keep-all; max-width: 68ch; }
+  .fx-chip { display: inline-flex; align-items: center; min-height: 30px; padding: 0 12px; border-radius: 999px; background: #352a63; color: #e4dff4; font-size: 13.5px; }
+  .fx-paper .fx-chip { background: #ded7f1; color: #352a63; }
+  @media (max-width: 639px) { .fx-wrap { padding: 0 16px; } .fx-panel, .fx-paper { padding: 20px 16px; border-radius: 16px; } }
+
+  /* 입력 */
+  .fx-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .fx-field > label, .fx-legend { font-size: 13.5px; font-weight: 700; color: var(--fx-sub); }
+  .fx-input { height: 48px; width: 100%; min-width: 0; border-radius: 10px; border: 1px solid #8b7dcc; background: #f3f1f8; color: #1b1530; padding: 0 12px; font-size: 16px; font-family: var(--font-body); caret-color: #2f9a5a; }
+  .fx-input:disabled { opacity: 0.5; }
+  .fx-input::placeholder { color: #6b6488; opacity: 1; }
+  .fx-seg { display: inline-flex; padding: 4px; gap: 4px; border-radius: 12px; background: #120e22; border: 1px solid var(--fx-line); }
+  .fx-seg button { min-height: 44px; padding: 0 18px; border-radius: 9px; border: 0; background: transparent; color: var(--fx-sub); font-weight: 700; font-size: 15px; cursor: pointer; }
+  .fx-seg button[aria-pressed="true"] { background: #5be08a; color: #120e22; }
+  .fx-check { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14.5px; color: var(--fx-sub); cursor: pointer; }
+  .fx-check input { width: 20px; height: 20px; accent-color: #5be08a; }
+
+  /* 사주 원국 */
+  .fx-pillars { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .fx-pillar { display: flex; flex-direction: column; gap: 8px; text-align: center; min-width: 0; }
+  .fx-glyph { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; aspect-ratio: 1 / 0.98; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--el) 60%, transparent); background: color-mix(in srgb, var(--el) 13%, #120e22); animation: fx-stamp 0.62s var(--fx-ease) both; animation-delay: calc(var(--i) * 70ms); }
+  .fx-glyph b { font-size: clamp(1.7rem, 4.6vw, 3rem); line-height: 1.1; font-weight: 700; color: var(--el); font-family: "Noto Serif KR", "Batang", "AppleMyungjo", serif; }
+  .fx-glyph span { font-size: 12.5px; color: var(--fx-sub); }
+  @keyframes fx-stamp { from { opacity: 0; transform: scale(1.5) rotate(-5deg); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+
+  /* 그래프 */
+  .fx-grow { animation: fx-grow 0.9s var(--fx-ease) both; transform-origin: left; }
+  @keyframes fx-grow { from { transform: scaleX(0); } }
+  .fx-radar-fill { animation: fx-radar 0.9s var(--fx-ease) both; transform-box: view-box; transform-origin: center; }
+  @keyframes fx-radar { from { transform: scale(0.1); opacity: 0; } }
+  .fx-draw { stroke-dasharray: 1; animation: fx-draw 1.2s var(--fx-ease) both; }
+  @keyframes fx-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .fx-point { cursor: pointer; }
+  .fx-point:focus-visible { outline: none; }
+  .fx-point:focus-visible circle:last-of-type { stroke: #fff; stroke-width: 3; }
+
+  /* 질문 타일 */
+  .fx-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+  .fx-tile { display: flex; align-items: center; gap: 12px; min-height: 76px; padding: 10px 14px; border-radius: 14px; border: 1px solid var(--fx-line); background: var(--fx-panel); color: var(--fx-text); text-align: left; cursor: pointer; transition: border-color 0.18s, background-color 0.18s; }
+  .fx-tile:hover { border-color: #8b7dcc; background: var(--fx-panel-2); }
+  .fx-tile[aria-pressed="true"] { border-color: #5be08a; background: #1d3140; }
+  .fx-tile img { width: 44px; height: 44px; flex: none; transition: transform 0.3s var(--fx-ease); }
+  .fx-tile:hover img { transform: translateY(-3px) rotate(-4deg); }
+  .fx-tile strong { display: block; font-family: var(--font-pixel); font-size: 15px; }
+  .fx-tile span span { font-size: 12.5px; color: var(--fx-sub); }
+  @media (max-width: 479px) { .fx-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } .fx-tile { flex-direction: column; align-items: flex-start; gap: 6px; } }
+
+  /* 타로 카드 */
+  .fx-card { position: absolute; left: 0; top: 0; padding: 0; border: 0; background: none; pointer-events: none; -webkit-user-select: none; user-select: none; border-radius: 6%; }
+  .fx-card:focus-visible { outline: none; }
+  .fx-flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.95s cubic-bezier(0.6, 0, 0.2, 1); }
+  /* 카드가 열릴 때 금빛이 번졌다가 가라앉는다 */
+  .fx-card[data-open="true"] { animation: fx-reveal 1.3s ease-out both; }
+  @keyframes fx-reveal { 0% { filter: drop-shadow(0 0 0 rgba(232, 199, 122, 0)); } 45% { filter: drop-shadow(0 0 30px rgba(232, 199, 122, 0.95)) brightness(1.25); } 100% { filter: drop-shadow(0 0 8px rgba(232, 199, 122, 0.45)); } }
+  .fx-card[data-open="true"] .fx-flip, .fx-flip[data-open="true"] { transform: rotateY(180deg); }
+  .fx-side { position: absolute; inset: 0; border-radius: 6px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 3px 8px rgba(5, 3, 14, 0.6); transition: box-shadow 0.16s, filter 0.16s; }
+  .fx-side img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .fx-card[data-hover="true"] .fx-back { box-shadow: 0 0 0 2px #5be08a, 0 14px 26px rgba(5, 3, 14, 0.75); filter: brightness(1.22); }
+  /* 78장이 겹치면 그림자가 검은 덩어리가 된다 */
+  .fx-layer:is([data-phase="READY_STACK"], [data-phase="SHUFFLING"]) .fx-side { box-shadow: 0 0 0 0.5px rgba(5, 3, 14, 0.5); }
+  .fx-front { transform: rotateY(180deg); background: #1b1530; }
+  .fx-face { position: absolute; inset: 0; container-type: inline-size; }
+  .fx-face-in { position: absolute; inset: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; padding: 4.5cqw; background: linear-gradient(#2a2054, #17102f); }
+  .fx-face-in::before { content: ""; position: absolute; inset: 2.2cqw; border: max(1px, 0.9cqw) solid var(--fx-gold, #e8c77a); border-radius: 3cqw; pointer-events: none; }
+  .fx-face[data-rev="true"] { transform: rotate(180deg); }
+  .fx-face .fx-art { overflow: hidden; min-height: 0; border-radius: 2cqw; }
+  .fx-face .fx-art img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .fx-face .fx-name { display: flex; align-items: center; justify-content: center; gap: 0.5em; min-height: 17cqw; font-family: var(--font-pixel); font-weight: 700; font-size: 9.4cqw; color: #f7e8bd; white-space: nowrap; }
+  .fx-face .fx-name i { font-style: normal; font-weight: 400; font-size: 0.82em; color: #c8c1e2; }
+
+  /* 타로 테이블 */
+  .fx-table { position: relative; border-radius: 22px; border: 1px solid #6b5fa0; background: #120e22 url("/fortune/tarot/table.webp") center / cover; overflow: hidden; }
+  .fx-layer { position: relative; isolation: isolate; width: 100%; touch-action: pan-y; }
+  .fx-layer[data-live="true"] { cursor: pointer; }
+  /* 황도 원반: 덱 뒤에서 천천히 돌고, 섞을 때 밝아진다 */
+  .fx-astro { position: absolute; z-index: 0; margin: 0; translate: -50% -50%; pointer-events: none; opacity: 0.3; transition: opacity 0.9s ease, filter 0.9s ease; }
+  .fx-astro img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .fx-wheel { animation: fx-turn 240s linear infinite; }
+  .fx-ring { scale: 1.16; animation: fx-turn 150s linear infinite reverse; }
+  .fx-layer:is([data-phase="READY_STACK"], [data-phase="SHUFFLING"]) .fx-astro { opacity: 0.85; }
+  .fx-layer[data-phase="SHUFFLING"] .fx-astro { opacity: 1; filter: brightness(1.35) drop-shadow(0 0 22px rgba(232, 199, 122, 0.55)); }
+  .fx-layer[data-phase="REVEALING"] .fx-astro { opacity: 0.6; }
+  @keyframes fx-turn { to { rotate: 360deg; } }
+  .fx-layer::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.7; animation: fx-twinkle 5s ease-in-out infinite alternate;
+    background-image: radial-gradient(1.6px 1.6px at 12% 18%, #fff, transparent), radial-gradient(1.2px 1.2px at 27% 72%, #e8c77a, transparent), radial-gradient(1.6px 1.6px at 44% 9%, #c8c1e2, transparent), radial-gradient(1.2px 1.2px at 63% 84%, #fff, transparent), radial-gradient(1.8px 1.8px at 78% 22%, #e8c77a, transparent), radial-gradient(1.2px 1.2px at 91% 61%, #5be08a, transparent), radial-gradient(1.4px 1.4px at 6% 55%, #c8c1e2, transparent), radial-gradient(1.2px 1.2px at 52% 48%, #fff, transparent); }
+  @keyframes fx-twinkle { from { opacity: 0.25; } to { opacity: 0.85; } }
+  .fx-slot { position: absolute; border-radius: 10px; border: 2px dashed #8b7dcc; background: rgba(27, 21, 48, 0.88); transition: border-color 0.3s, opacity 0.5s; }
+  .fx-layer:is([data-phase="READY_STACK"], [data-phase="SHUFFLING"]) .fx-slot:not([data-filled="true"]) { opacity: 0; }
+  .fx-slot[data-next="true"] { border-color: #5be08a; animation: fx-slot 1.8s ease-in-out infinite; }
+  .fx-slot[data-filled="true"] { border-style: solid; border-color: #6b5fa0; animation: fx-land 0.7s ease-out 0.55s both; }
+  @keyframes fx-land { 0% { box-shadow: 0 0 0 0 rgba(232, 199, 122, 0.9); } 100% { box-shadow: 0 0 0 26px rgba(232, 199, 122, 0); } }
+  .fx-layer[data-calm="true"] .fx-flip { transition: none; }
+  .fx-layer[data-calm="true"] :is(.fx-slot, .fx-wheel, .fx-ring, .fx-card) { animation: none; }
+  .fx-layer[data-calm="true"]::before { animation: none; }
+  .fx-slot-label { position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); white-space: nowrap; font-size: 13.5px; font-weight: 700; color: var(--fx-text); }
+  @keyframes fx-slot { 50% { background: rgba(91, 224, 138, 0.16); } }
+  .fx-reading { animation: fx-read 0.5s var(--fx-ease) both; animation-delay: calc(var(--i, 0) * 80ms); }
+  @keyframes fx-read { from { opacity: 0.2; transform: translateY(14px); } }
+
+  /* 오늘의 카드 */
+  .fx-daily { position: relative; width: min(230px, 60vw); aspect-ratio: 7 / 12; border: 0; padding: 0; background: none; cursor: pointer; perspective: 1100px; }
+  .fx-daily:hover .fx-flip:not([data-open="true"]) { transform: rotateY(-14deg) rotateX(5deg); }
+  .fx-daily[aria-disabled="true"] { cursor: default; }
+  .fx-daily .fx-side { border-radius: 12px; }
+
+  /* 두 개의 방 */
+  .fx-door { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 440px; padding: 26px; border-radius: 22px; overflow: hidden; isolation: isolate; border: 1px solid var(--fx-line); color: #fff; text-decoration: none; transition: border-color 0.25s; }
+  .fx-door img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 60% 25%; transition: transform 0.7s var(--fx-ease); }
+  .fx-door::after { content: ""; position: absolute; inset: 48% 0 0; z-index: -1; background: linear-gradient(transparent, rgba(18, 14, 34, 0.95) 58%); }
+  .fx-door:hover { border-color: #5be08a; }
+  .fx-door:hover img { transform: scale(1.045); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fx-flip { transition: none; }
+  .fx-wheel, .fx-ring, .fx-card, .fx-layer::before { animation: none; }
+    .fx-door:hover img, .fx-tile:hover img { transform: none; }
+  }
+}
+
+/* 전역 :focus-visible(층 없음)보다 뒤에서 이겨야 한다 */
+.fx :focus-visible { outline: 2px solid #5be08a; outline-offset: 3px; }
+.fx .fx-card:focus-visible, .fx .fx-point:focus-visible { outline: none; }

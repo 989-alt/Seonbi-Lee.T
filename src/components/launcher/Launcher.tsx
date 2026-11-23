@@ -13,6 +13,7 @@ import { Library } from "./Library";
 import { ServerStatus } from "./ServerStatus";
 import { AppStage } from "./AppStage";
 import { TopPlayed } from "./TopPlayed";
+import { FortuneCard } from "./FortuneCard";
 import { PlayerCard } from "./PlayerCard";
 import { TeacherGuideCard } from "./TeacherGuideCard";
 
@@ -64,6 +65,7 @@ export function Launcher({ apps, stats, initialSlug }: Props) {
             {current?.guide && <TeacherGuideCard key={current.slug} guide={current.guide} appName={current.name} />}
             <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-6">
               <TopPlayed rows={top} onPick={pick} />
+              <FortuneCard />
               <PlayerCard />
             </div>
           </div>

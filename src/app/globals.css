@@ -280,3 +280,15 @@ h1, h2, h3, h4, h5, h6,
 .bg-blink { animation: bg-blink-k 1s steps(1) infinite; }
 .bg-glow { animation: bg-glow-k 1.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .bg-blink, .bg-glow { animation: none; } }
+
+/* 상단 바의 사주·타로 알림: 금빛 테두리가 숨 쉬고 빛줄기가 지나간다 */
+.bg-hot { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 14px 0 6px; overflow: hidden; border-radius: 9999px; border: 1px solid #e8c77a; background: linear-gradient(90deg, #3a2a66, #271e4a); color: #fff; font-family: var(--font-pixel); font-size: 14px; font-weight: 700; white-space: nowrap; animation: bg-hot-glow 1.8s ease-in-out infinite; }
+.bg-hot:hover { background: linear-gradient(90deg, #4a3780, #33275e); }
+.bg-hot-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 9999px; background: #ff5d73; color: #fff; font-size: 12px; letter-spacing: 0.04em; animation: bg-hot-badge 0.9s steps(2) infinite; }
+.bg-hot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.55) 50%, transparent 65%); transform: translateX(-120%); animation: bg-hot-sweep 2.6s ease-in-out infinite; pointer-events: none; }
+.bg-hot-star { width: 8px; height: 8px; background: #ffe7a3; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: bg-hot-twinkle 1.2s ease-in-out infinite; }
+@keyframes bg-hot-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 199, 122, 0.55), 0 0 10px rgba(232, 199, 122, 0.35); } 50% { box-shadow: 0 0 0 5px rgba(232, 199, 122, 0), 0 0 22px rgba(232, 199, 122, 0.85); } }
+@keyframes bg-hot-badge { 50% { background: #ff8a3d; } }
+@keyframes bg-hot-sweep { 0%, 35% { transform: translateX(-120%); } 75%, 100% { transform: translateX(120%); } }
+@keyframes bg-hot-twinkle { 0%, 100% { transform: scale(0.6) rotate(0deg); opacity: 0.5; } 50% { transform: scale(1.5) rotate(45deg); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .bg-hot, .bg-hot-badge, .bg-hot::after, .bg-hot-star { animation: none; } }
