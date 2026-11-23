@@ -55,7 +55,7 @@ export function DailyCard({ day }: { day: string }) {
             </div>
           </div>
         ) : (
-          <p className="fx-body mt-4">카드를 누르면 뒤집혀요. 같은 기기에서는 오늘 하루 같은 카드가 나와요. 수업 시작 전, 숨 한 번 고르고 열어 보세요.</p>
+          <p className="fx-body mt-4">카드를 누르면 뒤집혀요. 같은 기기에서는 오늘 하루 같은 카드가 나와요. 하루를 시작하기 전, 숨 한 번 고르고 열어 보세요.</p>
         )}
       </div>
     </section>

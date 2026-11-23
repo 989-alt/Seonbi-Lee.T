@@ -108,7 +108,7 @@ export function analyze(s: Saju): Analysis {
   const sinsal: Sinsal[] = [];
   const add = (on: boolean, key: string, name: string, desc: string) => { if (on) sinsal.push({ key, name, desc }); };
   add(CHEONEUL[dayStem].some((b) => branches.includes(b)), "cheoneul", "천을귀인", "막힐 때 도와줄 사람이 나타나는 별이에요.");
-  add(branches.includes(MUNCHANG[dayStem]), "munchang", "문창귀인", "글과 말, 배움에 밝은 별이에요. 선생님에게 잘 어울려요.");
+  add(branches.includes(MUNCHANG[dayStem]), "munchang", "문창귀인", "글과 말, 배움에 밝은 별이에요. 공부하고 가르치는 일에 잘 어울려요.");
   add(hasBy(DOHWA), "dohwa", "도화", "사람을 끌어당기는 인기의 별이에요.");
   add(hasBy(YEOKMA), "yeokma", "역마", "움직이고 옮길수록 일이 잘 풀리는 별이에요.");
   add(hasBy(HWAGAE), "hwagae", "화개", "혼자 몰입할 때 빛나는 예술의 별이에요.");

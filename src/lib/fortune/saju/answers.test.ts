@@ -40,7 +40,7 @@ describe("질문 답변", () => {
   it("자유 질문을 주제로 연결한다", () => {
     expect(routeQuestion("내년에 어떤 해가 될까요")).toBe("newyear");
     expect(routeQuestion("전보를 쓸까 말까")).toBe("work");
-    expect(routeQuestion("공개수업 언제 할까")).toBe("goodday");
+    expect(routeQuestion("면접 언제 볼까")).toBe("goodday");
     expect(routeQuestion("ㅎㅎ")).toBeNull();
   });
 });

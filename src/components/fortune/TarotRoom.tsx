@@ -309,7 +309,7 @@ export function TarotRoom() {
           <div className="fx-field">
             <label htmlFor="tarot-q">마음속 질문 (적지 않아도 돼요)</label>
             <input id="tarot-q" className="fx-input" maxLength={120} autoComplete="off" disabled={locked} value={question} onChange={(e) => { setQuestion(e.target.value); setWarn(null); }} placeholder="예) 새 업무를 어떤 마음으로 시작하면 좋을까?" aria-describedby="tarot-q-help" aria-invalid={!!warn} />
-            <p id="tarot-q-help" className="m-0 text-[13px] text-lilac">이름이나 학생 정보는 적지 마세요. 질문은 AI 풀이를 누를 때만 전송되고 저장하지 않아요.</p>
+            <p id="tarot-q-help" className="m-0 text-[13px] text-lilac">이름이나 다른 사람의 정보는 적지 마세요. 질문은 AI 풀이를 누를 때만 전송되고 저장하지 않아요.</p>
             {warn && <p role="alert" className="m-0 rounded-[10px] bg-[#4a2036] px-3 py-2 text-[14px] leading-[1.6] text-[#ffd7dd]">{warn}</p>}
           </div>
           <fieldset className="m-0 border-0 p-0">

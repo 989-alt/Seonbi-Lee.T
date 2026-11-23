@@ -1,11 +1,16 @@
 import { cardById, type TarotCard, type TarotGroup } from "@/data/fortune/tarot-cards";
+import topicJson from "@/data/fortune/tarot-topics.json";
+
+type Side = { meaning: string; action: string };
+/** 카드 × 주제 × 방향별 해석(scripts/fortune/pregenerate.ts로 만든 것). 없는 카드는 기본 뜻을 쓴다 */
+const TOPIC_TEXT = topicJson as Record<string, Record<string, { up: Side; rev: Side }> | undefined>;
 
 export const TOPICS = [
   { id: "today", label: "오늘", hint: "오늘 하루의 힌트" },
   { id: "love", label: "연애", hint: "좋아하는 마음과 인연" },
   { id: "money", label: "금전", hint: "돈의 흐름과 씀씀이" },
-  { id: "work", label: "일·진로", hint: "업무, 전보, 새 도전" },
-  { id: "study", label: "학업", hint: "연수, 자격, 배움" },
+  { id: "work", label: "일·진로", hint: "직장, 이직, 새 도전" },
+  { id: "study", label: "학업", hint: "시험, 자격증, 배움" },
   { id: "people", label: "관계", hint: "동료, 가족, 친구" },
   { id: "choice", label: "선택", hint: "할까 말까, 이쪽저쪽" },
 ] as const;
@@ -103,11 +108,12 @@ export function readCards(ids: readonly string[], reversedById: Record<string, b
     const card = cardById(id);
     const reversed = !!reversedById[id];
     const tone = toneOf(card, reversed);
+    const own = TOPIC_TEXT[id]?.[topic]?.[reversed ? "rev" : "up"];
     return {
       position: pos[i], card, reversed, tone, frame: FRAMES[pos[i]],
-      meaning: reversed ? card.reversed : card.upright,
-      topicLine: AHEAD.has(pos[i]) ? TOPIC_TONE[topic][tone + 1] : null,
-      action: reversed ? card.doReversed : card.doUpright,
+      meaning: own?.meaning ?? (reversed ? card.reversed : card.upright),
+      topicLine: !own && AHEAD.has(pos[i]) ? TOPIC_TONE[topic][tone + 1] : null,
+      action: own?.action ?? (reversed ? card.doReversed : card.doUpright),
     };
   });
   const at = (name: string) => positions.find((p) => p.position === name)!;
@@ -154,7 +160,7 @@ export function blockedQuestion(q: string): string | null {
   const t = q.replace(/\s+/g, "").replace(/병아리|질병휴직|죽고못|학생부|대학생|대학원생|학생회/g, "");
   if (/(질병|병원|병명|아픈병|큰병|무슨병|불치|암인|암일|암에|진단|수술|임신|수명|죽|사망|자살|자해)/.test(t)) return "건강 진단이나 생명에 관한 질문은 운세로 답하지 않아요. 걱정되는 점이 있다면 전문가와 이야기해 주세요.";
   if (/(주식|코인|비트|종목|로또|복권|선물옵션)/.test(t)) return "투자 종목이나 당첨에 관한 질문은 답하지 않아요. 돈을 대하는 태도를 묻는 질문은 환영해요.";
-  if (/(학생|우리반아이|학부모|반아이)/.test(t)) return "특정 학생이나 다른 사람을 점치는 질문은 답하지 않아요. ‘나는 어떤 태도로 대하면 좋을까’처럼 나에 대한 질문으로 바꿔 보세요.";
+  if (/(학생|우리반아이|학부모|반아이)/.test(t)) return "특정한 다른 사람을 점치는 질문은 답하지 않아요. ‘나는 어떤 태도로 대하면 좋을까’처럼 나에 대한 질문으로 바꿔 보세요.";
   if (/(합격|당락|붙을까|떨어질까)/.test(t)) return "합격 여부는 단정하지 않아요. ‘남은 기간 무엇을 챙기면 좋을까’로 바꿔 보세요.";
   return null;
 }

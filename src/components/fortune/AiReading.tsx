@@ -14,7 +14,7 @@ function deviceId(): string {
   }
 }
 
-const HEADS = new Set(["결론", "풀이", "오늘 해 볼 일"]);
+const HEADS = new Set(["총평", "풀이", "조심할 점", "이렇게 해 보세요"]);
 
 /** AI 풀이 버튼과 결과. body에는 카드 ID나 사주 글자 같은 계산 결과만 넣는다 */
 export function AiReading({ body, dark = false }: { body: object; dark?: boolean }) {
@@ -37,7 +37,7 @@ export function AiReading({ body, dark = false }: { body: object; dark?: boolean
       {state.status !== "done" && (
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <button type="button" className="fx-btn fx-btn-main" onClick={ask} disabled={state.status === "loading"}>
-            {state.status === "loading" ? "AI가 풀이를 쓰는 중이에요" : "AI에게 더 자세히 듣기"}
+            {state.status === "loading" ? "AI가 풀이를 쓰는 중이에요(20초쯤)" : "AI 상담가에게 자세히 듣기"}
           </button>
           <p className={`m-0 text-[13px] leading-[1.6] ${sub}`}>카드 이름·사주 글자와 질문만 Claude(AI)로 보내요. 생년월일은 보내지 않고, 아무것도 저장하지 않아요. 하루 3번.</p>
         </div>

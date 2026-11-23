@@ -57,14 +57,14 @@ export const QUESTIONS = [
   { id: "life", label: "평생 운세", hint: "내 인생의 큰 흐름은?", words: ["평생", "총운", "인생", "성격", "나는어떤"] },
   { id: "love", label: "연애·결혼", hint: "나에게 맞는 연애는?", words: ["연애", "결혼", "인연", "썸", "짝사랑", "애인", "남자친구", "여자친구", "배우자"] },
   { id: "money", label: "재물운", hint: "돈을 모으는 내 방식은?", words: ["돈", "재물", "금전", "저축", "재테크", "월급"] },
-  { id: "work", label: "승진·전보", hint: "일과 자리의 흐름은?", words: ["승진", "전보", "직장", "업무", "이직", "커리어", "학교옮", "부장", "올해"] },
+  { id: "work", label: "직장·승진", hint: "일과 자리의 흐름은?", words: ["승진", "전보", "직장", "업무", "이직", "커리어", "회사", "취업", "올해"] },
   { id: "study", label: "학업·시험", hint: "나에게 맞는 공부법은?", words: ["학업", "시험", "공부", "연수", "자격", "대학원", "임용"] },
   { id: "match", label: "궁합", hint: "띠로 보는 우리 사이", words: ["궁합", "잘맞", "띠"] },
   { id: "newyear", label: "신년운", hint: "내년은 어떤 해일까?", words: ["신년", "내년", "새해"] },
   { id: "samjae", label: "삼재", hint: "올해 삼재에 해당할까?", words: ["삼재"] },
   { id: "move", label: "이사·이동", hint: "옮기는 것이 좋을까?", words: ["이사", "이동", "해외", "여행", "옮기"] },
   { id: "health", label: "생활 리듬", hint: "기운을 채우는 방법은?", words: ["건강", "컨디션", "체력", "피로", "리듬", "쉬"] },
-  { id: "goodday", label: "좋은 날", hint: "앞으로 30일, 좋은 날은?", words: ["좋은날", "택일", "길일", "공개수업", "언제"] },
+  { id: "goodday", label: "좋은 날", hint: "앞으로 30일, 좋은 날은?", words: ["좋은날", "택일", "길일", "면접", "언제"] },
   { id: "family", label: "가족운", hint: "가족과 편해지는 법은?", words: ["가족", "부모", "엄마", "아빠", "형제", "자녀"] },
 ] as const;
 export type QuestionId = (typeof QUESTIONS)[number]["id"];
@@ -102,7 +102,7 @@ export function answer(id: QuestionId, c: Ctx, otherBranch = 0): Answer {
       const top = g.indexOf(Math.max(...g));
       return {
         title,
-        summary: `${me.title} 유형이에요. ${me.headline}이고, ${GROUP_LIFE[top]}`,
+        summary: `${me.title}이에요. ${me.headline}이고, ${GROUP_LIFE[top]}`,
         why: `${STRENGTH_TEXT[a.strength]} 사주에서 ${EL_INFO[a.strongest].name} 기운이 가장 많아 ${EL_INFO[a.strongest].more}이 두드러져요.`,
         actions: [GROUP_DO[top], `${yong.name} 기운을 채우는 활동(${yong.act}) 가운데 하나를 골라 꾸준히 해 보세요.`, ...(c.daeun ? [bestDaeun(c.daeun)] : [])],
         basis: `원국 ${wonguk(s)} · ${a.strength} · 용신 ${elText(a.yong)}`,
@@ -135,7 +135,7 @@ export function answer(id: QuestionId, c: Ctx, otherBranch = 0): Answer {
         title,
         summary: `올해 일의 흐름은 ‘${gr.name}’ 단계예요. ${gr.line}`,
         why: `사주에서 책임과 자리를 뜻하는 글자가 ${g[3]}개예요. ${g[3] === 0 ? "정해진 자리보다 스스로 만든 역할로 인정받는 유형이에요." : g[3] >= 3 ? "책임지는 자리가 자주 찾아오는 유형이라 일이 몰리기 쉬워요." : "맡은 자리를 무리 없이 해내는 유형이에요."}`,
-        actions: [y.score >= 68 ? "하고 싶던 업무나 자리가 있다면 올해 의사를 밝히세요." : "올해는 자리를 옮기기보다 지금 일의 성과를 정리해 두세요.", g[4] >= 2 ? "연수나 자격처럼 기록에 남는 공부를 하나 시작해 보세요." : "수업이나 업무에서 낸 결과를 눈에 보이게 정리해 두세요."],
+        actions: [y.score >= 68 ? "하고 싶던 일이나 자리가 있다면 올해 의사를 밝히세요." : "올해는 자리를 옮기기보다 지금 일의 성과를 정리해 두세요.", g[4] >= 2 ? "자격증이나 교육 과정처럼 기록에 남는 공부를 하나 시작해 보세요." : "일에서 낸 결과를 숫자나 자료로 눈에 보이게 정리해 두세요."],
         basis: `관성 ${g[3]}개 · 인성 ${g[4]}개 · ${today.y}년 ${ganjiName(y.pillar)}`,
       };
     }
@@ -212,7 +212,7 @@ export function answer(id: QuestionId, c: Ctx, otherBranch = 0): Answer {
         title,
         summary: `앞으로 30일 가운데 좋은 날은 ${days.map((d) => `${d.m}월 ${d.d}일(${weekday(d)})`).join(", ")}이에요.`,
         why: "그날의 기운이 내가 태어난 날과 부딪히지 않고, 나에게 도움이 되는 기운이 담긴 날을 골랐어요.",
-        actions: ["공개수업, 발표, 중요한 약속을 이 가운데 하루로 잡아 보세요.", `가장 가까운 날은 ${days[0].m}월 ${days[0].d}일이에요. 미뤄 둔 일 하나를 그날 하세요.`],
+        actions: ["면접, 발표, 중요한 약속을 이 가운데 하루로 잡아 보세요.", `가장 가까운 날은 ${days[0].m}월 ${days[0].d}일이에요. 미뤄 둔 일 하나를 그날 하세요.`],
         basis: `앞으로 30일 일진과 일지 ${ganjiName(s.day)[1]}의 합·충, 용신 ${elText(a.yong)}`,
       };
     }

@@ -278,7 +278,7 @@ with sync_playwright() as p:
         expect(page.get_by_role("heading", name="대운 흐름")).to_be_visible()
         expect(page.locator("[data-relationship]")).to_contain_text("어디에서 만날까")
         page.wait_for_timeout(1600); shot(page, "saju-result", True)
-        for name in ("평생 운세", "연애·결혼", "재물운", "승진·전보", "학업·시험", "궁합", "신년운", "삼재", "이사·이동", "생활 리듬", "좋은 날", "가족운"):
+        for name in ("평생 운세", "연애·결혼", "재물운", "직장·승진", "학업·시험", "궁합", "신년운", "삼재", "이사·이동", "생활 리듬", "좋은 날", "가족운"):
             page.locator(".fx-tile", has_text=name).first.click()
             assert len(page.locator("[data-answer]").inner_text()) > 40, name
         page.locator("#saju-q").fill("내년에는 어떤 흐름일까?"); page.get_by_role("button", name="질문하기").click()

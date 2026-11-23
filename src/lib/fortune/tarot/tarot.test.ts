@@ -115,8 +115,6 @@ describe("리딩", () => {
       const r = readCards(ids, { [ids[0]]: true }, sp.id, t.id);
       expect(r.positions.map((p) => p.position)).toEqual([...spreadById(sp.id).positions]);
       for (const p of r.positions) for (const x of [p.frame, p.meaning, p.action]) expect(x?.length).toBeGreaterThan(8);
-      expect(r.positions[0].meaning).toBe(r.positions[0].card.reversed);
-      expect(r.positions[0].action).toBe(r.positions[0].card.doReversed);
       expect(r.verdict.length).toBeGreaterThan(8);
       expect(r.actions.length).toBeGreaterThan(0);
       expect(JSON.stringify(r)).not.toContain("undefined");
@@ -124,6 +122,18 @@ describe("리딩", () => {
   });
   it("78장 모두 뜻과 행동이 서로 다르다", () => {
     for (const k of ["upright", "reversed", "doUpright", "doReversed"] as const) expect(new Set(TAROT_CARDS.map((x) => x[k])).size).toBe(78);
+  });
+  it("78장 × 주제 7 × 정·역 해석이 모두 있고 주제마다 다르다", () => {
+    const seen = new Set<string>();
+    for (const card of TAROT_CARDS) for (const t of TOPICS) for (const rev of [false, true]) {
+      const p = readCards([card.id], { [card.id]: rev }, "one", t.id).positions[0];
+      expect(p.topicLine, `${card.id} ${t.id}`).toBeNull();
+      expect(p.meaning.length).toBeGreaterThan(30);
+      expect(p.action.length).toBeGreaterThan(12);
+      expect(`${p.meaning}${p.action}`).not.toMatch(/반드시|무조건|틀림없이|교사|주식|코인/);
+      seen.add(p.meaning);
+    }
+    expect(seen.size).toBe(78 * 7 * 2);
   });
   it("뒤집힌 카드의 흐름", () => {
     expect([toneOf(c("major-19"), false), toneOf(c("major-19"), true), toneOf(c("major-16"), true), toneOf(c("major-11"), true)]).toEqual([1, 0, 0, -1]);
@@ -133,7 +143,6 @@ describe("리딩", () => {
     expect(up.verdict).toContain("흐름이 좋아요");
     expect(up.flow[1]).toContain("나아지는");
     expect(up.positions[0].topicLine).toBeNull();
-    expect(up.positions[2].topicLine).toContain("나서도 좋은");
     expect(up.actions.map((a) => a.label)).toEqual(["지금 할 일", "앞날을 위해"]);
     expect(readCards(["major-19", "major-19", "major-16"], {}, "three", "love").flow[1]).toContain("조심할 일");
   });
