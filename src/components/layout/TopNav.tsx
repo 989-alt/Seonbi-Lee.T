@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { href: "/", label: "라이브러리" },
   { href: "/news", label: "AI 소식" },
   { href: "/learn", label: "배우기" },
+  { href: "/fortune", label: "오늘의 운세" },
   { href: "/dorms", label: "도름스 서재" },
   { href: "/about", label: "소개" },
   { href: "/contact", label: "제보함" },
@@ -46,7 +47,7 @@ export function TopNav() {
           방구석게이머
         </Link>
 
-        <nav className="hidden md:flex gap-8" aria-label="주요 탐색">
+        <nav className="hidden md:flex gap-5 lg:gap-8" aria-label="주요 탐색">
           {NAV_ITEMS.map((item) => {
             const active = isActive(item.href);
             return (
@@ -69,7 +70,7 @@ export function TopNav() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 text-primary"
+          className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 text-mint"
           aria-label={open ? "메뉴 닫기" : "메뉴 열기"}
           aria-expanded={open}
           aria-controls="mobile-menu"
@@ -116,11 +117,11 @@ export function TopNav() {
                 key={item.href}
                 href={item.href}
                 className={`font-[family-name:var(--font-label)] tracking-widest uppercase text-sm py-4 border-b border-outline-variant/20 transition-colors ${
-                  active ? "text-primary" : "text-on-surface"
+                  active ? "text-mint" : "text-white"
                 }`}
                 aria-current={active ? "page" : undefined}
               >
-                <span className="text-primary/40 mr-3">
+                <span className="text-lilac mr-3">
                   {String(idx + 1).padStart(3, "0")}//
                 </span>
                 {item.label}
