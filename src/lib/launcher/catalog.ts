@@ -19,7 +19,7 @@ export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
  * 학생용 화면(/students)에 보여 줄 학생용 앱. 개인정보처리방침 제1조 표와 같게 유지한다.
  * 학생 정보를 받지 않고 외부 AI로 보내지 않는 것이 확인된 앱만 넣는다.
  */
-export const STUDENT_APPS = ["circle-village", "circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
+export const STUDENT_APPS = ["circle-village", "line-graph", "circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
 
 /** 학생용 화면에 함께 보여 주는 아이스크림 제공 게임(게임·수업자료 칸, 아이스크림 사이트로 연결) */
 export function isStudentPartnerGame(app: LauncherApp): boolean {
