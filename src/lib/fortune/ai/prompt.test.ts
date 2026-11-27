@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { AskSchema, buildUserMessage, SYSTEM_PROMPT } from "./prompt";
+import { AskSchema, buildMessages, buildUserMessage, SYSTEM_PROMPT } from "./prompt";
 
 const today = { y: 2026, m: 11, d: 23 };
 const tarot = { kind: "tarot", topic: "work", spread: "three", cards: [{ id: "major-16", reversed: false }, { id: "swords-03", reversed: true }, { id: "major-19", reversed: false }], question: "새 업무 어떻게 시작할까" };
@@ -35,6 +35,31 @@ describe("AI 풀이 요청", () => {
     expect(AskSchema.safeParse({ ...tarot, question: "가".repeat(201) }).success).toBe(false);
     expect(buildUserMessage(AskSchema.parse({ ...tarot, cards: tarot.cards.slice(0, 2) }), today)).toHaveProperty("blocked");
     expect(buildUserMessage(AskSchema.parse({ ...tarot, cards: [tarot.cards[0], tarot.cards[0], tarot.cards[2]] }), today)).toHaveProperty("blocked");
+  });
+  it("궁합: 상대 간지와 판정을 자료에 담는다", () => {
+    const r = buildUserMessage(AskSchema.parse({ ...saju, questionId: "match", partner: { year: 7, month: 15, day: 40, hour: null } }), today);
+    if (!("user" in r)) throw new Error("blocked");
+    for (const w of ["상대 사주 글자", "辛未", "궁합 점수", "궁합 판정", "궁합 근거", "시 모름"]) expect(r.user).toContain(w);
+    expect(r.user).not.toMatch(/undefined|NaN/);
+  });
+  it("자유 질문은 주제 답 없이 사주 전체 자료로 묻는다", () => {
+    const r = buildUserMessage(AskSchema.parse({ ...saju, questionId: "free", question: "올해 운전 연수 받아도 될까" }), today);
+    if (!("user" in r)) throw new Error("blocked");
+    expect(r.user).toContain("자유 질문");
+    expect(r.user).not.toContain("결론:");
+    expect(r.user).toContain("운전 연수");
+  });
+  it("이어지는 질문: 대화 순서를 지키고, 같은 규칙으로 거른다", () => {
+    const thread = [{ role: "assistant", text: "총평\n첫 풀이" }, { role: "user", text: "그럼 하반기는요?" }];
+    const r = buildMessages(AskSchema.parse({ ...saju, thread }), today);
+    if (!("messages" in r)) throw new Error("blocked");
+    expect(r.messages.map((m) => m.role)).toEqual(["user", "assistant", "user"]);
+    expect(r.messages[2].content).toContain("그럼 하반기는요?");
+    expect(buildMessages(AskSchema.parse({ ...saju, thread: [thread[0], { role: "user", text: "비트코인 살까" }] }), today)).toHaveProperty("blocked");
+    expect(AskSchema.safeParse({ ...saju, thread: [thread[1]] }).success).toBe(false);
+    expect(AskSchema.safeParse({ ...saju, thread: [thread[0]] }).success).toBe(false);
+    expect(AskSchema.safeParse({ ...saju, thread: Array.from({ length: 6 }, () => thread).flat() }).success).toBe(false);
+    expect(AskSchema.safeParse({ ...saju, thread: [thread[0], { role: "user", text: "가".repeat(201) }] }).success).toBe(false);
   });
   it("시스템 프롬프트는 고정 문자열", () => expect(SYSTEM_PROMPT).toContain("자료에 없는 카드"));
 });

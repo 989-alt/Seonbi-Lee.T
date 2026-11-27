@@ -1,6 +1,6 @@
 import { COMMUNICATION, COMPAT_EL, DISCLAIMER, EL_INFO, FRICTION, GROUP_DO, GROUP_LIFE, GROUP_LUCK, gradeOf, ILGAN, STRENGTH_TEXT } from "@/data/fortune/saju-text";
-import { branchRelations, type Analysis } from "./analysis";
-import { ANIMALS, branchOf, EL_HANJA, ganjiKo, ganjiName, type El, type Saju } from "./core";
+import { analyze, branchRelations, stemHap, type Analysis } from "./analysis";
+import { ANIMALS, branchOf, EL_HANJA, ganjiKo, ganjiName, mod, stemEl, stemOf, type El, type Saju } from "./core";
 import { goodDays, monthLuck, samjae, yearLuck, type DaeunStep } from "./luck";
 
 export type Ctx = { saju: Saju; a: Analysis; today: { y: number; m: number; d: number }; daeun: DaeunStep[] | null; age: number };
@@ -57,9 +57,9 @@ export const QUESTIONS = [
   { id: "life", label: "평생 운세", hint: "내 인생의 큰 흐름은?", words: ["평생", "총운", "인생", "성격", "나는어떤"] },
   { id: "love", label: "연애·결혼", hint: "나에게 맞는 연애는?", words: ["연애", "결혼", "인연", "썸", "짝사랑", "애인", "남자친구", "여자친구", "배우자"] },
   { id: "money", label: "재물운", hint: "돈을 모으는 내 방식은?", words: ["돈", "재물", "금전", "저축", "재테크", "월급"] },
-  { id: "work", label: "직장·승진", hint: "일과 자리의 흐름은?", words: ["승진", "전보", "직장", "업무", "이직", "커리어", "회사", "취업", "올해"] },
+  { id: "work", label: "직장·승진", hint: "일과 자리의 흐름은?", words: ["승진", "전보", "직장", "업무", "이직", "커리어", "회사", "취업"] },
   { id: "study", label: "학업·시험", hint: "나에게 맞는 공부법은?", words: ["학업", "시험", "공부", "연수", "자격", "대학원", "임용"] },
-  { id: "match", label: "궁합", hint: "띠로 보는 우리 사이", words: ["궁합", "잘맞", "띠"] },
+  { id: "match", label: "궁합", hint: "상대 생일·띠로 보는 사이", words: ["궁합", "잘맞", "띠", "상대", "그사람", "남친", "여친", "남편", "아내"] },
   { id: "newyear", label: "신년운", hint: "내년은 어떤 해일까?", words: ["신년", "내년", "새해"] },
   { id: "samjae", label: "삼재", hint: "올해 삼재에 해당할까?", words: ["삼재"] },
   { id: "move", label: "이사·이동", hint: "옮기는 것이 좋을까?", words: ["이사", "이동", "해외", "여행", "옮기"] },
@@ -91,7 +91,7 @@ export type Answer = {
 const wonguk = (s: Saju) => [s.year, s.month, s.day, ...(s.hour === null ? [] : [s.hour])].map(ganjiName).join(" ");
 const weekday = (d: { y: number; m: number; d: number }) => "일월화수목금토"[new Date(Date.UTC(d.y, d.m - 1, d.d)).getUTCDay()];
 
-export function answer(id: QuestionId, c: Ctx, otherBranch = 0): Answer {
+export function answer(id: QuestionId, c: Ctx, otherBranch = 0, partner: Saju | null = null): Answer {
   const { saju: s, a, today } = c;
   const me = ILGAN[a.dayStem];
   const g = a.groups;
@@ -149,6 +149,7 @@ export function answer(id: QuestionId, c: Ctx, otherBranch = 0): Answer {
         note: "합격 여부는 단정하지 않아요.",
       };
     case "match": {
+      if (partner) return matchAnswer(c, partner);
       const mine = branchOf(s.year);
       const rel = branchRelations(mine, otherBranch);
       const good = rel.some((r) => r === "육합" || r === "삼합");
@@ -238,4 +239,75 @@ function bestMonth(c: Ctx): string {
   const list = monthLuck(c.saju, c.a, { y: c.today.y + 1, m: 1 });
   const best = list.reduce((x, y) => (y.score > x.score ? y : x));
   return `열두 달 가운데 ${best.month}월이 가장 순조로워요. 중요한 일정은 그 무렵에 잡으세요.`;
+}
+
+export type MatchDetail = {
+  score: number;
+  grade: string;
+  /** 판정 한 줄씩(쉬운 말) */
+  points: string[];
+  /** 계산 근거(용어) */
+  basis: string[];
+  tips: string[];
+};
+
+const STEM_REL = ["닮은 기운", "내가 상대를 북돋우는 사이", "내가 상대를 이끄는 사이", "상대가 나를 이끄는 사이", "상대가 나를 북돋우는 사이"];
+
+/** 두 사람의 사주(간지)로 보는 궁합. 계산은 결정론적이고 AI는 이 판정을 풀어 쓰기만 한다 */
+export function matchDetail(me: Saju, ma: Analysis, other: Saju, oa: Analysis): MatchDetail {
+  const s1 = stemOf(me.day), s2 = stemOf(other.day);
+  const rel = mod(stemEl(s2) - stemEl(s1), 5);
+  const hap = stemHap(s1, s2);
+  const dayRel = branchRelations(branchOf(me.day), branchOf(other.day));
+  const yearRel = branchRelations(branchOf(me.year), branchOf(other.year));
+  const good = (r: string[]) => r.some((x) => x === "육합" || x === "삼합");
+  const fillMe = oa.counts[ma.yong] >= 2;
+  const fillThem = ma.counts[oa.yong] >= 2;
+  const covers = ma.missing.filter((e) => oa.counts[e] > 0);
+
+  let score = 60;
+  score += hap ? 12 : [3, 8, -4, -6, 8][rel];
+  score += good(dayRel) ? 10 : dayRel.includes("충") ? -10 : dayRel.length ? -4 : 0;
+  score += good(yearRel) ? 5 : yearRel.includes("충") ? -5 : yearRel.length ? -2 : 0;
+  score += (fillMe ? 6 : 0) + (fillThem ? 6 : 0) + (covers.length ? 3 : 0);
+  score = Math.max(30, Math.min(95, score));
+  const grade = score >= 80 ? "아주 잘 맞는 편" : score >= 65 ? "잘 맞는 편" : score >= 50 ? "서로 맞춰 가면 좋아지는 사이" : "차이를 인정할 때 편해지는 사이";
+
+  const me1 = ILGAN[s1], they = ILGAN[s2];
+  const points = [
+    `나는 ${me1.title}, 상대는 ${they.title}이에요. ${hap ? "두 사람의 중심 글자가 서로 끌어당기는 사이(합)라 처음부터 마음이 잘 열려요." : ["중심 기운이 같아 말하지 않아도 통하는 부분이 많지만, 고집도 닮았어요.", "내가 상대에게 힘을 실어 주는 사이예요. 내가 챙기는 쪽이 되기 쉬워요.", "내가 상대를 끌고 가는 사이예요. 결정은 빠르지만 상대가 눌린다고 느낄 수 있어요.", "상대가 나를 이끄는 사이예요. 배우는 것이 많지만 내 속도를 지켜야 해요.", "상대가 나에게 힘을 실어 주는 사이예요. 곁에 있으면 기운이 나요."][rel]}`,
+    good(dayRel) ? "생활의 결(태어난 날의 땅 기운)이 서로 잘 맞아 함께 지내기 편해요." : dayRel.includes("충") ? "생활의 결이 정반대라 습관이나 일정에서 자주 부딪힐 수 있어요. 대신 서로 모자란 점을 채워 줘요." : dayRel.length ? "생활의 결이 살짝 어긋나 작은 오해가 쌓이기 쉬워요." : "생활의 결이 무난해 큰 마찰은 적어요.",
+    fillMe && fillThem ? `서로에게 필요한 기운(나는 ${EL_INFO[ma.yong].name}, 상대는 ${EL_INFO[oa.yong].name})을 상대가 넉넉히 가지고 있어 함께 있으면 둘 다 편안해져요.` : fillMe ? `상대가 나에게 필요한 ${EL_INFO[ma.yong].name} 기운을 넉넉히 가지고 있어 곁에 있으면 내가 안정돼요.` : fillThem ? `내가 상대에게 필요한 ${EL_INFO[oa.yong].name} 기운을 넉넉히 가지고 있어 상대가 나에게 기대기 쉬워요.` : "서로 필요한 기운을 직접 채워 주지는 않아, 함께 하는 활동으로 채우는 편이 좋아요.",
+    `띠로 보면 ${ANIMALS[branchOf(me.year)]}띠와 ${ANIMALS[branchOf(other.year)]}띠로, ${good(yearRel) ? "서로 돕는 사이예요" : yearRel.includes("충") ? "마주 보는 자리라 생각이 다르기 쉬워요" : yearRel.length ? "살짝 엇갈리는 사이예요" : "특별히 부딪히지 않는 사이예요"}.`,
+  ];
+  if (covers.length) points.push(`내 사주에 없는 ${covers.map((e) => EL_INFO[e].name).join("·")} 기운을 상대가 가지고 있어요.`);
+
+  const tips = [
+    rel === 2 ? "중요한 결정 전에 상대 의견을 먼저 묻고, 내 생각은 그다음에 말해 보세요." : rel === 3 ? "끌려가는 느낌이 들면 ‘나는 이렇게 하고 싶어’라고 한 문장으로 먼저 말해 보세요." : rel === 1 ? "챙겨 주는 만큼 나도 기대고 싶다는 마음을 말로 전해 보세요." : "고마운 점을 하루에 하나씩 말로 표현해 보세요.",
+    dayRel.includes("충") ? "생활 규칙(연락 주기, 쉬는 날 보내는 법)을 처음부터 같이 정해 두세요." : "함께하는 고정 일정(예: 일주일에 한 번 산책)을 하나 만들어 보세요.",
+    ma.yong === oa.yong
+      ? `두 사람 모두 ${EL_INFO[ma.yong].name} 기운이 필요해요. ‘${EL_INFO[ma.yong].act.split(", ")[0]}’ 같은 활동을 같이 해 보세요.`
+      : `${EL_INFO[ma.yong].name}·${EL_INFO[oa.yong].name} 기운을 채우는 활동(${EL_INFO[ma.yong].act.split(", ")[0]}, ${EL_INFO[oa.yong].act.split(", ")[0]})을 번갈아 같이 해 보세요.`,
+  ];
+  const basis = [
+    `일간 ${ganjiName(me.day)[0]}·${ganjiName(other.day)[0]}: ${hap ? "천간합" : STEM_REL[rel]}`,
+    `일지 ${ganjiName(me.day)[1]}·${ganjiName(other.day)[1]}: ${dayRel.length ? dayRel.join("·") : "합충 없음"}`,
+    `연지 ${ganjiName(me.year)[1]}·${ganjiName(other.year)[1]}: ${yearRel.length ? yearRel.join("·") : "합충 없음"}`,
+    `용신 나 ${elText(ma.yong)}(상대 보유 ${oa.counts[ma.yong]}) · 상대 ${elText(oa.yong)}(나 보유 ${ma.counts[oa.yong]})`,
+  ];
+  return { score, grade, points, basis, tips };
+}
+
+function matchAnswer(c: Ctx, partner: Saju): Answer {
+  // 상대 분석도 사주 간지만으로 한다
+  const oa = analyze(partner);
+  const d = matchDetail(c.saju, c.a, partner, oa);
+  return {
+    title: "두 사람의 사주 궁합",
+    summary: `궁합 점수 ${d.score}점, ${d.grade}이에요. ${d.points[0]}`,
+    why: d.points.slice(1).join(" "),
+    actions: d.tips,
+    basis: d.basis.join(" · "),
+    note: "궁합은 관계의 결을 보는 참고일 뿐, 좋고 나쁨을 정하지 않아요.",
+  };
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { analyze } from "./analysis";
-import { answer, overview, QUESTIONS, relationshipInsight, routeQuestion, type Ctx } from "./answers";
+import { answer, matchDetail, overview, QUESTIONS, relationshipInsight, routeQuestion, type Ctx } from "./answers";
 import { sajuOf } from "./core";
 import { daeun } from "./luck";
 
@@ -42,5 +42,18 @@ describe("질문 답변", () => {
     expect(routeQuestion("전보를 쓸까 말까")).toBe("work");
     expect(routeQuestion("면접 언제 볼까")).toBe("goodday");
     expect(routeQuestion("ㅎㅎ")).toBeNull();
+  });
+  it("두 사람 사주 궁합: 점수 범위와 문장", () => {
+    const me = ctx(1988, "15:20", null);
+    for (const [y, t] of [[1990, "08:00"], [1985, null], [1988, "15:20"], [2000, "23:40"]] as const) {
+      const other = sajuOf({ y, m: 9, d: 3, time: t });
+      const d = matchDetail(me.saju, me.a, other, analyze(other));
+      expect(d.score).toBeGreaterThanOrEqual(30);
+      expect(d.score).toBeLessThanOrEqual(95);
+      for (const l of [...d.points, ...d.tips, ...d.basis]) expect(l).not.toMatch(/undefined|NaN|반드시|무조건/);
+      const r = answer("match", me, 0, other);
+      expect(r.title).toBe("두 사람의 사주 궁합");
+      expect(r.summary).toContain(`${d.score}점`);
+    }
   });
 });
