@@ -300,11 +300,11 @@ function Ask({ ctx, sample, today }: { ctx: Ctx; sample: boolean; today: Ymd }) 
             <h3 className="fx-h3">{a.title}</h3>
             {sample && <p className="m-0 mt-1 text-[13.5px] font-bold text-[#4e43a0]!">예시 사주로 본 답이에요. 생년월일을 넣으면 내 답으로 바뀌어요.</p>}
             {id === "match" && <PartnerPicker today={today} mode={matchMode} setMode={setMatchMode} other={other} setOther={setOther} partner={partner} setPartner={setPartner} />}
-            <p className="m-0 mt-3 text-[17px] font-bold leading-[1.7] text-[#1b1530]! break-keep">{a.summary}</p>
+            <p className="m-0 mt-3 max-w-[70ch] text-[17px] font-bold leading-[1.7] text-[#1b1530]! break-keep">{a.summary}</p>
             <h4 className="fx-h3 mt-5 text-[15px]!">왜 그렇게 보나요?</h4>
-            <p className="m-0 mt-1 text-[15.5px] leading-[1.8] break-keep">{a.why}</p>
+            <p className="m-0 mt-1 max-w-[70ch] text-[15.5px] leading-[1.8] break-keep">{a.why}</p>
             <h4 className="fx-h3 mt-5 text-[15px]!">이렇게 해 보세요</h4>
-            <ul className="m-0 mt-1 list-disc pl-5 text-[15.5px] leading-[1.8] text-[#1b1530]">{a.actions.map((l) => <li key={l}>{l}</li>)}</ul>
+            <ul className="m-0 mt-1 max-w-[70ch] list-disc pl-5 text-[15.5px] leading-[1.8] text-[#1b1530]">{a.actions.map((l) => <li key={l}>{l}</li>)}</ul>
             <p className="m-0 mt-4 text-[13px] leading-[1.6] text-[#5c5578]!">근거: {a.basis}{a.note ? `. ${a.note}` : ""}</p>
             {sample ? <SampleNote /> : <AiReading body={aiBody!} />}
           </div>
