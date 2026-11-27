@@ -4,7 +4,7 @@ import { useMemo, useRef, useState, type FormEvent } from "react";
 import { EL_INFO, GROUP_LUCK, gradeOf, ILGAN, TODAY_THEME } from "@/data/fortune/saju-text";
 import { analyze, STAGES, TEN_GODS } from "@/lib/fortune/saju/analysis";
 import { answer, overview, QUESTIONS, relationshipInsight, routeQuestion, type Ctx, type QuestionId } from "@/lib/fortune/saju/answers";
-import { ANIMALS, BRANCH_EL, BRANCH_KO, BRANCHES, branchOf, EL_HANJA, ganjiKo, ganjiName, lunarToSolar, sajuOf, stemEl, STEM_KO, stemOf, STEMS, type El } from "@/lib/fortune/saju/core";
+import { ANIMALS, BRANCH_EL, BRANCH_KO, BRANCHES, branchOf, EL_HANJA, ganjiKo, ganjiName, lunarToSolar, sajuOf, stemEl, STEM_KO, stemOf, STEMS, type El, type Saju } from "@/lib/fortune/saju/core";
 import { daeun, koreanAge, monthLuck, todayFortune } from "@/lib/fortune/saju/luck";
 import { blockedQuestion } from "@/lib/fortune/tarot/reading";
 import { AiReading } from "./AiReading";
@@ -94,7 +94,7 @@ export function SajuRoom({ today }: { today: Ymd }) {
         </section>
 
         <Relationship insight={r.insight} sample={!birth} />
-        <Ask ctx={r.ctx} sample={!birth} />
+        <Ask ctx={r.ctx} sample={!birth} today={today} />
       </div>
     </div>
   );
@@ -219,42 +219,55 @@ function Fact({ title, children }: { title: string; children: React.ReactNode })
   );
 }
 
-function Ask({ ctx, sample }: { ctx: Ctx; sample: boolean }) {
-  const [id, setId] = useState<QuestionId | null>(null);
+type AskId = QuestionId | "free";
+
+function Ask({ ctx, sample, today }: { ctx: Ctx; sample: boolean; today: Ymd }) {
+  const [id, setId] = useState<AskId | null>(null);
   const [other, setOther] = useState(0);
+  const [partner, setPartner] = useState<Saju | null>(null);
+  const [matchMode, setMatchMode] = useState<"birth" | "animal">("birth");
   const [q, setQ] = useState("");
+  const [asked, setAsked] = useState("");
   const [note, setNote] = useState<string | null>(null);
   const boxRef = useRef<HTMLDivElement>(null);
-  const a = id ? answer(id, ctx, other) : null;
+  // 궁합을 생년월일로 보려는데 아직 상대를 넣지 않았으면 답 대신 입력부터 받는다
+  const waiting = id === "match" && matchMode === "birth" && !partner;
+  const a = id && id !== "free" && !waiting ? answer(id, ctx, other, id === "match" && matchMode === "birth" ? partner : null) : null;
 
-  const open = (next: QuestionId) => {
+  const open = (next: AskId, question = "") => {
     setId(next);
+    setAsked(question);
     setNote(null);
     requestAnimationFrame(() => boxRef.current?.scrollIntoView({ block: "nearest", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" }));
   };
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (!q.trim()) return setNote("궁금한 것을 한 줄로 적거나 아래 주제를 골라 주세요.");
-    const blocked = blockedQuestion(q);
+    const text = q.trim();
+    if (!text) return setNote("궁금한 것을 한 줄로 적거나 아래 주제를 골라 주세요.");
+    const blocked = blockedQuestion(text);
     if (blocked) { setId(null); return setNote(blocked); }
-    const found = routeQuestion(q);
-    if (!found) { setId(null); return setNote("어떤 주제인지 찾지 못했어요. 아래 열두 주제 가운데 가까운 것을 골라 주세요."); }
-    open(found);
+    // 정해진 주제에 없는 질문은 AI 상담가가 사주 전체를 보고 답한다
+    open(routeQuestion(text) ?? "free", text);
   };
+
+  const pillars = { year: ctx.saju.year, month: ctx.saju.month, day: ctx.saju.day, hour: ctx.saju.hour };
+  const pKey = partner ? `${partner.year}-${partner.month}-${partner.day}-${partner.hour}` : "none";
+  const usePartner = (id === "match" || id === "free") && matchMode === "birth";
+  const aiBody = id && { kind: "saju", questionId: id, other, pillars, partner: usePartner && partner ? { year: partner.year, month: partner.month, day: partner.day, hour: partner.hour } : null, question: asked.slice(0, 200) };
 
   return (
     <section aria-labelledby="ask-title" className="mt-8">
       <div className="flex items-end justify-between gap-4">
         <div className="pb-4">
           <h2 id="ask-title" className="fx-h2">방구석게이머에게 직접 묻기</h2>
-          <p className="fx-body mt-2">질문 속 낱말로 가장 가까운 주제를 찾아 내 사주 계산 결과로 답해요. 답 아래에서 AI 풀이도 들을 수 있어요.</p>
+          <p className="fx-body mt-2">무엇이든 물어보세요. 내 사주 계산 결과로 먼저 답하고, AI 상담가와 이어서 대화할 수 있어요.</p>
         </div>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/fortune/mascot-ask.webp" alt="" loading="lazy" width={520} height={520} className="hidden w-[150px] flex-none sm:block" />
       </div>
       <form onSubmit={submit} className="flex flex-col gap-2 sm:flex-row">
         <label htmlFor="saju-q" className="sr-only">질문</label>
-        <input id="saju-q" className="fx-input" maxLength={120} autoComplete="off" value={q} onChange={(e) => setQ(e.target.value)} placeholder="예) 내년에는 어떤 흐름일까?" />
+        <input id="saju-q" className="fx-input" maxLength={120} autoComplete="off" value={q} onChange={(e) => setQ(e.target.value)} placeholder="예) 내년에 이직해도 괜찮을까?" />
         <button type="submit" className="fx-btn fx-btn-main flex-none">질문하기</button>
       </form>
       {note && <p role="alert" className="m-0 mt-3 rounded-[10px] bg-[#4a2036] px-4 py-3 text-[14.5px] leading-[1.6] text-[#ffd7dd]">{note}</p>}
@@ -268,27 +281,113 @@ function Ask({ ctx, sample }: { ctx: Ctx; sample: boolean }) {
         ))}
       </div>
       <div ref={boxRef} aria-live="polite" style={{ scrollMarginBottom: 24 }}>
-        {a && (
-          <div key={`${id}${other}`} className="fx-paper fx-reading mt-4" data-answer={id}>
+        {id === "free" && (
+          <div key={`free-${asked}-${pKey}`} className="fx-paper fx-reading mt-4" data-answer="free">
+            <h3 className="fx-h3">“{asked}”</h3>
+            <p className="m-0 mt-3 text-[15.5px] leading-[1.8] break-keep">정해진 열두 주제에 딱 맞지 않는 질문이라, AI 상담가가 내 사주 전체(글자, 오행, 올해·내년 흐름, 좋은 달)를 보고 답해 드려요.</p>
+            {sample ? <SampleNote /> : <AiReading body={aiBody!} />}
+          </div>
+        )}
+        {waiting && (
+          <div className="fx-paper fx-reading mt-4" data-answer="match">
+            <h3 className="fx-h3">두 사람의 사주 궁합</h3>
+            <p className="m-0 mt-2 text-[15.5px] leading-[1.8] break-keep">상대의 생년월일과 태어난 시각을 넣으면 두 사람의 여덟 글자를 견주어 봐요. 생일을 모르면 ‘띠로만’을 골라 주세요.</p>
+            <PartnerPicker today={today} mode={matchMode} setMode={setMatchMode} other={other} setOther={setOther} partner={partner} setPartner={setPartner} />
+          </div>
+        )}
+        {a && id && id !== "free" && (
+          <div key={`${id}${other}${id === "match" ? `${matchMode}${pKey}` : ""}`} className="fx-paper fx-reading mt-4" data-answer={id}>
             <h3 className="fx-h3">{a.title}</h3>
             {sample && <p className="m-0 mt-1 text-[13.5px] font-bold text-[#4e43a0]!">예시 사주로 본 답이에요. 생년월일을 넣으면 내 답으로 바뀌어요.</p>}
+            {id === "match" && <PartnerPicker today={today} mode={matchMode} setMode={setMatchMode} other={other} setOther={setOther} partner={partner} setPartner={setPartner} />}
             <p className="m-0 mt-3 max-w-[70ch] text-[17px] font-bold leading-[1.7] text-[#1b1530]! break-keep">{a.summary}</p>
-            {id === "match" && (
-              <div className="fx-field mt-3 max-w-[260px]">
-                <label htmlFor="other" className="text-[#463e66]!">상대의 띠</label>
-                <select id="other" className="fx-input" value={other} onChange={(e) => setOther(Number(e.target.value))}>{ANIMALS.map((n, i) => <option key={n} value={i}>{n}띠</option>)}</select>
-              </div>
-            )}
             <h4 className="fx-h3 mt-5 text-[15px]!">왜 그렇게 보나요?</h4>
             <p className="m-0 mt-1 max-w-[70ch] text-[15.5px] leading-[1.8] break-keep">{a.why}</p>
             <h4 className="fx-h3 mt-5 text-[15px]!">이렇게 해 보세요</h4>
             <ul className="m-0 mt-1 max-w-[70ch] list-disc pl-5 text-[15.5px] leading-[1.8] text-[#1b1530]">{a.actions.map((l) => <li key={l}>{l}</li>)}</ul>
             <p className="m-0 mt-4 text-[13px] leading-[1.6] text-[#5c5578]!">근거: {a.basis}{a.note ? `. ${a.note}` : ""}</p>
-            {!sample && <AiReading body={{ kind: "saju", questionId: id, other, pillars: { year: ctx.saju.year, month: ctx.saju.month, day: ctx.saju.day, hour: ctx.saju.hour }, question: q.slice(0, 200) }} />}
+            {sample ? <SampleNote /> : <AiReading body={aiBody!} />}
           </div>
         )}
       </div>
     </section>
+  );
+}
+
+function SampleNote() {
+  return <p className="m-0 mt-4 rounded-[10px] bg-[#eeeaf6] px-4 py-3 text-[14px] leading-[1.6] text-[#463e66]">AI 상담은 내 생년월일을 넣은 뒤에 받을 수 있어요. 위의 ‘사주 펼쳐 보기’에 먼저 입력해 주세요.</p>;
+}
+
+type DateFields = { y: string; m: string; d: string };
+
+/** 입력한 날짜를 양력으로 바꾼다. 문제가 있으면 안내 문구를 돌려준다 */
+function readDate(f: DateFields, cal: "solar" | "lunar", leap: boolean, today: Ymd): Ymd | string {
+  if (!f.y || !f.m || !f.d) return "태어난 연·월·일을 모두 숫자로 적어 주세요.";
+  let date: Ymd = { y: Number(f.y), m: Number(f.m), d: Number(f.d) };
+  if (date.y < 1920 || date.y > today.y) return `연도는 1920부터 ${today.y} 사이로 적어 주세요.`;
+  if (date.m < 1 || date.m > 12) return "월은 1부터 12 사이로 적어 주세요.";
+  if (cal === "lunar") {
+    const s = lunarToSolar(date.y, date.m, date.d, leap);
+    if (!s) return leap ? "그해에는 입력한 윤달 날짜가 없어요. 윤달 표시를 확인해 주세요." : "그달에는 없는 음력 날짜예요.";
+    date = s;
+  } else if (date.d < 1 || date.d > daysInMonth(date.y, date.m)) return "그달에는 없는 날짜예요.";
+  if (Date.UTC(date.y, date.m - 1, date.d) > Date.UTC(today.y, today.m - 1, today.d)) return "오늘보다 뒤의 날짜예요.";
+  return date;
+}
+
+/** 궁합 상대: 띠만 고르거나, 생년월일(시각)까지 넣어 사주로 본다. 상대 생일은 이 화면에서만 계산하고 보내지 않는다 */
+function PartnerPicker({ today, mode, setMode, other, setOther, partner, setPartner }: { today: Ymd; mode: "birth" | "animal"; setMode: (m: "birth" | "animal") => void; other: number; setOther: (n: number) => void; partner: Saju | null; setPartner: (s: Saju | null) => void }) {
+  const [cal, setCal] = useState<"solar" | "lunar">("solar");
+  const [leap, setLeap] = useState(false);
+  const [f, setF] = useState({ y: "", m: "", d: "", time: "" });
+  const [noTime, setNoTime] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const num = (k: "y" | "m" | "d") => (e: { target: { value: string } }) => { setF((p) => ({ ...p, [k]: e.target.value.replace(/\D/g, "") })); setErr(null); };
+
+  const apply = (e: FormEvent) => {
+    e.preventDefault();
+    const date = readDate(f, cal, leap, today);
+    if (typeof date === "string") return setErr(date);
+    if (!noTime && !f.time) return setErr("상대가 태어난 시각을 넣거나 ‘시각 모름’을 골라 주세요.");
+    setPartner(sajuOf({ ...date, time: noTime ? null : f.time }));
+  };
+
+  return (
+    <div className="mt-3 rounded-[12px] border border-[#d8d2ea] bg-[#f8f7fc] p-4" data-partner>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="m-0 text-[14.5px] font-bold text-[#1b1530]">상대 정보</p>
+        <div className="fx-seg" role="group" aria-label="궁합 보는 방법">
+          <button type="button" aria-pressed={mode === "birth"} onClick={() => setMode("birth")}>생년월일로</button>
+          <button type="button" aria-pressed={mode === "animal"} onClick={() => setMode("animal")}>띠로만</button>
+        </div>
+      </div>
+      {mode === "animal" ? (
+        <div className="fx-field mt-3 max-w-[260px]">
+          <label htmlFor="other" className="text-[#463e66]!">상대의 띠</label>
+          <select id="other" className="fx-input" value={other} onChange={(e) => setOther(Number(e.target.value))}>{ANIMALS.map((n, i) => <option key={n} value={i}>{n}띠</option>)}</select>
+        </div>
+      ) : (
+        <form noValidate onSubmit={apply} className="mt-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="fx-seg" role="group" aria-label="상대 생일 달력 종류">
+              {(["solar", "lunar"] as const).map((c) => <button key={c} type="button" aria-pressed={cal === c} onClick={() => { setCal(c); setLeap(false); setErr(null); }}>{c === "solar" ? "양력" : "음력"}</button>)}
+            </div>
+            {cal === "lunar" && <label className="fx-check text-[#463e66]!"><input type="checkbox" checked={leap} onChange={(e) => setLeap(e.target.checked)} />윤달</label>}
+          </div>
+          <div className="mt-3 grid grid-cols-6 gap-3 md:grid-cols-[1.2fr_1fr_1fr_1.5fr_auto] md:items-end">
+            <div className="fx-field col-span-2 md:col-span-1"><label htmlFor="py" className="text-[#463e66]!">해</label><input id="py" className="fx-input" inputMode="numeric" maxLength={4} autoComplete="off" placeholder="1990" value={f.y} onChange={num("y")} /></div>
+            <div className="fx-field col-span-2 md:col-span-1"><label htmlFor="pm" className="text-[#463e66]!">월</label><input id="pm" className="fx-input" inputMode="numeric" maxLength={2} autoComplete="off" placeholder="5" value={f.m} onChange={num("m")} /></div>
+            <div className="fx-field col-span-2 md:col-span-1"><label htmlFor="pd" className="text-[#463e66]!">일</label><input id="pd" className="fx-input" inputMode="numeric" maxLength={2} autoComplete="off" placeholder="21" value={f.d} onChange={num("d")} /></div>
+            <div className="fx-field col-span-6 md:col-span-1"><label htmlFor="pt" className="text-[#463e66]!">태어난 시각</label><input id="pt" type="time" className="fx-input" value={f.time} disabled={noTime} onChange={(e) => { setF((p) => ({ ...p, time: e.target.value })); setErr(null); }} /></div>
+            <button type="submit" className="fx-btn fx-btn-main col-span-6 md:col-span-1">{partner ? "다시 보기" : "궁합 보기"}</button>
+          </div>
+          <label className="fx-check mt-1 text-[#463e66]!"><input type="checkbox" checked={noTime} onChange={(e) => { setNoTime(e.target.checked); setErr(null); }} />시각 모름</label>
+          <p className="m-0 text-[12.5px] leading-[1.6] text-[#5c5578]">상대 생일은 이 화면에서만 사주 글자로 바꾸고, 생일 자체는 어디에도 보내거나 저장하지 않아요. 상대의 동의를 받고 넣어 주세요.</p>
+          {err && <p role="alert" className="m-0 mt-2 rounded-[10px] bg-[#4a2036] px-4 py-3 text-[14.5px] text-[#ffd7dd]">{err}</p>}
+          {partner && <p className="m-0 mt-2 text-[14px] text-[#1b1530]">상대 사주: {[partner.year, partner.month, partner.day, ...(partner.hour === null ? [] : [partner.hour])].map(ganjiName).join(" ")}{partner.hour === null ? " (시 모름)" : ""}</p>}
+        </form>
+      )}
+    </div>
   );
 }
 
@@ -306,15 +405,8 @@ function BirthForm({ today, onSubmit }: { today: Ymd; onSubmit: (b: Birth) => vo
     const missing = !f.y ? "by" : !f.m ? "bm" : !f.d ? "bd" : null;
     if (missing) { document.getElementById(missing)?.focus(); return setErr("태어난 연·월·일을 모두 숫자로 적어 주세요."); }
     if (!noTime && !f.time) { document.getElementById("bt")?.focus(); return setErr("태어난 시각을 넣거나 ‘시각 모름’을 골라 주세요."); }
-    let date: Ymd = { y: Number(f.y), m: Number(f.m), d: Number(f.d) };
-    if (date.y < 1920 || date.y > today.y) { document.getElementById("by")?.focus(); return setErr(`연도는 1920부터 ${today.y} 사이로 적어 주세요.`); }
-    if (date.m < 1 || date.m > 12) { document.getElementById("bm")?.focus(); return setErr("월은 1부터 12 사이로 적어 주세요."); }
-    if (cal === "lunar") {
-      const s = lunarToSolar(date.y, date.m, date.d, leap);
-      if (!s) return setErr(leap ? "그해에는 입력한 윤달 날짜가 없어요. 윤달 표시를 확인해 주세요." : "그달에는 없는 음력 날짜예요.");
-      date = s;
-    } else if (date.d < 1 || date.d > daysInMonth(date.y, date.m)) { document.getElementById("bd")?.focus(); return setErr("그달에는 없는 날짜예요."); }
-    if (Date.UTC(date.y, date.m - 1, date.d) > Date.UTC(today.y, today.m - 1, today.d)) return setErr("오늘보다 뒤의 날짜예요.");
+    const date = readDate(f, cal, leap, today);
+    if (typeof date === "string") return setErr(date);
     onSubmit({ ...date, time: noTime ? null : f.time, gender: f.gender === "M" || f.gender === "F" ? f.gender : null });
   };
 
