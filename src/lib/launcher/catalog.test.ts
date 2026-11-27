@@ -96,6 +96,15 @@ describe("isStudentApp", () => {
   });
 });
 
+describe("사이트 안 페이지", () => {
+  it("이 사이트 주소는 놀이터 화면 없이 사이트 내부 링크로 연다", () => {
+    expect(app({ external_url: "https://s-edu.ai.kr/board" }).action).toEqual({ kind: "internal", href: "/board" });
+  });
+  it("비슷해 보이는 다른 주소는 내부 링크로 취급하지 않는다", () => {
+    expect(app({ external_url: "https://s-edu.ai.kr.evil.example/board" }).action.kind).toBe("play");
+  });
+});
+
 describe("아이스크림 앱", () => {
   it("partner_url이 https면 그 주소로 연결", () => {
     expect(app({ partner: "i-scream", partner_url: "https://issamgpt.com/ai-mart/item/1", external_url: null }).action).toEqual({ kind: "partner", href: "https://issamgpt.com/ai-mart/item/1", note: expect.any(String) });

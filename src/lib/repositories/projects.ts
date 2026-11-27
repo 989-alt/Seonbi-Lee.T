@@ -1,4 +1,5 @@
 import { assetUrl } from "@/lib/launcher/assets";
+import { withBuiltin } from "@/lib/launcher/builtin";
 import { unstable_cache } from "next/cache";
 import { createSupabasePublicClient, createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ProjectRow } from "./types";
@@ -65,16 +66,22 @@ export const listLauncherRows = unstable_cache(fetchLauncherRows, ["launcher-row
 });
 
 async function fetchLauncherRows(): Promise<ProjectRow[]> {
-  const supabase = createSupabasePublicClient();
-  const { data, error } = await supabase
-    .from("projects")
-    .select("*")
-    .eq("status", "published")
-    .neq("category", "etc");
+  try {
+    const supabase = createSupabasePublicClient();
+    const { data, error } = await supabase
+      .from("projects")
+      .select("*")
+      .eq("status", "published")
+      .neq("category", "etc");
 
-  if (error) {
-    console.error("[projects] listLauncherRows error:", error);
-    return [];
+    if (error) {
+      console.error("[projects] listLauncherRows error:", error);
+      return withBuiltin([]);
+    }
+    return withBuiltin((data ?? []) as ProjectRow[]);
+  } catch (e) {
+    // 환경변수 누락 등: 내장 행은 그대로 보인다
+    console.error("[projects] listLauncherRows failed:", e);
+    return withBuiltin([]);
   }
-  return (data ?? []) as ProjectRow[];
 }

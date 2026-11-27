@@ -24,6 +24,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/resources", destination: "/learn", permanent: true },
       { source: "/projects", destination: "/", permanent: true },
+      { source: "/picker3d", destination: "/picker3d/index.html", permanent: false },
     ];
   },
 };

@@ -4,11 +4,18 @@ export function LauncherTopBar({ onIntro }: { onIntro?: () => void }) {
   return (
     <header className="bg-night text-[#edeaf7]">
       <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3">
-        <Link href="/" className="flex items-center gap-[10px] text-[#edeaf7]">
-          <span aria-hidden className="flex h-[30px] w-[30px] items-center justify-center rounded-[4px] bg-mint font-pixel font-bold text-night">▣</span>
-          <span className="font-pixel text-lg font-bold">방구석게이머</span>
-          <span className="ml-1 hidden font-pixel text-xs text-[#a99fc9] sm:inline">CLASSROOM PLAYGROUND</span>
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <Link href="/" className="flex items-center gap-[10px] text-[#edeaf7]">
+            <span aria-hidden className="flex h-[30px] w-[30px] items-center justify-center rounded-[4px] bg-mint font-pixel font-bold text-night">▣</span>
+            <span className="font-pixel text-lg font-bold">방구석게이머</span>
+            <span className="ml-1 hidden font-pixel text-xs text-[#a99fc9] sm:inline">CLASSROOM PLAYGROUND</span>
+          </Link>
+          <Link href="/fortune" className="bg-hot" data-hot>
+            <span className="bg-hot-badge">HOT!</span>
+            <span>사주·타로 보러 가기</span>
+            <span aria-hidden className="bg-hot-star" />
+          </Link>
+        </div>
         <nav aria-label="상단 메뉴" className="flex flex-wrap gap-1 text-sm">
           <Link href="/" className="border-b-2 border-mint px-3 py-2 font-bold text-white">라이브러리</Link>
           <Link href="/news" className="px-3 py-2 text-lilac hover:text-white">AI 소식</Link>

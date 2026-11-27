@@ -23,7 +23,7 @@ export function PrivacyContent({ student = false }: { student?: boolean }) {
           <tbody>
             <tr>
               <td>학생용 앱</td>
-              <td>원의 넓이 탐험대, 말빛 한울, 천체 시뮬레이터 COSMIC-EDU, 한 판! 돌리고 뒤집기, 국기 따라 그리기, 숫자야구</td>
+              <td>책상 위 수리단, 꺾은선그래프 공방, 원의 넓이 탐험대, 말빛 한울, 천체 시뮬레이터 COSMIC-EDU, 한 판! 돌리고 뒤집기, 국기 따라 그리기, 숫자야구</td>
               <td>학생 이름·연락처 등 학생을 알아볼 수 있는 정보를 받지 않습니다. 외부 AI로 정보를 보내지 않습니다.</td>
             </tr>
             <tr>

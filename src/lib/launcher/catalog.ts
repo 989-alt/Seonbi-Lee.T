@@ -9,6 +9,9 @@ export const PREPARING_NOTE = "아이스크림 AI마트 업로드 준비 중";
 export const STAGE_TITLES: Record<Stage, string> = { 1: "게임 · 수업자료", 2: "학급운영", 3: "학교행정" };
 export const SLOT_MAX: Record<Stage, number> = { 1: 8, 2: 3, 3: 3 };
 
+/** 이 사이트 주소. 행의 external_url이 여기면 놀이터 화면 없이 사이트 내부 링크로 연다 */
+export const SITE_ORIGIN = "https://s-edu.ai.kr";
+
 /**
  * 놀이터 안(/play/[slug])에서 띄우지 않고 새 탭으로 여는 앱.
  * evaluationapp: 나이스 입력 확장이 앱 주소의 브라우저 저장소를 읽어야 해서 다른 사이트 안에서는 동작하지 않는다.
@@ -19,7 +22,7 @@ export const OPEN_IN_NEW_TAB = new Set(["evaluationapp"]);
  * 학생용 화면(/students)에 보여 줄 학생용 앱. 개인정보처리방침 제1조 표와 같게 유지한다.
  * 학생 정보를 받지 않고 외부 AI로 보내지 않는 것이 확인된 앱만 넣는다.
  */
-export const STUDENT_APPS = ["circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
+export const STUDENT_APPS = ["circle-village", "line-graph", "circle", "woorimal-rpg", "cosmic-edu", "plane-puzzle", "world-flags-drawing", "math-baseball"] as const;
 
 /** 학생용 화면에 함께 보여 주는 아이스크림 제공 게임(게임·수업자료 칸, 아이스크림 사이트로 연결) */
 export function isStudentPartnerGame(app: LauncherApp): boolean {
@@ -46,6 +49,8 @@ export function canEmbed(url: string): boolean {
 export type LauncherAction =
   | { kind: "play"; href: string; embed: boolean }
   | { kind: "partner"; href: string; note: string }
+  /** 사이트 안 페이지(예: /board): 같은 탭에서 바로 이동 */
+  | { kind: "internal"; href: string }
   /** 아이스크림 게임인데 아직 AI마트 주소가 없을 때: 어디로도 연결하지 않음 */
   | { kind: "preparing"; note: string };
 
@@ -80,6 +85,14 @@ export function stageOf(c: ProjectCategory): Stage | null {
   return null;
 }
 
+function isSiteUrl(url: string): boolean {
+  try {
+    return new URL(url).origin === SITE_ORIGIN;
+  } catch {
+    return false;
+  }
+}
+
 export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => string | null): LauncherApp | null {
   const stage = stageOf(row.category);
   if (!stage || row.status !== "published") return null;
@@ -89,6 +102,9 @@ export function toLauncherApp(row: ProjectRow, thumbUrl: (p: string | null) => s
     action = row.partner_url && /^https:\/\//.test(row.partner_url)
       ? { kind: "partner", href: row.partner_url, note: ISCREAM_NOTE }
       : { kind: "preparing", note: PREPARING_NOTE };
+  } else if (row.external_url && isSiteUrl(row.external_url)) {
+    const u = new URL(row.external_url);
+    action = { kind: "internal", href: u.pathname + u.search };
   } else if (row.external_url) {
     action = { kind: "play", href: row.external_url, embed: canEmbed(row.external_url) && !OPEN_IN_NEW_TAB.has(row.slug) };
   } else {
