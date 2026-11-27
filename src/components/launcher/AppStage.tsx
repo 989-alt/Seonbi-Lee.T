@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { LauncherApp } from "@/lib/launcher/catalog";
 import type { StatsResponse } from "@/lib/stats/track";
 import { appCounts, formatCount } from "@/lib/launcher/stats";
@@ -6,7 +7,8 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
   const c = appCounts(app, stats);
   const partner = app.action.kind === "partner";
   const preparing = app.action.kind === "preparing";
-  const external = partner || preparing;
+  const internal = app.action.kind === "internal";
+  const external = partner || preparing || internal;
   return (
     <>
       <section aria-labelledby="bg-title" className="relative flex min-h-[460px] items-end overflow-hidden bg-night">
@@ -59,6 +61,10 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
                 </a>
                 <span className="text-[13px] text-lilac">{app.action.note}</span>
               </>
+            ) : app.action.kind === "internal" ? (
+              <Link href={app.action.href} className="rounded-[8px] bg-mint px-8 py-4 font-pixel text-xl font-bold text-night hover:brightness-105">
+                자세히 보기 →
+              </Link>
             ) : (
               <>
                 <button type="button" disabled className="cursor-not-allowed rounded-[8px] bg-night-line px-6 py-4 font-pixel text-base font-bold text-lilac sm:text-lg">
@@ -72,7 +78,7 @@ export function AppStage({ app, stats }: { app: LauncherApp; stats: StatsRespons
       </section>
       <div className="flex flex-wrap items-center gap-x-9 gap-y-3 border-b border-paper-line bg-white px-6 py-4 sm:px-10">
         {external ? (
-          <Stat label="이용 방법" value={preparing ? "아이스크림 AI마트 업로드 준비 중" : "아이스크림 AI마트 제공"} />
+          <Stat label="이용 방법" value={internal ? "설치 파일을 받아 쓰는 Windows 프로그램" : preparing ? "아이스크림 AI마트 업로드 준비 중" : "아이스크림 AI마트 제공"} />
         ) : (
           <>
             <Stat label="누적 플레이어" value={c ? `${formatCount(c.total, true)}명` : formatCount(0, false)} pixel />
