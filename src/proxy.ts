@@ -22,8 +22,8 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     {
-      // api·정적 파일·이미지는 제외 (HTML 응답에만 CSP가 필요)
-      source: "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|js|css|txt|xml|woff2?)$).*)",
+      // api·정적 파일·이미지는 제외 (HTML 응답에만 CSP가 필요). picker3d는 자체 CSP 메타를 가진 정적 앱이라 제외
+      source: "/((?!api|picker3d|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|js|css|txt|xml|woff2?)$).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },

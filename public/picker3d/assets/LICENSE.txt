@@ -1,0 +1,6 @@
+Paperlogy (Paperlogy-4Regular.ttf, Paperlogy-7Bold.ttf, Paperlogy-8ExtraBold.ttf)
+Copyright © 2024 피티앤
+
+이 글꼴은 SIL Open Font License 1.1로 배포됩니다. 글꼴 파일은 고치지 않고 그대로 넣었습니다.
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+The license is available with a FAQ at: https://scripts.sil.org/OFL
