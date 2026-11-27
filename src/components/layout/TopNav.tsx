@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const NAV_ITEMS = [
   { href: "/", label: "라이브러리" },
+  { href: "/board", label: "교실 보드" },
   { href: "/news", label: "AI 소식" },
   { href: "/learn", label: "배우기" },
   { href: "/fortune", label: "오늘의 운세" },
